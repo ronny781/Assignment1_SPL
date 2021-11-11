@@ -9,6 +9,7 @@
 
 #include "../include/Action.h"
 #include "../include/Trainer.h" // I added myself, is that good?
+#include "../include/Studio.h" // I added myself, is that good?
 
 using namespace std;
 
@@ -27,7 +28,8 @@ BaseAction::BaseAction(){}
    //this opens session
     }
     void OpenTrainer::act(Studio &studio){
-        Trainer* train = studio.getTrainer(trainderId);
+        if(studio.getTrainer(trainerId)== nullptr || !studio.getTrainer(trainerId)->isOpen() || !studio.getTrainer(trainerId)->isOpen())
+        Trainer* train = studio.getTrainer(trainerId);
         for(Customer *cus : customers){
             train->addCustomer(cus);
         }
@@ -42,10 +44,10 @@ BaseAction::BaseAction(){}
 
     Order::Order(int id):trainerId(id){}
     void Order::act(Studio &studio){
-        Trainer* train = studio.getTrainer(trainderId);
+        Trainer* train = studio.getTrainer(trainerId);
         vector<Customer*> customerList = train->getCustomers();
         for(Customer* cus : customerList){
-            cus->order(studio.getWorkoutOptions);
+            cus->order(studio.getWorkoutOptions());
         }
     }
     std::string Order::toString() const{}

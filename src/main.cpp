@@ -7,27 +7,46 @@ using namespace std;
 //Studio* backup = nullptr;
 
 void func() {
+    cout << "Studio is now open!" << endl;
     string s;
+
     getline(cin,s);
-    std::cout << s;
-    while (s != "closeall") {
-        if (s.substr(0, 2) == "op") {//open
-            int tid = s[5];
-            int first = 7;
-            vector<vector<string>> list;
-            for (int i = 7; i < s.length(); i++) {
-                if (s[i] == ',') {
-                    vector<string> vect(2);
-                    vect.push_back(s.substr(first, i - first));
-                    vect.push_back(s.substr(i, 3));
-                    list.push_back(vect);
-                    cout << vect[0] << "    " << vect[1] << endl;
-                    i += 3;
-                    first = i + 1;
-                }
+        while(s!="closeall"){
+
+    if(s.substr(0,2)=="op") {//open
+        int trainerId = 0, first = 0;
+
+        for(int i=5;i<s.length();i++){ // find  where first name starts.
+            if(s[i]==' '){
+                trainerId = stoi(s.substr(5,i-5));
+                first = i+1;
+                break;
+            }
+        }
+
+        int cusCounter = 0;
+        for (int i = first; i < s.length(); i++) {
+            if (s[i] == ',') {
+                vector<string> vect(2);
+                string name = s.substr(first, i - first);
+                string type = s.substr(i + 1, 3);
+                if (type == "swt")
+                    cout << name << " " << type << cusCounter << endl;
+                else if (type == "mcl")
+                    cout << name << " " << type << cusCounter << endl;
+                else if (type == "chp")
+                    cout << name << " " << type << cusCounter << endl;
+                else if (type == "fbd")
+                    cout << name << " " << type << cusCounter << endl;
+                cusCounter++;
+                i += 3;
+                first = i + 2;
             }
         }
     }
+            getline(cin,s);
+
+}
 }
 
 int main(int argc, char** argv){

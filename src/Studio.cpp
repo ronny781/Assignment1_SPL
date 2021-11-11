@@ -102,22 +102,44 @@ using namespace std;
     void Studio::start(){
         cout << "Studio is now open!" << endl;
         string s;
-        vector<Customer> *list = new vector<Customer>;
-        cin >> s;
-        while(s!="closeall"){
-            if(s.substr(0,2)=="op"){//open
-                int tid = s[5];
-                int first = 7;
-                for(int i=7;i<s.length();i++){
-                    if(s[i]==','){
 
-                        vect.push_back(s.substr(first,i-first));
-                        vect.push_back(s.substr(i,3));
-                        list.push_back(vect);
+        getline(cin,s);
+        while(s!="closeall"){
+
+            if(s.substr(0,2)=="op") {//open
+                vector<Customer*> *cusList = new vector<Customer*>;
+                int trainerId = 0, first = 0;
+                for(int i=5;i<s.length();i++){ // find  where first name starts.
+                    if(s[i]==' '){
+                        trainerId = stoi(s.substr(5,i-5));
+                        first = i+1;
+                        break;
                     }
-                    i += 3;
-                    first = i+1;
                 }
+
+                int cusCounter = 0;
+                for (int i = first; i < s.length(); i++) {
+                    if (s[i] == ',') {
+                        string name = s.substr(first, i - first);
+                        string type = s.substr(i + 1, 3);
+                        if (type == "swt")
+                            cusList->push_back(new SweatyCustomer(name,cusCounter));
+//                            cout << name << " " << type << cusCounter << endl;
+                        else if (type == "mcl")
+                            cusList->push_back(new HeavyMuscleCustomer(name,cusCounter));
+//                            cout << name << " " << type << cusCounter << endl;
+                        else if (type == "chp")
+                            cusList->push_back(new CheapCustomer(name,cusCounter));
+//                            cout << name << " " << type << cusCounter << endl;
+                        else if (type == "fbd")
+                            cusList->push_back(new FullBodyCustomer(name,cusCounter));
+//                            cout << name << " " << type << cusCounter << endl;
+                        cusCounter++;
+                        i += 3;
+                        first = i + 2;
+                    }
+                }
+//                if(cusList->size()> trainers.ge)
             }
             if(s.substr(0,2)=="or"){// order
 
@@ -131,9 +153,12 @@ using namespace std;
             if(s.substr(0,2)=="cl"){// close
 
             }
-            cin >> s;
+            getline(cin,s);
 
         }
+
+
+
     }
 
 
