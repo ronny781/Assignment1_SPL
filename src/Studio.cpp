@@ -108,7 +108,7 @@ using namespace std;
 
             if(s.substr(0,2)=="op") {//open
 
-                vector<Customer*> *cusList = new vector<Customer*>;
+                vector<Customer*> cusList ;
                 int trainerId = 0, first = 0;
                 for(int i=5;i<s.length();i++){ // find  where first name starts.
                     if(s[i]==' '){
@@ -124,23 +124,24 @@ using namespace std;
                         string name = s.substr(first, i - first);
                         string type = s.substr(i + 1, 3);
                         if (type == "swt")
-                            cusList->push_back(new SweatyCustomer(name,cusCounter));
+                            cusList.push_back(new SweatyCustomer(name,cusCounter));
 //                            cout << name << " " << type << cusCounter << endl;
                         else if (type == "mcl")
-                            cusList->push_back(new HeavyMuscleCustomer(name,cusCounter));
+                            cusList.push_back(new HeavyMuscleCustomer(name,cusCounter));
 //                            cout << name << " " << type << cusCounter << endl;
                         else if (type == "chp")
-                            cusList->push_back(new CheapCustomer(name,cusCounter));
+                            cusList.push_back(new CheapCustomer(name,cusCounter));
 //                            cout << name << " " << type << cusCounter << endl;
                         else if (type == "fbd")
-                            cusList->push_back(new FullBodyCustomer(name,cusCounter));
+                            cusList.push_back(new FullBodyCustomer(name,cusCounter));
 //                            cout << name << " " << type << cusCounter << endl;
                         cusCounter++;
                         i += 3;
                         first = i + 2;
                     }
                 }
-                OpenTrainer open = new OpenTrainer(trainerId,cusList);
+                BaseAction* open = new OpenTrainer(trainerId,cusList);
+                open->act(*this);//Wonder if that works.
                 // if open.getstatus
 //                if(cusList->size()> trainers.ge)
             }

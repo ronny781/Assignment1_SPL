@@ -32,7 +32,7 @@ using namespace std;
     //ActionStatus status;
 
 
-    OpenTrainer::OpenTrainer(int id, std::vector<Customer *> &customersList):trainerId(id), customers(customersList){
+    OpenTrainer::OpenTrainer(int id, std::vector<Customer *> &customersList):trainerId(id), customers(customersList){ //need to add rule of 5
    //this opens session
     }
     void OpenTrainer::act(Studio &studio){
