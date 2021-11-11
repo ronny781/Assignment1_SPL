@@ -13,12 +13,20 @@
 
 using namespace std;
 
-BaseAction::BaseAction(){}
-    ActionStatus BaseAction::getStatus() const{}
-
-    void BaseAction::complete(){}
-    void BaseAction::error(std::string errorMsg){}
-    std::string BaseAction::getErrorMsg() const{}
+    BaseAction::BaseAction(){}
+    ActionStatus BaseAction::getStatus() const{
+        return status;
+    }
+    void BaseAction::complete(){
+        status = ActionStatus(0);
+    }
+    void BaseAction::error(std::string errorMsg){
+        this->errorMsg = errorMsg;
+        status = ActionStatus(1);
+    }
+    std::string BaseAction::getErrorMsg() const{
+        return errorMsg;
+    }
     //private:
     //std::string errorMsg;
     //ActionStatus status;
@@ -38,6 +46,7 @@ BaseAction::BaseAction(){}
             train->addCustomer(cus);
         }
         train->openTrainer();
+        complete();
     }
     std::string OpenTrainer::toString() const{
     }
@@ -48,11 +57,16 @@ BaseAction::BaseAction(){}
 
     Order::Order(int id):trainerId(id){}
     void Order::act(Studio &studio){
-        Trainer* train = studio.getTrainer(trainerId);
+        if(studio.getTrainer(trainerId)== nullptr || !studio.getTrainer(trainerId)->isOpen()){
+            error("Workout session does not exist or is already open.");
+            return;
+        }
+            Trainer* train = studio.getTrainer(trainerId);
         vector<Customer*> customerList = train->getCustomers();
         for(Customer* cus : customerList){
             cus->order(studio.getWorkoutOptions());
         }
+        complete();
     }
     std::string Order::toString() const{}
 //private:

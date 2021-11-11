@@ -107,6 +107,7 @@ using namespace std;
         while(s!="closeall"){
 
             if(s.substr(0,2)=="op") {//open
+
                 vector<Customer*> *cusList = new vector<Customer*>;
                 int trainerId = 0, first = 0;
                 for(int i=5;i<s.length();i++){ // find  where first name starts.
@@ -139,6 +140,8 @@ using namespace std;
                         first = i + 2;
                     }
                 }
+                OpenTrainer open = new OpenTrainer(trainerId,cusList);
+                // if open.getstatus
 //                if(cusList->size()> trainers.ge)
             }
             if(s.substr(0,2)=="or"){// order
