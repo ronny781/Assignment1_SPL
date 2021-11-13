@@ -35,16 +35,28 @@ typedef std::pair<int, Workout> OrderPair;
         return capacity;
     }
     void Trainer::addCustomer(Customer* customer){
-        customersList.push_back(customer);
+        if(!isOpen() && hasAvailableSpace())
+            customersList.push_back(customer);
     }
+
     void Trainer::removeCustomer(int id){//Wonder if it works.
         for(int i=0;i<customersList.size();i++){
-            if(customersList[0]->getId()==id){
-                delete customersList[0]; // Is that right?
+            if(customersList[i]->getId()==id){
+                delete customersList[i]; // Is that right?
                 customersList.erase(customersList.begin() + i);
+                return;
             }
         }
     }
+    void Trainer::moveCustomer(int id){//delete without heap freeing
+        for(int i=0;i<customersList.size();i++){
+            if(customersList[i]->getId()==id){
+                customersList.erase(customersList.begin() + i);
+                return;
+            }
+        }
+    }
+
     Customer* Trainer::getCustomer(int id){
         for(Customer *cus : customersList){
             if(cus->getId()==id){
@@ -60,7 +72,12 @@ typedef std::pair<int, Workout> OrderPair;
         return orderList;
     }
     void Trainer::order(const int customer_id, const std::vector<int> workout_ids, const std::vector<Workout>& workout_options){
-
+        for(int id : workout_ids){
+            orderList.push_back(OrderPair (customer_id,workout_options[id]));
+        }
+    }
+    bool Trainer::hasAvailableSpace(){ //Added myself
+        return getCapacity()-customersList.size()>0;
     }
     void Trainer::openTrainer(){
         open = true; //is that all?

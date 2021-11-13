@@ -64,7 +64,8 @@ using namespace std;
             Trainer* train = studio.getTrainer(trainerId);
         vector<Customer*> customerList = train->getCustomers();
         for(Customer* cus : customerList){
-            cus->order(studio.getWorkoutOptions());
+            vector<int> workoutPicked = cus->order(studio.getWorkoutOptions());
+            train->order(cus->getId(),workoutPicked,studio.getWorkoutOptions());
         }
         complete();
     }
@@ -74,7 +75,34 @@ using namespace std;
 
 
     MoveCustomer::MoveCustomer(int src, int dst, int customerId): srcTrainer(src),dstTrainer(dst),id(customerId){}
-    void MoveCustomer::act(Studio &studio){}
+    void MoveCustomer::act(Studio &studio){
+        Trainer* srcTra = studio.getTrainer(srcTrainer);
+        Trainer* dstTra = studio.getTrainer(dstTrainer);
+        if(srcTra!= nullptr && srcTra->isOpen() &&
+           dstTra!= nullptr && dstTra->isOpen() &&
+           srcTra->getCustomer(id)!= nullptr && dstTra->hasAvailableSpace()){
+//            Customer* p1 = srcTra->getCustomer(id);
+            dstTra->addCustomer(srcTra->getCustomer(id));
+            srcTra->moveCustomer(id); //Need to check if there is better solution!!!!
+
+            vector<OrderPair> srcList = srcTra->getOrders();
+            vector<OrderPair> dstList = dstTra->getOrders();
+            vector<int> indicesForDelete; // Stores where we need to delete old elements
+            for(std::vector<int>::size_type i = 0; i != srcList.size(); i++) {
+                if(srcList[i].first==id){
+                    dstList.push_back(srcList[i]);
+                    indicesForDelete.push_back(i);
+                }
+            }
+            for(int indice : indicesForDelete)
+                srcList.erase(srcList.begin()+indice);
+            complete();
+
+        }
+        else{
+            error("Cannot move customer");
+        }
+    }
     std::string MoveCustomer::toString() const{}
 //private:
 //    const int srcTrainer;

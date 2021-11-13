@@ -13,6 +13,7 @@ public:
     int getCapacity() const;
     void addCustomer(Customer* customer);
     void removeCustomer(int id);
+    void moveCustomer(int id);//Added myself
     Customer* getCustomer(int id);
     std::vector<Customer*>& getCustomers();
     std::vector<OrderPair>& getOrders();
@@ -21,6 +22,7 @@ public:
     void closeTrainer();
     int getSalary();
     bool isOpen();
+    bool hasAvailableSpace();
 private:
     int capacity;
     bool open;
