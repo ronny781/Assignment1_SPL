@@ -106,6 +106,12 @@
 		<Unit filename="/home/lioralon/CLionProjects/Assignment1_SPL/src/Studio.cpp">
 			<Option target="Hello"/>
 		</Unit>
+		<Unit filename="/home/lioralon/CLionProjects/Assignment1_SPL/src/StudioOperations.cpp">
+			<Option target="Hello"/>
+		</Unit>
+		<Unit filename="/home/lioralon/CLionProjects/Assignment1_SPL/src/StudioOperations.h">
+			<Option target="Hello"/>
+		</Unit>
 		<Unit filename="/home/lioralon/CLionProjects/Assignment1_SPL/src/Trainer.cpp">
 			<Option target="Hello"/>
 		</Unit>

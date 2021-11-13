@@ -11,6 +11,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/lioralon/CLionProjects/Assignment1_SPL/src/Action.cpp" "/home/lioralon/CLionProjects/Assignment1_SPL/cmake-build-debug/CMakeFiles/Hello.dir/src/Action.cpp.o"
   "/home/lioralon/CLionProjects/Assignment1_SPL/src/Customer.cpp" "/home/lioralon/CLionProjects/Assignment1_SPL/cmake-build-debug/CMakeFiles/Hello.dir/src/Customer.cpp.o"
   "/home/lioralon/CLionProjects/Assignment1_SPL/src/Studio.cpp" "/home/lioralon/CLionProjects/Assignment1_SPL/cmake-build-debug/CMakeFiles/Hello.dir/src/Studio.cpp.o"
+  "/home/lioralon/CLionProjects/Assignment1_SPL/src/StudioOperations.cpp" "/home/lioralon/CLionProjects/Assignment1_SPL/cmake-build-debug/CMakeFiles/Hello.dir/src/StudioOperations.cpp.o"
   "/home/lioralon/CLionProjects/Assignment1_SPL/src/Trainer.cpp" "/home/lioralon/CLionProjects/Assignment1_SPL/cmake-build-debug/CMakeFiles/Hello.dir/src/Trainer.cpp.o"
   "/home/lioralon/CLionProjects/Assignment1_SPL/src/Workout.cpp" "/home/lioralon/CLionProjects/Assignment1_SPL/cmake-build-debug/CMakeFiles/Hello.dir/src/Workout.cpp.o"
   "/home/lioralon/CLionProjects/Assignment1_SPL/src/main.cpp" "/home/lioralon/CLionProjects/Assignment1_SPL/cmake-build-debug/CMakeFiles/Hello.dir/src/main.cpp.o"

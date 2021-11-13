@@ -1,6 +1,9 @@
-//#include "../include/Studio.h"
+#include "../include/Studio.h"
 #include <iostream>
 #include <vector>
+#include <fstream>
+#include <sstream>
+
 
 using namespace std;
 
@@ -48,6 +51,7 @@ void func() {
 
 }
 }
+Studio* backup = nullptr;
 
 int main(int argc, char** argv){
     if(argc!=2){
@@ -55,13 +59,18 @@ int main(int argc, char** argv){
         return 0;
     }
     string configurationFile = argv[1];
-//    Studio studio(configurationFile);
-    func() ;
-//    studio.start();
-//    if(backup!=nullptr){
+    Studio studio(configurationFile);
+    studio.start();
+//    if(backup!= nullptr){
 //        delete backup;
 //        backup = nullptr;
 //    }
+
+
+
     return 0;
+}
+void func2(){
+    Customer *one = new SweatyCustomer("Shalom",1);
 }
 

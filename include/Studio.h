@@ -6,6 +6,7 @@
 #include "Workout.h"
 #include "Trainer.h"
 #include "Action.h"
+#include "StudioOperations.h"
 
 
 class Studio{		
@@ -24,6 +25,7 @@ private:
     bool open;
     std::vector<Trainer*> trainers;
     std::vector<Workout> workout_options;
+    std::vector<Workout> sorted_workout_options;
     std::vector<BaseAction*> actionsLog;
 };
 

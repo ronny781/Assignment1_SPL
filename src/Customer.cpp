@@ -28,13 +28,13 @@ int Customer::getId() const{
 
 SweatyCustomer::SweatyCustomer(std::string name, int id): Customer(name,id){}
 std::vector<int> SweatyCustomer::order(const std::vector<Workout> &workout_options){
-    vector<int> *swt = new vector<int>;
-    for(Workout w_k : workout_options){
-        if(w_k.getType() == 2){
-            swt->push_back(w_k.getId());
+    vector<int> swt;
+    for(auto it=end(workout_options);it != begin(workout_options);it--){
+        if(it->getType() == 2){
+            swt.push_back(it->getId());
         }
     }
-    return *swt;
+    return swt;
 }
 std::string SweatyCustomer::toString() const{
     return this->getName() + ",swt";
@@ -58,9 +58,9 @@ std::string CheapCustomer::toString() const{
 HeavyMuscleCustomer::HeavyMuscleCustomer(std::string name, int id): Customer(name,id){}
 std::vector<int> HeavyMuscleCustomer::order(const std::vector<Workout> &workout_options){
     vector<int> mcl;
-    for(int i=workout_options.size();i >= 0; i--){
-        if(workout_options[i].getType() == 0)
-            mcl.push_back(workout_options[i].getId());
+    for(auto it=end(workout_options);it != begin(workout_options);it--){
+        if(it->getType() == 0)
+            mcl.push_back(it->getId());
     }
     return mcl;
 }
@@ -71,21 +71,21 @@ std::string HeavyMuscleCustomer::toString() const{
 FullBodyCustomer::FullBodyCustomer(std::string name, int id): Customer(name,id){}
 std::vector<int> FullBodyCustomer::order(const std::vector<Workout> &workout_options){
     vector<int> fbd;
-    for(int i=0;i<workout_options.size();i++) {
-        if(workout_options[i].getType() == 2){
-            fbd.push_back(workout_options[i].getId());
+    for(auto it=begin(workout_options);it != end(workout_options);it++) {
+        if(it->getType() == 2){
+            fbd.push_back(it->getId());
             break;
         }
     }
-    for(int i=workout_options.size();i >= 0; i--){
-        if(workout_options[i].getType() == 1) {
-            fbd.push_back(workout_options[i].getId());
+    for(auto it=end(workout_options);it != begin(workout_options);it--){
+        if(it->getType() == 1) {
+            fbd.push_back(it->getId());
             break;
         }
     }
-    for(int i=0;i<workout_options.size();i++) {
-        if(workout_options[i].getType() == 0){
-            fbd.push_back(workout_options[i].getId());
+    for(auto it=begin(workout_options);it != end(workout_options);it++) {
+        if(it->getType() == 0){
+            fbd.push_back(it->getId());
             break;
         }
     }

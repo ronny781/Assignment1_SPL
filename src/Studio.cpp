@@ -6,6 +6,7 @@
 #include "../include/Studio.h"
 #include <algorithm>
 
+
 using namespace std;
 
 //class Studio{
@@ -65,16 +66,31 @@ using namespace std;
         // we might need to check if we need to sort the list, if yes we should do it here.
 //
  }
-static bool byPrice(const Workout& a, const Workout& b) {
-    return a.getPrice() < b.getPrice();
-}
- void sortWorkoutsbyPrice(vector<Workout> workouts){
-        return sort(workouts.begin(),workouts.end(), byPrice);
-    }
+
 
     Studio::Studio(){}
     Studio::Studio(const std::string &configFilePath){
-
+//        std::ifstream file(configFilePath);
+//        char line[256];
+//        int counter = 0;
+//        while(file) {
+//            file.getline(line, 256);
+//            if(line[0] == '#' || line[0] == '\0')
+//                continue;
+//            if(counter == 0){
+//                int numofTrainers = stoi(line);
+//                counter++;
+//                continue;
+//            }
+//            if(counter == 1) {
+//                for(int i=0;i<getNumOfTrainers();i++){
+//                    trainers.push_back(new Trainer(line[i]));
+//                    i++;
+//                }
+//                counter++;
+//            }
+//        }
+//
         string myText;
         int WorkoutIdCounter = 0;
         // Read from the text file
@@ -84,7 +100,7 @@ static bool byPrice(const Workout& a, const Workout& b) {
         bool flag2 = false;
         while (getline(f, myText)) {
             // Output the text from the file
-            if (myText == "# Traines") {
+            if (myText == "# Trainers") {
                 flag1 = true;
                 continue;
             } else if (flag1) {
@@ -108,6 +124,7 @@ static bool byPrice(const Workout& a, const Workout& b) {
 
     void Studio::start(){
         cout << "Studio is now open!" << endl;
+        sorted_workout_options = StudioOperations::sortWorkoutsbyPrice(workout_options); //De we need another sorted one?
         string s;
 
         getline(cin,s);
