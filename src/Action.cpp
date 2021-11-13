@@ -13,7 +13,9 @@
 
 using namespace std;
 
-    BaseAction::BaseAction(){}
+    BaseAction::BaseAction(){
+        errorMsg = nullptr;
+    }
     ActionStatus BaseAction::getStatus() const{
         return status;
     }
@@ -32,20 +34,21 @@ using namespace std;
     //ActionStatus status;
 
 
-    OpenTrainer::OpenTrainer(int id, std::vector<Customer *> &customersList):trainerId(id), customers(customersList){ //need to add rule of 5
+    OpenTrainer::OpenTrainer(int id, std::vector<Customer *> &customersList):trainerId(id), customers(customersList), BaseAction() { //need to add rule of 5
    //this opens session
     }
     void OpenTrainer::act(Studio &studio){
-        if(studio.getTrainer(trainerId)== nullptr || !studio.getTrainer(trainerId)->isOpen() || studio.getTrainer(trainerId)->getCapacity() < customers.size()){
-            // Action cant be completed
+        Trainer* trainer = studio.getTrainer(trainerId);
+        if(trainer== nullptr || !trainer->isOpen() || trainer->getCapacity() < customers.size()){
+            // Action can't be completed
             error("Workout session does not exist or is already open.");
             return;
         }
-        Trainer* train = studio.getTrainer(trainerId);
+
         for(Customer *cus : customers){
-            train->addCustomer(cus);
+            trainer->addCustomer(cus);
         }
-        train->openTrainer();
+        trainer->openTrainer();
         complete();
     }
     std::string OpenTrainer::toString() const{
@@ -55,17 +58,17 @@ using namespace std;
 //    std::vector<Customer *> customers;
 
 
-    Order::Order(int id):trainerId(id){}
+    Order::Order(int id):trainerId(id) ,BaseAction() {}
     void Order::act(Studio &studio){
-        if(studio.getTrainer(trainerId)== nullptr || !studio.getTrainer(trainerId)->isOpen()){
+        Trainer* trainer = studio.getTrainer(trainerId);
+        if(trainer== nullptr || !trainer->isOpen()){
             error("Workout session does not exist or is already open.");
             return;
         }
-            Trainer* train = studio.getTrainer(trainerId);
-        vector<Customer*> customerList = train->getCustomers();
+        vector<Customer*> customerList = trainer->getCustomers();
         for(Customer* cus : customerList){
             vector<int> workoutPicked = cus->order(studio.getWorkoutOptions());
-            train->order(cus->getId(),workoutPicked,studio.getWorkoutOptions());
+            trainer->order(cus->getId(),workoutPicked,studio.getWorkoutOptions());
         }
         complete();
     }
@@ -74,7 +77,7 @@ using namespace std;
 //    const int trainerId;
 
 
-    MoveCustomer::MoveCustomer(int src, int dst, int customerId): srcTrainer(src),dstTrainer(dst),id(customerId){}
+    MoveCustomer::MoveCustomer(int src, int dst, int customerId): srcTrainer(src),dstTrainer(dst),id(customerId) ,BaseAction() {}
     void MoveCustomer::act(Studio &studio){
         Trainer* srcTra = studio.getTrainer(srcTrainer);
         Trainer* dstTra = studio.getTrainer(dstTrainer);
@@ -109,24 +112,31 @@ using namespace std;
 //    const int dstTrainer;
 //    const int id;
 
-    Close::Close(int id):trainerId(id){}
-    void Close::act(Studio &studio){}
+    Close::Close(int id):trainerId(id) ,BaseAction() {}
+    void Close::act(Studio &studio){
+        Trainer* trainer = studio.getTrainer(trainerId);
+        if(trainer== nullptr || !trainer->isOpen()){
+            error("Workout session does not exist or is already open.");
+            return;
+        }
+        trainer->closeTrainer();
+    }
     std::string Close::toString() const{}
 //private:
 //    const int trainerId;
 
 
 
-    CloseAll::CloseAll(){}
+    CloseAll::CloseAll(): BaseAction(){}
     void CloseAll::act(Studio &studio){}
     std::string CloseAll::toString() const{}
 
-    PrintWorkoutOptions::PrintWorkoutOptions(){}
+    PrintWorkoutOptions::PrintWorkoutOptions():BaseAction(){}
     void PrintWorkoutOptions::act(Studio &studio){}
     std::string PrintWorkoutOptions::toString() const{}
 
 
-    PrintTrainerStatus::PrintTrainerStatus(int id) : trainerId(id){}
+    PrintTrainerStatus::PrintTrainerStatus(int id) : trainerId(id),BaseAction(){}
     void PrintTrainerStatus::act(Studio &studio){}
     std::string PrintTrainerStatus::toString() const{}
 //private:
