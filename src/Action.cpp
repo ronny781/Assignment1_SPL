@@ -42,6 +42,7 @@ using namespace std;
         if(trainer== nullptr || !trainer->isOpen() || trainer->getCapacity() < customers.size()){
             // Action can't be completed
             error("Workout session does not exist or is already open.");
+            cout << getErrorMsg() << endl; //Printing error
             return;
         }
 
@@ -67,8 +68,12 @@ using namespace std;
         }
         vector<Customer*> customerList = trainer->getCustomers();
         for(Customer* cus : customerList){
-            vector<int> workoutPicked = cus->order(studio.getWorkoutOptions());
-            trainer->order(cus->getId(),workoutPicked,studio.getWorkoutOptions());
+            vector<Workout> workoutOptions = studio.getWorkoutOptions();
+            vector<int> workoutPicked = cus->order(workoutOptions);
+            trainer->order(cus->getId(),workoutPicked,workoutOptions);
+            for(int i=0;i<workoutPicked.size();i++){
+                 cout << cus->getName() << " is Doing " << workoutOptions[workoutPicked[i]].getName() << endl;
+            }
         }
         complete();
     }
@@ -120,6 +125,8 @@ using namespace std;
             return;
         }
         trainer->closeTrainer();
+        complete();
+        cout << "Trainer " << trainerId << " closed. Salary " << trainer->getSalary() << "NIS" << endl;
     }
     std::string Close::toString() const{}
 //private:
@@ -128,7 +135,14 @@ using namespace std;
 
 
     CloseAll::CloseAll(): BaseAction(){}
-    void CloseAll::act(Studio &studio){}
+    void CloseAll::act(Studio &studio){
+        for(int i=0;i<studio.getNumOfTrainers();i++){
+            Close act(i);
+            act.act(studio);
+        }
+        cout << "Studio is now closed." << endl; //Need to make sure we need this output
+        complete();
+    }
     std::string CloseAll::toString() const{}
 
     PrintWorkoutOptions::PrintWorkoutOptions():BaseAction(){}
