@@ -4,7 +4,7 @@
 #include <iomanip>
 #include <vector>
 #include "../include/Studio.h"
-
+#include <algorithm>
 
 using namespace std;
 
@@ -65,6 +65,12 @@ using namespace std;
         // we might need to check if we need to sort the list, if yes we should do it here.
 //
  }
+static bool byPrice(const Workout& a, const Workout& b) {
+    return a.getPrice() < b.getPrice();
+}
+ void sortWorkoutsbyPrice(vector<Workout> workouts){
+        return sort(workouts.begin(),workouts.end(), byPrice);
+    }
 
     Studio::Studio(){}
     Studio::Studio(const std::string &configFilePath){
@@ -98,6 +104,7 @@ using namespace std;
         // Close the file
         f.close();
     }
+
 
     void Studio::start(){
         cout << "Studio is now open!" << endl;
