@@ -222,8 +222,11 @@ using namespace std;
         for(BaseAction* act : actionsLog){
             cout << act->toString() << endl;
         }
+        complete();
     }
-    std::string PrintActionsLog::toString() const{}
+    std::string PrintActionsLog::toString() const{
+        return "log Completed";
+    }
 
 
     BackupStudio::BackupStudio():BaseAction(){}
