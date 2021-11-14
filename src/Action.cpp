@@ -10,7 +10,8 @@
 #include "../include/Action.h"
 #include "../include/Trainer.h" // I added myself, is that good?
 #include "../include/Studio.h" // I added myself, is that good?
-
+#include <sstream>
+#include <string>
 using namespace std;
 
     BaseAction::BaseAction(){
@@ -77,7 +78,9 @@ using namespace std;
         }
         complete();
     }
-    std::string Order::toString() const{}
+    std::string Order::toString() const{
+        return "order" + trainerId;
+    }
 //private:
 //    const int trainerId;
 
@@ -111,7 +114,12 @@ using namespace std;
             error("Cannot move customer");
         }
     }
-    std::string MoveCustomer::toString() const{}
+    std::string MoveCustomer::toString() const{
+        std::stringstream ss;
+        ss << "move " << srcTrainer << " " << dstTrainer << " " << id;
+        std::string s = ss.str();
+        return s;
+    }
 //private:
 //    const int srcTrainer;
 //    const int dstTrainer;
@@ -128,7 +136,9 @@ using namespace std;
         complete();
         cout << "Trainer " << trainerId << " closed. Salary " << trainer->getSalary() << "NIS" << endl;
     }
-    std::string Close::toString() const{}
+    std::string Close::toString() const{
+        return "close" + trainerId;
+    }
 //private:
 //    const int trainerId;
 
@@ -143,15 +153,44 @@ using namespace std;
         cout << "Studio is now closed." << endl; //Need to make sure we need this output
         complete();
     }
-    std::string CloseAll::toString() const{}
+    std::string CloseAll::toString() const{
+        return "closeall";
+    }
 
     PrintWorkoutOptions::PrintWorkoutOptions():BaseAction(){}
-    void PrintWorkoutOptions::act(Studio &studio){}
-    std::string PrintWorkoutOptions::toString() const{}
+    void PrintWorkoutOptions::act(Studio &studio){
+        vector<Workout> workout_option = studio.getWorkoutOptions();
+        for(Workout wk: workout_option){
+            string out = wk.toString();
+            cout << out << endl;
+        }
+    }
+    std::string PrintWorkoutOptions::toString() const{
+        return "workout_options";
+    }
 
 
-    PrintTrainerStatus::PrintTrainerStatus(int id) : trainerId(id),BaseAction(){}
-    void PrintTrainerStatus::act(Studio &studio){}
+    PrintTrainerStatus::PrintTrainerStatus(int id) : trainerId(id),BaseAction(){} // What about checking if trainer exist??
+    void PrintTrainerStatus::act(Studio &studio){
+        Trainer* trainer = studio.getTrainer(trainerId);
+        if(trainer->isOpen())
+            cout << "Trainer" << trainerId << " status: " << "open" << endl;
+        else{
+            cout << "Trainer" << trainerId << " status: " << "closed" << endl;
+            return;
+        }
+        cout << "Customers:" << endl;
+        vector<Customer*> customersList = trainer->getCustomers();
+        for(Customer* cus : customersList){
+            cout << cus->getId() << " " << cus->getName() << endl;
+        }
+        cout << "Orders:" << endl;
+        vector<OrderPair> orders = trainer->getOrders();
+        for(OrderPair pair : orders){
+            cout << pair.second.getName() << " " << pair.second.getPrice() << "NIS " << pair.first;
+        }
+        cout << "Current Trainer's Salary: " << trainer->getSalary() << "NIS " << endl;
+    }
     std::string PrintTrainerStatus::toString() const{}
 //private:
 //    const int trainerId;
