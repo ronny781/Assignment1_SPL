@@ -19,6 +19,8 @@ private:
     const std::string name;
     const int price;
     const WorkoutType type;
+
+    std::stringstream toString() const;
 };
 
 

@@ -1,7 +1,10 @@
 //
 // Created by ronnypc on 05/11/2021.
 //
+#include <iostream>
 #include "../include/Workout.h"
+#include <sstream>
+using namespace std;
 //enum WorkoutType{
 //    ANAEROBIC, MIXED, CARDIO
 //};
@@ -36,5 +39,16 @@
     WorkoutType Workout::getType() const {
         return type;
     }
+    stringstream Workout::toString() const{
+        std::stringstream str;
+        if (getType() == 0)
+            str << getName() << ", Anaerobic, " << getPrice();
+        if (getType() == 1)
+            str << getName() << ", Mixed, " << getPrice();
+        if (getType() == 2)
+            str << getName() << ", Cardio, " << getPrice();
+        return str;
+
+    };
 
 

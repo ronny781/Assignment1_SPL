@@ -7,6 +7,7 @@
 #include <algorithm>
 
 
+
 using namespace std;
 
 //class Studio{
@@ -70,6 +71,7 @@ using namespace std;
 
     Studio::Studio(){}
     Studio::Studio(const std::string &configFilePath){
+
 //        std::ifstream file(configFilePath);
 //        char line[256];
 //        int counter = 0;
@@ -128,8 +130,12 @@ using namespace std;
         string s;
 
         getline(cin,s);
-        while(s!="closeall"){
+        while(true){
+            if(s == "closeall") {
+                break;
 
+
+            }
             if(s.substr(0,2)=="op") {//open
 
                 vector<Customer*> cusList ;
@@ -165,21 +171,54 @@ using namespace std;
                     }
                 }
                 BaseAction* open = new OpenTrainer(trainerId,cusList);
-                open->act(*this);//Wonder if that works.
-                // if open.getstatus
-//                if(cusList->size()> trainers.ge)
+                open->act(*this);
+                actionsLog.push_back(open);
             }
             if(s.substr(0,2)=="or"){// order
-
+                int trainerId = s[6];
+                BaseAction* order = new Order(trainerId);
+                order->act(*this);
+                actionsLog.push_back(order);
             }
             if(s.substr(0,2)=="st"){// status
-
+                int trainerId = s[7];
+                BaseAction* status = new PrintTrainerStatus(trainerId);
+                status->act(*this);
+                actionsLog.push_back(status);
             }
             if(s.substr(0,2)=="mo"){// move
-
+                int customer = s[5];
+                int OriginalTrainer = s[7];
+                int newTrainer = s[9];
+                BaseAction* move = new MoveCustomer(OriginalTrainer, newTrainer, customer);
+                move->act(*this);
+                actionsLog.push_back(move);
             }
             if(s.substr(0,2)=="cl"){// close
-
+                int trainerId = s[6];
+                BaseAction* close = new Close(trainerId);
+                close->act(*this);
+                actionsLog.push_back(close);
+            }
+            if(s.substr(0,2)=="wo"){
+                BaseAction* printWorkoutOptions = new PrintWorkoutOptions;
+                printWorkoutOptions->act(*this);
+                actionsLog.push_back(printWorkoutOptions);
+            }
+            if(s.substr(0,3)=="lo"){
+                BaseAction* log = new PrintActionsLog;
+                log->act(*this);
+                actionsLog.push_back(log);
+            }
+            if(s.substr(0,3)=="ba"){
+                BaseAction* backup = new BackupStudio;
+                backup->act(*this);
+                actionsLog.push_back(backup);
+            }
+            if(s.substr(0,3)=="re"){
+                BaseAction* restore = new RestoreStudio;
+                restore->act(*this);
+                actionsLog.push_back(restore);
             }
             getline(cin,s);
 
