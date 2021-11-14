@@ -191,7 +191,9 @@ using namespace std;
         }
         cout << "Current Trainer's Salary: " << trainer->getSalary() << "NIS " << endl;
     }
-    std::string PrintTrainerStatus::toString() const{}
+    std::string PrintTrainerStatus::toString() const{
+        return "status " + trainerId;
+    }
 //private:
 //    const int trainerId;
 
