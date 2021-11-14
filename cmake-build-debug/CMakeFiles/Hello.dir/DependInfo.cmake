@@ -8,12 +8,12 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/ronnypc/CLionProjects/Assignment1_SPL_Course/src/Action.cpp" "/home/ronnypc/CLionProjects/Assignment1_SPL_Course/cmake-build-debug/CMakeFiles/Hello.dir/src/Action.cpp.o"
-  "/home/ronnypc/CLionProjects/Assignment1_SPL_Course/src/Customer.cpp" "/home/ronnypc/CLionProjects/Assignment1_SPL_Course/cmake-build-debug/CMakeFiles/Hello.dir/src/Customer.cpp.o"
-  "/home/ronnypc/CLionProjects/Assignment1_SPL_Course/src/Studio.cpp" "/home/ronnypc/CLionProjects/Assignment1_SPL_Course/cmake-build-debug/CMakeFiles/Hello.dir/src/Studio.cpp.o"
-  "/home/ronnypc/CLionProjects/Assignment1_SPL_Course/src/Trainer.cpp" "/home/ronnypc/CLionProjects/Assignment1_SPL_Course/cmake-build-debug/CMakeFiles/Hello.dir/src/Trainer.cpp.o"
-  "/home/ronnypc/CLionProjects/Assignment1_SPL_Course/src/Workout.cpp" "/home/ronnypc/CLionProjects/Assignment1_SPL_Course/cmake-build-debug/CMakeFiles/Hello.dir/src/Workout.cpp.o"
-  "/home/ronnypc/CLionProjects/Assignment1_SPL_Course/src/main.cpp" "/home/ronnypc/CLionProjects/Assignment1_SPL_Course/cmake-build-debug/CMakeFiles/Hello.dir/src/main.cpp.o"
+  "/home/ronnypc/CLionProjects/Assignment1_SPL/src/Action.cpp" "/home/ronnypc/CLionProjects/Assignment1_SPL/cmake-build-debug/CMakeFiles/Hello.dir/src/Action.cpp.o"
+  "/home/ronnypc/CLionProjects/Assignment1_SPL/src/Customer.cpp" "/home/ronnypc/CLionProjects/Assignment1_SPL/cmake-build-debug/CMakeFiles/Hello.dir/src/Customer.cpp.o"
+  "/home/ronnypc/CLionProjects/Assignment1_SPL/src/Studio.cpp" "/home/ronnypc/CLionProjects/Assignment1_SPL/cmake-build-debug/CMakeFiles/Hello.dir/src/Studio.cpp.o"
+  "/home/ronnypc/CLionProjects/Assignment1_SPL/src/Trainer.cpp" "/home/ronnypc/CLionProjects/Assignment1_SPL/cmake-build-debug/CMakeFiles/Hello.dir/src/Trainer.cpp.o"
+  "/home/ronnypc/CLionProjects/Assignment1_SPL/src/Workout.cpp" "/home/ronnypc/CLionProjects/Assignment1_SPL/cmake-build-debug/CMakeFiles/Hello.dir/src/Workout.cpp.o"
+  "/home/ronnypc/CLionProjects/Assignment1_SPL/src/main.cpp" "/home/ronnypc/CLionProjects/Assignment1_SPL/cmake-build-debug/CMakeFiles/Hello.dir/src/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

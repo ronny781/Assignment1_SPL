@@ -79,7 +79,13 @@ using namespace std;
         complete();
     }
     std::string Order::toString() const{
-        return "order" + trainerId;
+        std::stringstream toString;
+        if(getStatus() == COMPLETED)
+            toString << "order " << trainerId << " Completed" ;
+        else
+            toString << "order " << trainerId << " Error: " << getErrorMsg();
+        std::string s = toString.str();
+        return s;
     }
 //private:
 //    const int trainerId;
@@ -92,7 +98,7 @@ using namespace std;
         if(srcTra!= nullptr && srcTra->isOpen() &&
            dstTra!= nullptr && dstTra->isOpen() &&
            srcTra->getCustomer(id)!= nullptr && dstTra->hasAvailableSpace()){
-//            Customer* p1 = srcTra->getCustomer(id);
+//            SweatyCustomer p1 = *(srcTra->getCustomer(id));
             dstTra->addCustomer(srcTra->getCustomer(id));
             srcTra->moveCustomer(id); //Need to check if there is better solution!!!!
 
@@ -115,9 +121,9 @@ using namespace std;
         }
     }
     std::string MoveCustomer::toString() const{
-        std::stringstream ss;
-        ss << "move " << srcTrainer << " " << dstTrainer << " " << id;
-        std::string s = ss.str();
+        std::stringstream toString;
+        toString << "move " << srcTrainer << " " << dstTrainer << " " << id;
+        std::string s = toString.str();
         return s;
     }
 //private:
@@ -137,7 +143,13 @@ using namespace std;
         cout << "Trainer " << trainerId << " closed. Salary " << trainer->getSalary() << "NIS" << endl;
     }
     std::string Close::toString() const{
-        return "close" + trainerId;
+        std::stringstream toString;
+        if(getStatus() == COMPLETED)
+            toString << "close " << trainerId << " Completed" ;
+        else
+            toString << "close " << trainerId << " Error: " << getErrorMsg();
+        std::string s = toString.str();
+        return s;
     }
 //private:
 //    const int trainerId;
@@ -154,7 +166,7 @@ using namespace std;
         complete();
     }
     std::string CloseAll::toString() const{
-        return "closeall";
+        return "closeall Completed";
     }
 
     PrintWorkoutOptions::PrintWorkoutOptions():BaseAction(){}
@@ -164,9 +176,10 @@ using namespace std;
             string out = wk.toString();
             cout << out << endl;
         }
+        complete();
     }
     std::string PrintWorkoutOptions::toString() const{
-        return "workout_options";
+        return "workout_options Completed";
     }
 
 
@@ -190,24 +203,33 @@ using namespace std;
             cout << pair.second.getName() << " " << pair.second.getPrice() << "NIS " << pair.first;
         }
         cout << "Current Trainer's Salary: " << trainer->getSalary() << "NIS " << endl;
+        complete();
     }
     std::string PrintTrainerStatus::toString() const{
-        return "status " + trainerId;
+        std::stringstream toString;
+        toString << "status " << trainerId << " Completed";
+        std::string s = toString.str();
+        return s;
     }
 //private:
 //    const int trainerId;
 
 
 
-    PrintActionsLog::PrintActionsLog(){}
-    void PrintActionsLog::act(Studio &studio){}
+    PrintActionsLog::PrintActionsLog():BaseAction(){}
+    void PrintActionsLog::act(Studio &studio){
+        vector<BaseAction*> actionsLog = studio.getActionsLog();
+        for(BaseAction* act : actionsLog){
+            cout << act->toString() << endl;
+        }
+    }
     std::string PrintActionsLog::toString() const{}
 
 
-    BackupStudio::BackupStudio(){}
+    BackupStudio::BackupStudio():BaseAction(){}
     void BackupStudio::act(Studio &studio){}
     std::string BackupStudio::toString() const{}
 
-    RestoreStudio::RestoreStudio(){}
+    RestoreStudio::RestoreStudio():BaseAction(){}
     void RestoreStudio::act(Studio &studio){}
     std::string RestoreStudio::toString() const{}
