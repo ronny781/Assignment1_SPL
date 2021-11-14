@@ -67,7 +67,7 @@ using namespace std;
  }
 
     Studio::Studio(){}
-    Studio::Studio(const std::string &configFilePath){
+    Studio::Studio(const std::string &configFilePath):open(false){
 
         string myText;
         int WorkoutIdCounter = 0;
