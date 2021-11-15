@@ -4,10 +4,12 @@
 #include <string>
 #include <iostream>
 #include "Customer.h"
+#include "Studio.h"
 
 enum ActionStatus{
     COMPLETED, ERROR
 };
+extern Studio* backup;
 
 //Forward declaration
 class Studio;

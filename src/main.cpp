@@ -1,10 +1,10 @@
-//#include "../include/Studio.h"
+#include "../include/Studio.h"
 #include <iostream>
 #include <vector>
 
 using namespace std;
 
-//Studio* backup = nullptr;
+Studio* backup;
 
 void func() {
     cout << "Studio is now open!" << endl;

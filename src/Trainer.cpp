@@ -48,6 +48,7 @@ typedef std::pair<int, Workout> OrderPair;
             }
         }
     }
+    //for(std::size_t i = 0; i < v.size(); ++i) //Maybe this approach work
     void Trainer::moveCustomer(int id){//delete without heap freeing
         for(int i=0;i<customersList.size();i++){
             if(customersList[i]->getId()==id){

@@ -54,6 +54,13 @@ using namespace std;
         complete();
     }
     std::string OpenTrainer::toString() const{
+        std::stringstream toString;
+        toString << "open " << trainerId;
+        for(Customer* cus : customers){ //Wonder if that works!
+            toString << " " << cus->toString();
+        }
+        std::string s = toString.str();
+        return s;
     }
 //private:
 //    const int trainerId;
@@ -122,7 +129,10 @@ using namespace std;
     }
     std::string MoveCustomer::toString() const{
         std::stringstream toString;
-        toString << "move " << srcTrainer << " " << dstTrainer << " " << id;
+        if(getStatus() == COMPLETED)
+            toString << "move " << srcTrainer << " " << dstTrainer << " " << id << "Completed";
+        else
+            toString << "move " << srcTrainer << " " << dstTrainer << " Error: " << getErrorMsg();
         std::string s = toString.str();
         return s;
     }
@@ -230,9 +240,32 @@ using namespace std;
 
 
     BackupStudio::BackupStudio():BaseAction(){ }
-    void BackupStudio::act(Studio &studio){}
-    std::string BackupStudio::toString() const{}
+    void BackupStudio::act(Studio &studio){
+        if(backup!=nullptr) {
+            delete backup;
+        }
+        backup = new Studio(studio); //Maybe we just need to use copy assignment operator differently?
+        complete();
+    }
+    std::string BackupStudio::toString() const{
+        return "backup Completed";
+    }
 
     RestoreStudio::RestoreStudio():BaseAction(){}
-    void RestoreStudio::act(Studio &studio){}
-    std::string RestoreStudio::toString() const{}
+    void RestoreStudio::act(Studio &studio){//Do we need to close our working studio first?
+        if(backup== nullptr){
+            error("No backup available");
+            return;
+        }
+        studio = backup; //Need to make sure no memory leak created here.
+        complete();
+    }
+    std::string RestoreStudio::toString() const{
+        std::stringstream toString;
+        if(getStatus() == COMPLETED)
+            toString << "restore "  << "Completed" ;
+        else
+            toString << "restore " << "Error: " << getErrorMsg();
+        std::string s = toString.str();
+        return s;
+    }
