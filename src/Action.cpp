@@ -10,6 +10,7 @@
 #include "../include/Action.h"
 #include "../include/Trainer.h" // I added myself, is that good?
 #include "../include/Studio.h" // I added myself, is that good?
+#include "../include/Customer.h"
 
 using namespace std;
 
@@ -32,9 +33,7 @@ using namespace std;
     //ActionStatus status;
 
 
-    OpenTrainer::OpenTrainer(int id, std::vector<Customer *> &customersList):trainerId(id), customers(customersList){ //need to add rule of 5
-   //this opens session
-    }
+    OpenTrainer::OpenTrainer(int id, std::vector<Customer *> &customersList):trainerId(id), customers(customersList),BaseAction(){}
     void OpenTrainer::act(Studio &studio){
         if(studio.getTrainer(trainerId)== nullptr || !studio.getTrainer(trainerId)->isOpen() || studio.getTrainer(trainerId)->getCapacity() < customers.size()){
             // Action cant be completed

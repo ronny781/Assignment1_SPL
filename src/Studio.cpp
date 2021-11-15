@@ -69,7 +69,23 @@ using namespace std;
  }
 
 
-    Studio::Studio(){}
+    Studio::Studio():open(false){}
+    Studio::~Studio(){
+        for (auto it = begin(trainers);it != end(trainers);it++) {
+            if (*it)
+                delete *it;
+        }
+        for (auto it = begin(actionsLog);it != end(actionsLog);it++) {
+            if (*it)
+                delete *it;
+        }
+    }//Destructor
+    Studio::Studio(const Studio &other){
+
+    }//Copy constructor
+    const Studio& Studio::operator=(const Studio &other){}//Assignment operator
+    Studio::Studio(Studio &&other){}//Move constructor
+    const Studio& Studio::operator=(Studio&& other){}//Move assignment operator
     Studio::Studio(const std::string &configFilePath){
 
 //        std::ifstream file(configFilePath);

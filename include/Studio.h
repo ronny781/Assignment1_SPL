@@ -11,6 +11,11 @@
 
 class Studio{		
 public:
+    virtual ~Studio();//Destructor
+    Studio(const Studio &other);//Copy constructor
+    const Studio& operator=(const Studio &other);//Assignment operator
+    Studio(Studio &&other);//Move constructor
+    const Studio& operator=(Studio&& other);//Move assignment operator
 	Studio();
     Studio(const std::string &configFilePath);
     void start();
