@@ -1,9 +1,8 @@
-
 #include <iostream>
 #include <fstream>
-#include <iomanip>
 #include <vector>
 #include "../include/Studio.h"
+#include "../include/StudioOperations.h"
 
 
 using namespace std;
@@ -66,115 +65,262 @@ using namespace std;
 //
  }
 
-    Studio::Studio(){}
-    Studio::Studio(const std::string &configFilePath):open(false){
+    Studio::Studio():open(false){}
 
-        string myText;
-        int WorkoutIdCounter = 0;
-        // Read from the text file
-        ifstream f(configFilePath);
-        // Use a while loop together with the getline() function to read the file line by line
-        bool flag1 = false;
-        bool flag2 = false;
-        while (getline(f, myText)) {
-            // Output the text from the file
-            if (myText == "# Traines") {
-                flag1 = true;
-                continue;
-            } else if (flag1) {
-                trainersInitalizer(myText);
-                cout << myText << endl;
-                flag1 = false;
-            } else if (myText == "# Work Options") {
-                flag2 = true;
-                continue;
-            }
-            if (flag2) {
-                WorkOptionsInitalizer(myText, WorkoutIdCounter++);
-                cout << myText << endl;
 
-            }
+Studio::Studio(const std::string &configFilePath){
+
+//        std::ifstream file(configFilePath);
+//        char line[256];
+//        int counter = 0;
+//        while(file) {
+//            file.getline(line, 256);
+//            if(line[0] == '#' || line[0] == '\0')
+//                continue;
+//            if(counter == 0){
+//                int numofTrainers = stoi(line);
+//                counter++;
+//                continue;
+//            }
+//            if(counter == 1) {
+//                for(int i=0;i<getNumOfTrainers();i++){
+//                    trainers.push_back(new Trainer(line[i]));
+//                    i++;
+//                }
+//                counter++;
+//            }
+//        }
+//
+    string myText;
+    int WorkoutIdCounter = 0;
+    // Read from the text file
+    ifstream f(configFilePath);
+    // Use a while loop together with the getline() function to read the file line by line
+    bool flag1 = false;
+    bool flag2 = false;
+    while (getline(f, myText)) {
+        // Output the text from the file
+        if (myText == "# Trainers") {
+            flag1 = true;
+            continue;
+        } else if (flag1) {
+            trainersInitalizer(myText);
+            cout << myText << endl;
+            flag1 = false;
+        } else if (myText == "# Work Options") {
+            flag2 = true;
+            continue;
         }
-        // Close the file
-        f.close();
+        if (flag2) {
+            WorkOptionsInitalizer(myText, WorkoutIdCounter++);
+            cout << myText << endl;
+
+        }
+    }
+    // Close the file
+    f.close();
+}
+
+//Destructor
+Studio::~Studio(){
+    for(Trainer* trainer:trainers){
+        if(trainer) {
+            delete trainer;
+            trainer = nullptr;
+        }
+    }
+    trainers.clear();
+    for(BaseAction* act:actionsLog){
+        if(act) {
+            delete act;
+            act = nullptr;
+        }
+    }
+    actionsLog.clear();
+}
+//Copy constructor
+Studio::Studio(const Studio &other){
+    workout_options = other.workout_options;
+    for(BaseAction* act:actionsLog){
+        actionsLog.push_back(act->clone());
+    }
+    for(Trainer* act:trainers){
+        trainers.push_back(act);
+    }
+}
+//Copy Assignment Operator
+const Studio& Studio::operator=(const Studio &other) {
+    for (Trainer *trainer: trainers) {
+        if (trainer) {
+            delete trainer;
+            trainer = nullptr;
+        }
+    }
+    trainers.clear();
+    for (BaseAction *action: actionsLog) {
+        if (action) {
+            delete action;
+            action = nullptr;
+        }
+    }
+    actionsLog.clear();
+    workout_options = other.workout_options;
+    for (Trainer *trainer: other.trainers) {
+        trainers.push_back(trainer);
+    }
+    for (BaseAction *action: other.actionsLog) {
+        actionsLog.push_back(action->clone());
     }
 
-    void Studio::start(){
-        cout << "Studio is now open!" << endl;
-        string s;
+}
+//Move Constructor
+Studio::Studio(Studio &&other){
+    workout_options = other.workout_options;
+    trainers = other.trainers;
+    actionsLog = other.actionsLog;
+    other.trainers.clear();
+    other.actionsLog.clear();
+}
+//Move Assignment Operator
+const Studio& Studio::operator=(Studio&& other){
+    for(Trainer* trainer:trainers){
+        if(trainer) {
+            delete trainer;
+            trainer = nullptr;
+        }
+    }
+    trainers.clear();
+    for(BaseAction* act:actionsLog){
+        if(act) {
+            delete act;
+            act = nullptr;
+        }
+    }
+    actionsLog.clear();
+    workout_options=other.workout_options;
+    trainers = other.trainers;
+    actionsLog = other.actionsLog;
+    other.trainers.clear();
+    other.actionsLog.clear();
+    return *this;
+}
 
+void Studio::start(){
+    cout << "Studio is now open!" << endl;
+    Customer::sorted_workout_options =StudioOperations::sortWorkoutsbyPrice(workout_options); //De we need another sorted one?
+    string s;
+
+    getline(cin,s);
+    while(true){
+        if(s == "closeall") {
+            break;
+
+
+        }
+        if(s.substr(0,2)=="op") {//open
+
+            vector<Customer*> cusList ;
+            int trainerId = 0, first = 0;
+            for(int i=5;i<s.length();i++){ // find  where first name starts.
+                if(s[i]==' '){
+                    trainerId = stoi(s.substr(5,i-5));
+                    first = i+1;
+                    break;
+                }
+            }
+
+            int cusCounter = 0;
+            for (int i = first; i < s.length(); i++) {
+                if (s[i] == ',') {
+                    string name = s.substr(first, i - first);
+                    string type = s.substr(i + 1, 3);
+                    if (type == "swt")
+                        cusList.push_back(new SweatyCustomer(name,cusCounter));
+//                            cout << name << " " << type << cusCounter << endl;
+                    else if (type == "mcl")
+                        cusList.push_back(new HeavyMuscleCustomer(name,cusCounter));
+//                            cout << name << " " << type << cusCounter << endl;
+                    else if (type == "chp")
+                        cusList.push_back(new CheapCustomer(name,cusCounter));
+//                            cout << name << " " << type << cusCounter << endl;
+                    else if (type == "fbd")
+                        cusList.push_back(new FullBodyCustomer(name,cusCounter));
+//                            cout << name << " " << type << cusCounter << endl;
+                    cusCounter++;
+                    i += 3;
+                    first = i + 2;
+                }
+            }
+            BaseAction* open = new OpenTrainer(trainerId,cusList);
+            open->act(*this);
+            actionsLog.push_back(open);
+        }
+        if(s.substr(0,2)=="or"){// order
+            int trainerId = s[6];
+            BaseAction* order = new Order(trainerId);
+            order->act(*this);
+            actionsLog.push_back(order);
+        }
+        if(s.substr(0,2)=="st"){// status
+            int trainerId = s[7];
+            BaseAction* status = new PrintTrainerStatus(trainerId);
+            status->act(*this);
+            actionsLog.push_back(status);
+        }
+        if(s.substr(0,2)=="mo"){// move
+            int customer = s[5];
+            int OriginalTrainer = s[7];
+            int newTrainer = s[9];
+            BaseAction* move = new MoveCustomer(OriginalTrainer, newTrainer, customer);
+            move->act(*this);
+            actionsLog.push_back(move);
+        }
+        if(s.substr(0,2)=="cl"){// close
+            int trainerId = s[6];
+            BaseAction* close = new Close(trainerId);
+            close->act(*this);
+            actionsLog.push_back(close);
+        }
+        if(s.substr(0,2)=="wo"){
+            BaseAction* printWorkoutOptions = new PrintWorkoutOptions;
+            printWorkoutOptions->act(*this);
+            actionsLog.push_back(printWorkoutOptions);
+        }
+        if(s.substr(0,3)=="lo"){
+            BaseAction* log = new PrintActionsLog;
+            log->act(*this);
+            actionsLog.push_back(log);
+        }
+        if(s.substr(0,3)=="ba"){
+            BaseAction* backup = new BackupStudio;
+            backup->act(*this);
+            actionsLog.push_back(backup);
+        }
+        if(s.substr(0,3)=="re"){
+            BaseAction* restore = new RestoreStudio;
+            restore->act(*this);
+            actionsLog.push_back(restore);
+        }
         getline(cin,s);
-        while(s!="closeall"){
-
-            if(s.substr(0,2)=="op") {//open
-
-                vector<Customer*> cusList ;
-                int trainerId = 0, first = 0;
-                for(int i=5;i<s.length();i++){ // find  where first name starts.
-                    if(s[i]==' '){
-                        trainerId = stoi(s.substr(5,i-5));
-                        first = i+1;
-                        break;
-                    }
-                }
-
-                int cusCounter = 0;
-                for (int i = first; i < s.length(); i++) {
-                    if (s[i] == ',') {
-                        string name = s.substr(first, i - first);
-                        string type = s.substr(i + 1, 3);
-                        if (type == "swt")
-                            cusList.push_back(new SweatyCustomer(name,cusCounter));
-//                            cout << name << " " << type << cusCounter << endl;
-                        else if (type == "mcl")
-                            cusList.push_back(new HeavyMuscleCustomer(name,cusCounter));
-//                            cout << name << " " << type << cusCounter << endl;
-                        else if (type == "chp")
-                            cusList.push_back(new CheapCustomer(name,cusCounter));
-//                            cout << name << " " << type << cusCounter << endl;
-                        else if (type == "fbd")
-                            cusList.push_back(new FullBodyCustomer(name,cusCounter));
-//                            cout << name << " " << type << cusCounter << endl;
-                        cusCounter++;
-                        i += 3;
-                        first = i + 2;
-                    }
-                }
-                BaseAction* open = new OpenTrainer(trainerId,cusList);
-                open->act(*this);//Wonder if that works.
-                // if open.getstatus
-//                if(cusList->size()> trainers.ge)
-            }
-            if(s.substr(0,2)=="or"){// order
-
-            }
-            if(s.substr(0,2)=="st"){// status
-
-            }
-            if(s.substr(0,2)=="mo"){// move
-
-            }
-            if(s.substr(0,2)=="cl"){// close
-
-            }
-            getline(cin,s);
-
-        }
 
     }
 
 
-    int Studio::getNumOfTrainers() const{
-        return trainers.size();
-    }
 
-    Trainer* Studio::getTrainer(int tid){
-        return tid >= trainers.size() ? nullptr : trainers[tid];
-    }
-    const std::vector<BaseAction*>& Studio::getActionsLog() const{
-        return  actionsLog;
-    } // Return a reference to the history of actions
+}
 
-    std::vector<Workout>& Studio::getWorkoutOptions(){
-        return workout_options;
-    }
+
+int Studio::getNumOfTrainers() const{
+    return trainers.size();
+}
+
+Trainer* Studio::getTrainer(int tid){
+    return tid >= trainers.size() ? nullptr : trainers[tid];
+}
+const std::vector<BaseAction*>& Studio::getActionsLog() const{
+    return  actionsLog;
+} // Return a reference to the history of actions
+
+std::vector<Workout>& Studio::getWorkoutOptions(){
+    return workout_options;
+}

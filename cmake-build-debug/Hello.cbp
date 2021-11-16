@@ -91,6 +91,9 @@
 		<Unit filename="/home/ronnypc/CLionProjects/Assignment1_SPL/include/Studio.h">
 			<Option target="Hello"/>
 		</Unit>
+		<Unit filename="/home/ronnypc/CLionProjects/Assignment1_SPL/include/StudioOperations.h">
+			<Option target="Hello"/>
+		</Unit>
 		<Unit filename="/home/ronnypc/CLionProjects/Assignment1_SPL/include/Trainer.h">
 			<Option target="Hello"/>
 		</Unit>
@@ -104,6 +107,9 @@
 			<Option target="Hello"/>
 		</Unit>
 		<Unit filename="/home/ronnypc/CLionProjects/Assignment1_SPL/src/Studio.cpp">
+			<Option target="Hello"/>
+		</Unit>
+		<Unit filename="/home/ronnypc/CLionProjects/Assignment1_SPL/src/StudioOperations.cpp">
 			<Option target="Hello"/>
 		</Unit>
 		<Unit filename="/home/ronnypc/CLionProjects/Assignment1_SPL/src/Trainer.cpp">

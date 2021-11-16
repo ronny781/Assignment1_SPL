@@ -10,6 +10,11 @@ typedef std::pair<int, Workout> OrderPair;
 class Trainer{
 public:
     Trainer(int t_capacity);
+    virtual ~Trainer();//Destructor
+    Trainer(const Trainer &other);//Copy constructor
+    const Trainer& operator=(const Trainer &other);//Assignment operator
+    Trainer(Trainer &&other);//Move constructor
+    const Trainer& operator=(Trainer&& other);//Move assignment operator
     int getCapacity() const;
     void addCustomer(Customer* customer);
     void removeCustomer(int id);

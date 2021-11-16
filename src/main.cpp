@@ -54,6 +54,7 @@ int main(int argc, char** argv){
         std::cout << "usage: studio <config_path>" << std::endl;
         return 0;
     }
+
     string configurationFile = argv[1];
 //    Studio studio(configurationFile);
     func() ;

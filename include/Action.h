@@ -20,6 +20,7 @@ public:
     ActionStatus getStatus() const;
     virtual void act(Studio& studio)=0;
     virtual std::string toString() const=0;
+    virtual BaseAction* clone() const=0;
 protected:
     void complete();
     void error(std::string errorMsg);
@@ -36,8 +37,9 @@ public:
     void act(Studio &studio);
     std::string toString() const;
 private:
-	const int trainerId;
-	std::vector<Customer *> customers;
+    const int trainerId;
+    std::vector<Customer *> customers;
+    BaseAction *clone() const;
 };
 
 
@@ -48,6 +50,8 @@ public:
     std::string toString() const;
 private:
     const int trainerId;
+
+    BaseAction *clone() const;
 };
 
 
@@ -60,6 +64,8 @@ private:
     const int srcTrainer;
     const int dstTrainer;
     const int id;
+
+    BaseAction *clone() const;
 };
 
 
@@ -70,6 +76,8 @@ public:
     std::string toString() const;
 private:
     const int trainerId;
+
+    BaseAction *clone() const;
 };
 
 
@@ -79,6 +87,7 @@ public:
     void act(Studio &studio);
     std::string toString() const;
 private:
+    BaseAction *clone() const;
 };
 
 
@@ -88,6 +97,7 @@ public:
     void act(Studio &studio);
     std::string toString() const;
 private:
+    BaseAction *clone() const;
 };
 
 
@@ -98,6 +108,8 @@ public:
     std::string toString() const;
 private:
     const int trainerId;
+
+    BaseAction *clone() const;
 };
 
 
@@ -107,6 +119,7 @@ public:
     void act(Studio &studio);
     std::string toString() const;
 private:
+    BaseAction *clone() const;
 };
 
 
@@ -116,6 +129,7 @@ public:
     void act(Studio &studio);
     std::string toString() const;
 private:
+    BaseAction *clone() const;
 };
 
 
@@ -125,6 +139,7 @@ public:
     void act(Studio &studio);
     std::string toString() const;
 
+    BaseAction *clone() const;
 };
 
 
