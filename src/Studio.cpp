@@ -91,26 +91,67 @@ Studio::~Studio(){
 Studio::Studio(const Studio &other){
     workout_options = other.workout_options;
     for(BaseAction* act:actionsLog){
-        actionsLog.push_back(act);
+        actionsLog.push_back(act->clone());
     }
-    for(auto it = begin(other.trainers);it!= end(other.trainers);it++){
-        trainers.push_back(new Trainer(*it.getCapacity()));
-    }
-    for(auto it = begin(other.actionsLog);it!= end(other.actionsLog);it++){
-        actionsLog.push_back(*it);
+    for(Trainer* act:trainers){
+        trainers.push_back(act);
     }
 }
-//Assignment operator
-const Studio& Studio::operator=(const Studio &other){
+//Copy Assignment Operator
+const Studio& Studio::operator=(const Studio &other) {
+    for (Trainer *trainer: trainers) {
+        if (trainer) {
+            delete trainer;
+            trainer = nullptr;
+        }
+    }
+    trainers.clear();
+    for (BaseAction *action: actionsLog) {
+        if (action) {
+            delete action;
+            action = nullptr;
+        }
+    }
+    actionsLog.clear();
+    workout_options = other.workout_options;
+    for (Trainer *trainer: other.trainers) {
+        trainers.push_back(trainer);
+    }
+    for (BaseAction *action: other.actionsLog) {
+        actionsLog.push_back(action->clone());
+    }
 
 }
-//Move constructor
+//Move Constructor
 Studio::Studio(Studio &&other){
-
+    workout_options = other.workout_options;
+    trainers = other.trainers;
+    actionsLog = other.actionsLog;
+    other.trainers.clear();
+    other.actionsLog.clear();
 }
-//Move assignment operator
+//Move Assignment Operator
 const Studio& Studio::operator=(Studio&& other){
-
+    for(Trainer* trainer:trainers){
+        if(trainer) {
+            delete trainer;
+            trainer = nullptr;
+        }
+    }
+    trainers.clear();
+    for(BaseAction* act:actionsLog){
+        if(act) {
+            delete act;
+            act = nullptr;
+        }
+    }
+    actionsLog.clear();
+    workout_options=other.workout_options;
+    trainers = other.trainers;
+    actionsLog = other.actionsLog;
+    other.trainers.clear();
+    other.actionsLog.clear();
+    return *this;
 }
 Studio::Studio(const std::string &configFilePath){
 
