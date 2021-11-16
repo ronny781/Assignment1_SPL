@@ -148,6 +148,11 @@ using namespace std;
             error("Workout session does not exist or is already open.");
             return;
         }
+        for(Customer* cus : trainer->getCustomers()){ // Wonder if that works because I delete from my iterable.
+            delete cus;
+            cus = nullptr;
+        }
+        trainer->getCustomers().clear();
         trainer->closeTrainer();
         complete();
         cout << "Trainer " << trainerId << " closed. Salary " << trainer->getSalary() << "NIS" << endl;
@@ -183,8 +188,7 @@ using namespace std;
     void PrintWorkoutOptions::act(Studio &studio){
         vector<Workout> workout_option = studio.getWorkoutOptions();
         for(Workout wk: workout_option){
-            string out = wk.toString();
-            cout << out << endl;
+            cout << wk.toString() << endl;
         }
         complete();
     }
