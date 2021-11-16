@@ -27,55 +27,115 @@ typedef std::pair<int, Workout> OrderPair;
 //    std::vector<OrderPair> orderList; //A list of pairs for each order for the trainer - (customer_id, Workout)
 //};
 // I think we need to add salary field!
+//Destructor:
+Trainer::~Trainer() {
+    for(Customer* cust:customersList) {
+        if (cust) {
+            delete cust;
+            cust = nullptr;
+        }
+    }
+}
+//Copy Constructor:
+Trainer::Trainer(const Trainer &other) {
+    capacity = other.capacity;
+    open = other.open;
+    orderList = other.orderList;
+    for(Customer* cust:other.customersList){
+        customersList.push_back(cust->clone());
+    }
 
-    Trainer::Trainer(int t_capacity): capacity(t_capacity), open(false) {
-        //need
-    }
-    int Trainer::getCapacity() const{
-        return capacity;
-    }
-    void Trainer::addCustomer(Customer* customer){
-        customersList.push_back(customer);
-    }
-    void Trainer::removeCustomer(int id){//Wonder if it works.
-        for(int i=0;i<customersList.size();i++){
-            if(customersList[0]->getId()==id){
-                delete customersList[0]; // Is that right?
-                customersList.erase(customersList.begin() + i);
-            }
+}
+//Copy Assignment Operator
+const Trainer& Trainer::operator=(const Trainer &other){
+    for(Customer* cust:customersList) {
+        if (cust) {
+            delete cust;
+            cust = nullptr;
         }
     }
-    Customer* Trainer::getCustomer(int id){
-        for(Customer *cus : customersList){
-            if(cus->getId()==id){
-                return cus;
-            }
-        }
-        return nullptr; //if not found return null?
+    customersList.clear();
+    capacity = other.capacity;
+    open = other.open;
+    orderList = other.orderList;
+    for(Customer* cust:other.customersList){
+        customersList.push_back(cust->clone());
     }
-    std::vector<Customer*>& Trainer::getCustomers(){
-        return customersList;
-    }
-    std::vector<OrderPair>& Trainer::getOrders(){
-        return orderList;
-    }
-    void Trainer::order(const int customer_id, const std::vector<int> workout_ids, const std::vector<Workout>& workout_options){
+    return *this;
 
-    }
-    void Trainer::openTrainer(){
-        open = true; //is that all?
-    }
-    void Trainer::closeTrainer(){
-        open = false; //is that all?
-    }
-    int Trainer::getSalary(){
-        int sum = 0;
-        for(OrderPair pair : orderList){
-            sum += pair.second.getPrice();
+}
+//Move Constructor
+Trainer::Trainer(Trainer &&other){
+    capacity = other.capacity;
+    open = other.open;
+    orderList = other.orderList;
+    customersList = other.customersList;
+    other.customersList.clear();
+}
+//Move Assignment Operator
+const Trainer& Trainer::operator=(Trainer&& other){
+    for(Customer* cust:customersList) {
+        if (cust) {
+            delete cust;
+            cust = nullptr;
         }
-        return sum;
     }
-    bool Trainer::isOpen(){
-        return open;
+    customersList.clear();
+    capacity = other.capacity;
+    open = other.open;
+    orderList = other.orderList;
+    customersList = other.customersList;
+    other.customersList.clear();
+    return *this;
+}
+Trainer::Trainer(int t_capacity): capacity(t_capacity), open(false) {
+    //need
+}
+int Trainer::getCapacity() const{
+    return capacity;
+}
+void Trainer::addCustomer(Customer* customer){
+    customersList.push_back(customer);
+}
+void Trainer::removeCustomer(int id){//Wonder if it works.
+    for(int i=0;i<customersList.size();i++){
+        if(customersList[0]->getId()==id){
+            delete customersList[0]; // Is that right?
+            customersList.erase(customersList.begin() + i);
+        }
     }
+}
+Customer* Trainer::getCustomer(int id){
+    for(Customer *cus : customersList){
+        if(cus->getId()==id){
+            return cus;
+        }
+    }
+    return nullptr; //if not found return null?
+}
+std::vector<Customer*>& Trainer::getCustomers(){
+    return customersList;
+}
+std::vector<OrderPair>& Trainer::getOrders(){
+    return orderList;
+}
+void Trainer::order(const int customer_id, const std::vector<int> workout_ids, const std::vector<Workout>& workout_options){
+
+}
+void Trainer::openTrainer(){
+    open = true; //is that all?
+}
+void Trainer::closeTrainer(){
+    open = false; //is that all?
+}
+int Trainer::getSalary(){
+    int sum = 0;
+    for(OrderPair pair : orderList){
+        sum += pair.second.getPrice();
+    }
+    return sum;
+}
+bool Trainer::isOpen(){
+    return open;
+}
 

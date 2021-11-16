@@ -7,11 +7,13 @@
 
 class Customer{
 public:
+    static std::vector<Workout> &sorted_workout_options;
     Customer(std::string c_name, int c_id);
     virtual std::vector<int> order(const std::vector<Workout> &workout_options)=0;
     virtual std::string toString() const = 0;
     std::string getName() const;
     int getId() const;
+    virtual Customer* clone() const=0 ;
 private:
     const std::string name;
     const int id;
@@ -25,6 +27,7 @@ public:
     std::vector<int> order(const std::vector<Workout> &workout_options);
     std::string toString() const;
 private:
+    Customer *clone() const;
 };
 
 
@@ -34,6 +37,7 @@ public:
     std::vector<int> order(const std::vector<Workout> &workout_options);
     std::string toString() const;
 private:
+    Customer *clone() const;
 };
 
 
@@ -43,6 +47,7 @@ public:
     std::vector<int> order(const std::vector<Workout> &workout_options);
     std::string toString() const;
 private:
+    Customer *clone() const;
 };
 
 
@@ -52,6 +57,7 @@ public:
     std::vector<int> order(const std::vector<Workout> &workout_options);
     std::string toString() const;
 private:
+    Customer *clone() const;
 };
 
 
