@@ -40,7 +40,7 @@ std::string SweatyCustomer::toString() const{
     return this->getName() + ",swt";
 }
 Customer* SweatyCustomer::clone() const{
-    SweatyCustomer* swt = new SweatyCustomer(getName(), getId());
+    SweatyCustomer* swt = new SweatyCustomer(*this);
     return swt;
 }
 
@@ -55,7 +55,7 @@ std::string CheapCustomer::toString() const{
     return this->getName() + ",chp";
 }
 Customer* CheapCustomer::clone() const{
-    SweatyCustomer* chp = new SweatyCustomer(getName(), getId());
+    CheapCustomer* chp = new CheapCustomer(*this);
     return chp;
 }
 
@@ -72,7 +72,7 @@ std::string HeavyMuscleCustomer::toString() const{
     return this->getName() + ",mcl";
 }
 Customer* HeavyMuscleCustomer::clone() const{
-    HeavyMuscleCustomer* mcl = new HeavyMuscleCustomer(getName(), getId());
+    HeavyMuscleCustomer* mcl = new HeavyMuscleCustomer(*this);
     return mcl;
 }
 
@@ -103,6 +103,6 @@ std::string FullBodyCustomer::toString() const{
     return this->getName() + ",fbd";
 }
 Customer* FullBodyCustomer::clone() const{
-    FullBodyCustomer* fbd = new FullBodyCustomer(getName(), getId());
+    FullBodyCustomer* fbd = new FullBodyCustomer(*this);
     return fbd;
 }

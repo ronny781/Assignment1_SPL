@@ -14,13 +14,14 @@ public:
     std::string getName() const;
     int getPrice() const;
     WorkoutType getType() const;
+    std::string toString() const;
 private:
 	const int id;
     const std::string name;
     const int price;
     const WorkoutType type;
 
-    std::stringstream toString() const;
+
 };
 
 

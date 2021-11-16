@@ -57,6 +57,10 @@ std::string OpenTrainer::toString() const{
     std::string s = toString.str();
     return s;
 }
+BaseAction* OpenTrainer::clone() const{
+    OpenTrainer* op = new OpenTrainer(*this);
+    return op;
+}
 //private:
 //    const int trainerId;
 //    std::vector<Customer *> customers;
@@ -88,6 +92,10 @@ std::string Order::toString() const{
         toString << "order " << trainerId << " Error: " << getErrorMsg();
     std::string s = toString.str();
     return s;
+}
+BaseAction* Order::clone() const{
+    Order* ord = new Order(*this);
+    return ord;
 }
 //private:
 //    const int trainerId;
@@ -131,6 +139,10 @@ std::string MoveCustomer::toString() const{
     std::string s = toString.str();
     return s;
 }
+BaseAction* MoveCustomer::clone() const{
+    MoveCustomer* move= new MoveCustomer(*this);
+    return move;
+}
 //private:
 //    const int srcTrainer;
 //    const int dstTrainer;
@@ -161,10 +173,10 @@ std::string Close::toString() const{
     std::string s = toString.str();
     return s;
 }
-//private:
-//    const int trainerId;
-
-
+BaseAction* Close::clone() const{
+    Close* close= new Close(*this);
+    return close;
+}
 
 CloseAll::CloseAll(): BaseAction(){}
 void CloseAll::act(Studio &studio){
@@ -178,19 +190,27 @@ void CloseAll::act(Studio &studio){
 std::string CloseAll::toString() const{
     return "closeall Completed";
 }
-
+BaseAction* CloseAll::clone() const{
+    CloseAll* closeall= new CloseAll(*this);
+    return closeall;
+}
 PrintWorkoutOptions::PrintWorkoutOptions():BaseAction(){}
 void PrintWorkoutOptions::act(Studio &studio){
     vector<Workout> workout_option = studio.getWorkoutOptions();
+    std::stringstream toString;
     for(Workout wk: workout_option){
-        cout << wk.toString() << endl;
+        toString << wk.toString() << endl;
     }
+    std::string s = toString.str();
     complete();
 }
 std::string PrintWorkoutOptions::toString() const{
     return "workout_options Completed";
 }
-
+BaseAction* PrintWorkoutOptions::clone() const{
+    PrintWorkoutOptions* printoptions= new PrintWorkoutOptions(*this);
+    return printoptions;
+}
 
 PrintTrainerStatus::PrintTrainerStatus(int id) : trainerId(id),BaseAction(){} // What about checking if trainer exist??
 void PrintTrainerStatus::act(Studio &studio){
@@ -220,6 +240,10 @@ std::string PrintTrainerStatus::toString() const{
     std::string s = toString.str();
     return s;
 }
+BaseAction* PrintTrainerStatus::clone() const{
+    PrintTrainerStatus* printstatus= new PrintTrainerStatus(*this);
+    return printstatus;
+}
 //private:
 //    const int trainerId;
 
@@ -236,6 +260,10 @@ void PrintActionsLog::act(Studio &studio){
 std::string PrintActionsLog::toString() const{
     return "log Completed";
 }
+BaseAction* PrintActionsLog::clone() const{
+    PrintActionsLog* printactions= new PrintActionsLog(*this);
+    return printactions;
+}
 
 
 BackupStudio::BackupStudio():BaseAction(){ }
@@ -248,6 +276,10 @@ void BackupStudio::act(Studio &studio){
 }
 std::string BackupStudio::toString() const{
     return "backup Completed";
+}
+BaseAction* BackupStudio::clone() const{
+    BackupStudio* backup= new BackupStudio(*this);
+    return backup;
 }
 
 RestoreStudio::RestoreStudio():BaseAction(){}
@@ -267,4 +299,8 @@ std::string RestoreStudio::toString() const{
         toString << "restore " << "Error: " << getErrorMsg();
     std::string s = toString.str();
     return s;
+}
+BaseAction* RestoreStudio::clone() const{
+    RestoreStudio* restore= new RestoreStudio(*this);
+    return restore;
 }

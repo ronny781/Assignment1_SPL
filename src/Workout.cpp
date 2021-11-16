@@ -39,15 +39,16 @@ using namespace std;
     WorkoutType Workout::getType() const {
         return type;
     }
-    stringstream Workout::toString() const{
+    std::string Workout::toString() const{
         std::stringstream str;
         if (getType() == 0)
-            str << getName() << ", Anaerobic, " << getPrice();
+            str << getName() << ", Anaerobic, " << getPrice() << endl;
         if (getType() == 1)
-            str << getName() << ", Mixed, " << getPrice();
+            str << getName() << ", Mixed, " << getPrice() << endl;
         if (getType() == 2)
-            str << getName() << ", Cardio, " << getPrice();
-        return str;
+            str << getName() << ", Cardio, " << getPrice() << endl;
+        std::string s = str.str();
+        return s;
 
     };
 
