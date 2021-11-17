@@ -11,7 +11,7 @@
 using namespace std;
 
 
-static class StudioOperations {
+class StudioOperations {
 private:
     static bool byPrice(const Workout& a, const Workout& b) ;
 public:

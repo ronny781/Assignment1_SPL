@@ -9,10 +9,11 @@
 enum ActionStatus{
     COMPLETED, ERROR
 };
-extern Studio* backup;
+//extern Studio* backup;
 
 //Forward declaration
 class Studio;
+extern Studio* backup;
 
 class BaseAction{
 public:

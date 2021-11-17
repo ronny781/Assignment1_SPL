@@ -121,8 +121,8 @@ void MoveCustomer::act(Studio &studio){
                 indicesForDelete.push_back(i);
             }
         }
-        for(int indice : indicesForDelete)
-            srcList.erase(srcList.begin()+indice);
+//        for(int indice : indicesForDelete)
+//            srcList.erase(srcList.begin()+indice);
         complete();
 
     }
@@ -251,7 +251,7 @@ BaseAction* PrintTrainerStatus::clone() const{
 
 PrintActionsLog::PrintActionsLog():BaseAction(){}
 void PrintActionsLog::act(Studio &studio){
-    vector<BaseAction*> actionsLog = studio.getActionsLog();
+    const vector<BaseAction*> actionsLog = studio.getActionsLog();
     for(BaseAction* act : actionsLog){
         cout << act->toString() << endl;
     }
@@ -288,7 +288,7 @@ void RestoreStudio::act(Studio &studio){//Do we need to close our working studio
         error("No backup available");
         return;
     }
-    studio = backup; //Need to make sure no memory leak created here.
+    studio = *backup; //Need to make sure no memory leak created here.
     complete();
 }
 std::string RestoreStudio::toString() const{

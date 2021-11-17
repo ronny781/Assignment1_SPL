@@ -4,7 +4,7 @@
 
 #include <vector>
 #include "../include/Trainer.h"
-typedef std::pair<int, Workout> OrderPair;
+
 
 //class Trainer{
 //public:
@@ -40,7 +40,7 @@ Trainer::~Trainer() {
 Trainer::Trainer(const Trainer &other) {
     capacity = other.capacity;
     open = other.open;
-    orderList = other.orderList;
+//    orderList = other.orderList;
     for(Customer* cust:other.customersList){
         customersList.push_back(cust->clone());
     }
@@ -57,7 +57,7 @@ const Trainer& Trainer::operator=(const Trainer &other){
     customersList.clear();
     capacity = other.capacity;
     open = other.open;
-    orderList = other.orderList;
+//    orderList = other.orderList;
     for(Customer* cust:other.customersList){
         customersList.push_back(cust->clone());
     }
@@ -68,7 +68,7 @@ const Trainer& Trainer::operator=(const Trainer &other){
 Trainer::Trainer(Trainer &&other){
     capacity = other.capacity;
     open = other.open;
-    orderList = other.orderList;
+//    orderList = other.orderList;
     customersList = other.customersList;
     other.customersList.clear();
 }
@@ -83,7 +83,7 @@ const Trainer& Trainer::operator=(Trainer&& other){
     customersList.clear();
     capacity = other.capacity;
     open = other.open;
-    orderList = other.orderList;
+//    orderList = other.orderList;
     customersList = other.customersList;
     other.customersList.clear();
     return *this;
