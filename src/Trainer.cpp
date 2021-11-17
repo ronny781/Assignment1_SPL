@@ -48,18 +48,20 @@ Trainer::Trainer(const Trainer &other) {
 }
 //Copy Assignment Operator
 const Trainer& Trainer::operator=(const Trainer &other){
-    for(Customer* cust:customersList) {
-        if (cust) {
-            delete cust;
-            cust = nullptr;
+    if(this!=&other) {
+        for (Customer *cust: customersList) {
+            if (cust) {
+                delete cust;
+                cust = nullptr;
+            }
         }
-    }
-    customersList.clear();
-    capacity = other.capacity;
-    open = other.open;
+        customersList.clear();
+        capacity = other.capacity;
+        open = other.open;
 //    orderList = other.orderList;
-    for(Customer* cust:other.customersList){
-        customersList.push_back(cust->clone());
+        for (Customer *cust: other.customersList) {
+            customersList.push_back(cust->clone());
+        }
     }
     return *this;
 

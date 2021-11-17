@@ -3,13 +3,14 @@
 
 #include <vector>
 #include <string>
-#include "Workout.h"
+//#include "Workout.h"
 #include "Trainer.h"
 #include "Action.h"
 #include "StudioOperations.h"
 
 
 class Studio{
+
 public:
     virtual ~Studio();//Destructor
     Studio(const Studio &other);//Copy Constructor
@@ -21,8 +22,9 @@ public:
     void start();
     int getNumOfTrainers() const;
     Trainer* getTrainer(int tid);
-    const std::vector<BaseAction*>& getActionsLog() const; // Return a reference to the history of actions
+    const std::vector<BaseAction*>& getActionsLog() const;
     std::vector<Workout>& getWorkoutOptions();
+//    std::vector<Workout>& getWorkoutOptionsSorted();
     void trainersInitalizer(std::string & line); // added this myself
     void WorkOptionsInitalizer(std::string &line, int WorkoutIdCounter); // added this myself
 
@@ -31,6 +33,6 @@ private:
     std::vector<Trainer*> trainers;
     std::vector<Workout> workout_options;
     std::vector<BaseAction*> actionsLog;
+//    std::vector<Workout> sorted_workout_options;
 };
-
 #endif

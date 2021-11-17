@@ -22,7 +22,7 @@ std::string Customer::getName() const{
     return name;
 }
 int Customer::getId() const{
-    return getId();
+    return id;
 }
 
 SweatyCustomer::SweatyCustomer(std::string name, int id): Customer(name,id){}

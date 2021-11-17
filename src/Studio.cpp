@@ -24,48 +24,48 @@ using namespace std;
 //    std::vector<BaseAction*> actionsLog;
 //};
 
-    void Studio::trainersInitalizer(string &line){
-        int first = 0;
-     for(int i=1;i<line.size();i++){
-         if(line[i]!=','){
-             string s = line.substr(first,i-first);
-             trainers.push_back(new Trainer(std::stoi(s)));
-             first = i + 1;
-             cout << line[i] << std::endl;
+void Studio::trainersInitalizer(string &line){
+    int first = 0;
+    for(int i=1;i<line.size();i++){
+        if(line[i]!=','){
+            string s = line.substr(first,i-first);
+            trainers.push_back(new Trainer(std::stoi(s)));
+            first = i + 1;
+            cout << line[i] << std::endl;
 
-         }
-     }
- }
-    void Studio::WorkOptionsInitalizer(string &line, int WorkoutIdCounter){
-     std::vector<string> vect; //this code wont work without spaces!!
-     int first = 0;
-     for(int i=1;i<line.size();i++){
-         if(line[i]==','){
-             string s= line.substr(first,i-first);
-             vect.push_back(s);
-             std::cout << s<< std::endl;
-             first = i + 2;
-         }
-     }
-     vect.push_back(line.substr(first,line.size()));
-     std::cout << line.substr(first,line.size())<< std::endl;
-     std::cout << "vector is at " << vect.at(0) <<" "<< vect.at(1) << " " << vect.at(2) << " " <<std::endl;
-     int workType ;
-     if(vect.at(1)== "Anaerobic")
-         workType = 0;
-     else if(vect.at(1)== "Mixed")
-         workType = 1;
-     else if(vect.at(1)== "Cardio")
-         workType = 2;
+        }
+    }
+}
+void Studio::WorkOptionsInitalizer(string &line, int WorkoutIdCounter){
+    std::vector<string> vect; //this code wont work without spaces!!
+    int first = 0;
+    for(int i=1;i<line.size();i++){
+        if(line[i]==','){
+            string s= line.substr(first,i-first);
+            vect.push_back(s);
+            std::cout << s<< std::endl;
+            first = i + 2;
+        }
+    }
+    vect.push_back(line.substr(first,line.size()));
+    std::cout << line.substr(first,line.size())<< std::endl;
+    std::cout << "vector is at " << vect.at(0) <<" "<< vect.at(1) << " " << vect.at(2) << " " <<std::endl;
+    int workType ;
+    if(vect.at(1)== "Anaerobic")
+        workType = 0;
+    else if(vect.at(1)== "Mixed")
+        workType = 1;
+    else if(vect.at(1)== "Cardio")
+        workType = 2;
 
 //    Workout* w_k1 = new Workout(WorkoutIdCounter,vect.at(0),std::stoi(vect.at(2)),WorkoutType(workType));
-        workout_options.push_back(Workout(WorkoutIdCounter,vect.at(0),std::stoi(vect.at(2)),WorkoutType(workType)));
+    workout_options.push_back(Workout(WorkoutIdCounter,vect.at(0),std::stoi(vect.at(2)),WorkoutType(workType)));
 //     cout << w_k1->getId() << " " << w_k1->getName() << " " << w_k1->getPrice() << " " << w_k1->getType() << endl;
-        // we might need to check if we need to sort the list, if yes we should do it here.
+    // we might need to check if we need to sort the list, if yes we should do it here.
 //
- }
+}
 
-    Studio::Studio():open(false){}
+Studio::Studio():open(false){}
 
 
 Studio::Studio(const std::string &configFilePath){
@@ -150,28 +150,30 @@ Studio::Studio(const Studio &other){
 }
 //Copy Assignment Operator
 const Studio& Studio::operator=(const Studio &other) {
-    for (Trainer *trainer: trainers) {
-        if (trainer) {
-            delete trainer;
-            trainer = nullptr;
+    if(this!=&other){
+        for (Trainer *trainer: trainers) {
+            if (trainer) {
+                delete trainer;
+                trainer = nullptr;
+            }
+        }
+        trainers.clear();
+        for (BaseAction *action: actionsLog) {
+            if (action) {
+                delete action;
+                action = nullptr;
+            }
+        }
+        actionsLog.clear();
+        workout_options = other.workout_options;
+        for (Trainer *trainer: other.trainers) {
+            trainers.push_back(trainer);
+        }
+        for (BaseAction *action: other.actionsLog) {
+            actionsLog.push_back(action->clone());
         }
     }
-    trainers.clear();
-    for (BaseAction *action: actionsLog) {
-        if (action) {
-            delete action;
-            action = nullptr;
-        }
-    }
-    actionsLog.clear();
-    workout_options = other.workout_options;
-    for (Trainer *trainer: other.trainers) {
-        trainers.push_back(trainer);
-    }
-    for (BaseAction *action: other.actionsLog) {
-        actionsLog.push_back(action->clone());
-    }
-
+    return *this;
 }
 //Move Constructor
 Studio::Studio(Studio &&other){
@@ -207,7 +209,7 @@ const Studio& Studio::operator=(Studio&& other){
 
 void Studio::start(){
     cout << "Studio is now open!" << endl;
-    Customer::sorted_workout_options =StudioOperations::sortWorkoutsbyPrice(workout_options); //De we need another sorted one?
+    Customer::sorted_workout_options = StudioOperations::sortWorkoutsbyPrice(workout_options); //De we need another sorted one?
     string s;
 
     getline(cin,s);
@@ -324,3 +326,6 @@ const std::vector<BaseAction*>& Studio::getActionsLog() const{
 std::vector<Workout>& Studio::getWorkoutOptions(){
     return workout_options;
 }
+//std::vector<Workout>& Studio::getWorkoutOptionsSorted(){
+//    return sorted_workout_options;
+//}
