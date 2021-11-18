@@ -37,7 +37,7 @@ OpenTrainer::OpenTrainer(int id, std::vector<Customer *> &customersList):trainer
 void OpenTrainer::act(Studio &studio){
     Trainer* trainer = studio.getTrainer(trainerId);
 
-    if(trainer== nullptr || trainer->isOpen() || trainer->getCapacity() < customers.size()){
+    if(trainer== nullptr || trainer->isOpen() || !trainer->hasAvailableSpace()){
         // Action can't be completed
         error("Workout session does not exist or is already open.");
         cout << getErrorMsg() << endl; //Printing error
@@ -112,8 +112,8 @@ void MoveCustomer::act(Studio &studio){
        dstTra!= nullptr && dstTra->isOpen() &&
        srcTra->getCustomer(id)!= nullptr && dstTra->hasAvailableSpace()){
 //            SweatyCustomer p1 = *(srcTra->getCustomer(id));
-        dstTra->addCustomer(srcTra->getCustomer(id));
-        srcTra->moveCustomer(id); //Need to check if there is better solution!!!!
+        dstTra->addCustomer(srcTra->getCustomer(id)->clone());
+        srcTra->removeCustomer(id); //Need to check if there is better solution!!!!
 
         vector<OrderPair> srcList = srcTra->getOrders();
         vector<OrderPair> dstList = dstTra->getOrders();
@@ -124,8 +124,8 @@ void MoveCustomer::act(Studio &studio){
                 indicesForDelete.push_back(i);
             }
         }
-//        for(int indice : indicesForDelete)
-//            srcList.erase(srcList.begin()+indice);
+        for(int indice : indicesForDelete)
+            srcList.erase(srcList.begin()+indice);
         complete();
 
     }

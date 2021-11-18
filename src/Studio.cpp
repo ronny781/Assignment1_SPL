@@ -25,7 +25,7 @@ using namespace std;
 //};
 
 void Studio::trainersInitalizer(string &line){
-
+ //   trainers.push_back(new Trainer(-1));//Using this will assign index 1 to trainer 1.
     for(int i=0;i<line.size();i++){
         if(line[i]!=','){
             char c = line[i];
@@ -233,7 +233,7 @@ void Studio::start(){
                 }
             }
 
-            int cusCounter = 0;
+            int cusCounter = 1;
             for (int i = first; i < s.length(); i++) {
                 if (s[i] == ',') {
                     string name = s.substr(first, i - first);
@@ -297,7 +297,7 @@ void Studio::start(){
         else if(s.substr(0,3)=="lo"){
             BaseAction* log = new PrintActionsLog;
             log->act(*this);
-            actionsLog.push_back(log);
+//            actionsLog.push_back(log);
         }
         else if(s.substr(0,3)=="ba"){
             BaseAction* backup = new BackupStudio;
@@ -323,7 +323,7 @@ int Studio::getNumOfTrainers() const{
 }
 
 Trainer* Studio::getTrainer(int tid){
-    return tid >= trainers.size() ? nullptr : trainers[tid];
+    return tid > getNumOfTrainers() ? nullptr : trainers[tid];
 }
 const std::vector<BaseAction*>& Studio::getActionsLog() const{
     return  actionsLog;
