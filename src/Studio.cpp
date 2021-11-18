@@ -233,7 +233,7 @@ void Studio::start(){
                 }
             }
 
-            int cusCounter = 1;
+            int cusCounter = 0;
             for (int i = first; i < s.length(); i++) {
                 if (s[i] == ',') {
                     string name = s.substr(first, i - first);
@@ -259,26 +259,26 @@ void Studio::start(){
                 }
             }
 
-            BaseAction* open = new OpenTrainer(trainerId-1,cusList);
+            BaseAction* open = new OpenTrainer(trainerId,cusList);
             open->act(*this);
             actionsLog.push_back(open);
         }
         if(s.substr(0,2)=="or"){// order
             int trainerId = s[6] - '0';
-            BaseAction* order = new Order(trainerId-1);
+            BaseAction* order = new Order(trainerId);
             order->act(*this);
             actionsLog.push_back(order);
         }
         else if(s.substr(0,2)=="st"){// status
             int trainerId = s[7] - '0';
-            BaseAction* status = new PrintTrainerStatus(trainerId-1);
+            BaseAction* status = new PrintTrainerStatus(trainerId);
             status->act(*this);
             actionsLog.push_back(status);
         }
         else if(s.substr(0,2)=="mo"){// move
             int customer = s[9]- '0';
-            int OriginalTrainer = s[5] - '0' - 1;
-            int dstTrainer = s[7] - '0' - 1;;
+            int OriginalTrainer = s[5] - '0';
+            int dstTrainer = s[7] - '0' ;
             BaseAction* move = new MoveCustomer(OriginalTrainer, dstTrainer, customer);
             move->act(*this);
             // need to close session if there no customers left
@@ -291,7 +291,7 @@ void Studio::start(){
         }
         else if(s.substr(0,2)=="cl"){// close
             int trainerId = s[6] - '0';
-            BaseAction* close = new Close(trainerId-1);
+            BaseAction* close = new Close(trainerId);
             close->act(*this);
             actionsLog.push_back(close);
         }

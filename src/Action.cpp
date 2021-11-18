@@ -225,9 +225,9 @@ PrintTrainerStatus::PrintTrainerStatus(int id) : trainerId(id),BaseAction(){} //
 void PrintTrainerStatus::act(Studio &studio){
     Trainer* trainer = studio.getTrainer(trainerId);
     if(trainer->isOpen())
-        cout << "Trainer" << trainerId+1 << " status: " << "open" << endl;
+        cout << "Trainer" << trainerId << " status: " << "open" << endl;
     else{
-        cout << "Trainer" << trainerId+1 << " status: " << "closed" << endl;
+        cout << "Trainer" << trainerId << " status: " << "closed" << endl;
         return;
     }
     cout << "Customers:" << endl;
