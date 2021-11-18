@@ -8,38 +8,38 @@
 		<Option virtualFolders="CMake Files\;"/>
 		<Build>
 			<Target title="all">
-				<Option working_dir="/home/lioralon/CLionProjects/Assignment1_SPL2/cmake-build-debug"/>
+				<Option working_dir="/home/ronnypc/CLionProjects/Assignment1_SPL4/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j6 -f &quot;/home/lioralon/CLionProjects/Assignment1_SPL2/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
-					<CompileFile command="/usr/bin/make -j6 -f &quot;/home/lioralon/CLionProjects/Assignment1_SPL2/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j6 -f &quot;/home/lioralon/CLionProjects/Assignment1_SPL2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j6 -f &quot;/home/lioralon/CLionProjects/Assignment1_SPL2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/ronnypc/CLionProjects/Assignment1_SPL4/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/ronnypc/CLionProjects/Assignment1_SPL4/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/ronnypc/CLionProjects/Assignment1_SPL4/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/ronnypc/CLionProjects/Assignment1_SPL4/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="edit_cache">
-				<Option working_dir="/home/lioralon/CLionProjects/Assignment1_SPL2/cmake-build-debug"/>
+				<Option working_dir="/home/ronnypc/CLionProjects/Assignment1_SPL4/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j6 -f &quot;/home/lioralon/CLionProjects/Assignment1_SPL2/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
-					<CompileFile command="/usr/bin/make -j6 -f &quot;/home/lioralon/CLionProjects/Assignment1_SPL2/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j6 -f &quot;/home/lioralon/CLionProjects/Assignment1_SPL2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j6 -f &quot;/home/lioralon/CLionProjects/Assignment1_SPL2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/ronnypc/CLionProjects/Assignment1_SPL4/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/ronnypc/CLionProjects/Assignment1_SPL4/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/ronnypc/CLionProjects/Assignment1_SPL4/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/ronnypc/CLionProjects/Assignment1_SPL4/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="rebuild_cache">
-				<Option working_dir="/home/lioralon/CLionProjects/Assignment1_SPL2/cmake-build-debug"/>
+				<Option working_dir="/home/ronnypc/CLionProjects/Assignment1_SPL4/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j6 -f &quot;/home/lioralon/CLionProjects/Assignment1_SPL2/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
-					<CompileFile command="/usr/bin/make -j6 -f &quot;/home/lioralon/CLionProjects/Assignment1_SPL2/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j6 -f &quot;/home/lioralon/CLionProjects/Assignment1_SPL2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j6 -f &quot;/home/lioralon/CLionProjects/Assignment1_SPL2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/ronnypc/CLionProjects/Assignment1_SPL4/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/ronnypc/CLionProjects/Assignment1_SPL4/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/ronnypc/CLionProjects/Assignment1_SPL4/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/ronnypc/CLionProjects/Assignment1_SPL4/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="Hello">
-				<Option output="/home/lioralon/CLionProjects/Assignment1_SPL2/cmake-build-debug/Hello" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/lioralon/CLionProjects/Assignment1_SPL2/cmake-build-debug"/>
+				<Option output="/home/ronnypc/CLionProjects/Assignment1_SPL4/cmake-build-debug/Hello" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/ronnypc/CLionProjects/Assignment1_SPL4/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -53,15 +53,15 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j6 -f &quot;/home/lioralon/CLionProjects/Assignment1_SPL2/cmake-build-debug/Makefile&quot;  VERBOSE=1 Hello"/>
-					<CompileFile command="/usr/bin/make -j6 -f &quot;/home/lioralon/CLionProjects/Assignment1_SPL2/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j6 -f &quot;/home/lioralon/CLionProjects/Assignment1_SPL2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j6 -f &quot;/home/lioralon/CLionProjects/Assignment1_SPL2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/ronnypc/CLionProjects/Assignment1_SPL4/cmake-build-debug/Makefile&quot;  VERBOSE=1 Hello"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/ronnypc/CLionProjects/Assignment1_SPL4/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/ronnypc/CLionProjects/Assignment1_SPL4/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/ronnypc/CLionProjects/Assignment1_SPL4/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="Hello/fast">
-				<Option output="/home/lioralon/CLionProjects/Assignment1_SPL2/cmake-build-debug/Hello" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/lioralon/CLionProjects/Assignment1_SPL2/cmake-build-debug"/>
+				<Option output="/home/ronnypc/CLionProjects/Assignment1_SPL4/cmake-build-debug/Hello" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/ronnypc/CLionProjects/Assignment1_SPL4/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -75,53 +75,47 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j6 -f &quot;/home/lioralon/CLionProjects/Assignment1_SPL2/cmake-build-debug/Makefile&quot;  VERBOSE=1 Hello/fast"/>
-					<CompileFile command="/usr/bin/make -j6 -f &quot;/home/lioralon/CLionProjects/Assignment1_SPL2/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j6 -f &quot;/home/lioralon/CLionProjects/Assignment1_SPL2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j6 -f &quot;/home/lioralon/CLionProjects/Assignment1_SPL2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/ronnypc/CLionProjects/Assignment1_SPL4/cmake-build-debug/Makefile&quot;  VERBOSE=1 Hello/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/ronnypc/CLionProjects/Assignment1_SPL4/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/ronnypc/CLionProjects/Assignment1_SPL4/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/ronnypc/CLionProjects/Assignment1_SPL4/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/home/lioralon/CLionProjects/Assignment1_SPL2/include/Action.h">
+		<Unit filename="/home/ronnypc/CLionProjects/Assignment1_SPL4/include/Action.h">
 			<Option target="Hello"/>
 		</Unit>
-		<Unit filename="/home/lioralon/CLionProjects/Assignment1_SPL2/include/Customer.h">
+		<Unit filename="/home/ronnypc/CLionProjects/Assignment1_SPL4/include/Customer.h">
 			<Option target="Hello"/>
 		</Unit>
-		<Unit filename="/home/lioralon/CLionProjects/Assignment1_SPL2/include/Studio.h">
+		<Unit filename="/home/ronnypc/CLionProjects/Assignment1_SPL4/include/Studio.h">
 			<Option target="Hello"/>
 		</Unit>
-		<Unit filename="/home/lioralon/CLionProjects/Assignment1_SPL2/include/StudioOperations.h">
+		<Unit filename="/home/ronnypc/CLionProjects/Assignment1_SPL4/include/Trainer.h">
 			<Option target="Hello"/>
 		</Unit>
-		<Unit filename="/home/lioralon/CLionProjects/Assignment1_SPL2/include/Trainer.h">
+		<Unit filename="/home/ronnypc/CLionProjects/Assignment1_SPL4/include/Workout.h">
 			<Option target="Hello"/>
 		</Unit>
-		<Unit filename="/home/lioralon/CLionProjects/Assignment1_SPL2/include/Workout.h">
+		<Unit filename="/home/ronnypc/CLionProjects/Assignment1_SPL4/src/Action.cpp">
 			<Option target="Hello"/>
 		</Unit>
-		<Unit filename="/home/lioralon/CLionProjects/Assignment1_SPL2/src/Action.cpp">
+		<Unit filename="/home/ronnypc/CLionProjects/Assignment1_SPL4/src/Customer.cpp">
 			<Option target="Hello"/>
 		</Unit>
-		<Unit filename="/home/lioralon/CLionProjects/Assignment1_SPL2/src/Customer.cpp">
+		<Unit filename="/home/ronnypc/CLionProjects/Assignment1_SPL4/src/Studio.cpp">
 			<Option target="Hello"/>
 		</Unit>
-		<Unit filename="/home/lioralon/CLionProjects/Assignment1_SPL2/src/Studio.cpp">
+		<Unit filename="/home/ronnypc/CLionProjects/Assignment1_SPL4/src/Trainer.cpp">
 			<Option target="Hello"/>
 		</Unit>
-		<Unit filename="/home/lioralon/CLionProjects/Assignment1_SPL2/src/StudioOperations.cpp">
+		<Unit filename="/home/ronnypc/CLionProjects/Assignment1_SPL4/src/Workout.cpp">
 			<Option target="Hello"/>
 		</Unit>
-		<Unit filename="/home/lioralon/CLionProjects/Assignment1_SPL2/src/Trainer.cpp">
+		<Unit filename="/home/ronnypc/CLionProjects/Assignment1_SPL4/src/main.cpp">
 			<Option target="Hello"/>
 		</Unit>
-		<Unit filename="/home/lioralon/CLionProjects/Assignment1_SPL2/src/Workout.cpp">
-			<Option target="Hello"/>
-		</Unit>
-		<Unit filename="/home/lioralon/CLionProjects/Assignment1_SPL2/src/main.cpp">
-			<Option target="Hello"/>
-		</Unit>
-		<Unit filename="/home/lioralon/CLionProjects/Assignment1_SPL2/CMakeLists.txt">
+		<Unit filename="/home/ronnypc/CLionProjects/Assignment1_SPL4/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
 	</Project>

@@ -33,6 +33,7 @@ void Studio::trainersInitalizer(string &line){
 //            cout << cNum << endl;
 
             trainers.push_back(new Trainer(cNum));
+
         }
     }
 }
@@ -43,7 +44,7 @@ void Studio::WorkOptionsInitalizer(string &line, int WorkoutIdCounter){
         if(line[i]==','){
             string s= line.substr(first,i-first);
             vect.push_back(s);
-//            std::cout << s<< std::endl;
+            std::cout << s<< std::endl;
             first = i + 2;
         }
     }
@@ -60,7 +61,7 @@ void Studio::WorkOptionsInitalizer(string &line, int WorkoutIdCounter){
 
 //    Workout* w_k1 = new Workout(WorkoutIdCounter,vect.at(0),std::stoi(vect.at(2)),WorkoutType(workType));
     workout_options.push_back(Workout(WorkoutIdCounter,vect.at(0),std::stoi(vect.at(2)),WorkoutType(workType)));
-//     cout << w_k1->getId() << " " << w_k1->getName() << " " << w_k1->getPrice() << " " << w_k1->getType() << endl;
+
     // we might need to check if we need to sort the list, if yes we should do it here.
 //
 }
@@ -243,40 +244,44 @@ void Studio::start(){
                     else if (type == "chp")
                         cusList.push_back(new CheapCustomer(name,cusCounter));
 //                            cout << name << " " << type << cusCounter << endl;
-                    else if (type == "fbd")
-                        cusList.push_back(new FullBodyCustomer(name,cusCounter));
+                    else if (type == "fbd"){
+                        Customer* cus  = new FullBodyCustomer(name,cusCounter);
+                        cusList.push_back(cus);
+                        cout << cus->toString();
+                }
 //                            cout << name << " " << type << cusCounter << endl;
                     cusCounter++;
                     i += 3;
                     first = i + 2;
                 }
             }
+
             BaseAction* open = new OpenTrainer(trainerId,cusList);
             open->act(*this);
             actionsLog.push_back(open);
         }
         if(s.substr(0,2)=="or"){// order
-            int trainerId = s[6];
+            int trainerId = s[6] - '0';
             BaseAction* order = new Order(trainerId);
             order->act(*this);
             actionsLog.push_back(order);
         }
         if(s.substr(0,2)=="st"){// status
-            int trainerId = s[7];
+            int trainerId = s[7] - '0';
             BaseAction* status = new PrintTrainerStatus(trainerId);
             status->act(*this);
             actionsLog.push_back(status);
         }
         if(s.substr(0,2)=="mo"){// move
             int customer = s[5];
-            int OriginalTrainer = s[7];
+            int OriginalTrainer = s[7] - '0';
             int newTrainer = s[9];
             BaseAction* move = new MoveCustomer(OriginalTrainer, newTrainer, customer);
             move->act(*this);
             actionsLog.push_back(move);
         }
         if(s.substr(0,2)=="cl"){// close
-            int trainerId = s[6];
+            int trainerId = s[6] - '0';
             BaseAction* close = new Close(trainerId);
             close->act(*this);
             actionsLog.push_back(close);

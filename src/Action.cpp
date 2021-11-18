@@ -32,10 +32,12 @@ std::string BaseAction::getErrorMsg() const{
 
 OpenTrainer::OpenTrainer(int id, std::vector<Customer *> &customersList):trainerId(id), customers(customersList), BaseAction() { //need to add rule of 5
     //this opens session
+
 }
 void OpenTrainer::act(Studio &studio){
     Trainer* trainer = studio.getTrainer(trainerId);
-    if(trainer== nullptr || !trainer->isOpen() || trainer->getCapacity() < customers.size()){
+
+    if(trainer== nullptr || trainer->isOpen() || trainer->getCapacity() < customers.size()){
         // Action can't be completed
         error("Workout session does not exist or is already open.");
         cout << getErrorMsg() << endl; //Printing error
@@ -71,6 +73,7 @@ void Order::act(Studio &studio){
     Trainer* trainer = studio.getTrainer(trainerId);
     if(trainer== nullptr || !trainer->isOpen()){
         error("Workout session does not exist or is already open.");
+        cout << getErrorMsg() << endl; //Printing error
         return;
     }
     vector<Customer*> customerList = trainer->getCustomers();
@@ -128,6 +131,7 @@ void MoveCustomer::act(Studio &studio){
     }
     else{
         error("Cannot move customer");
+        cout << getErrorMsg() << endl; //Printing error
     }
 }
 std::string MoveCustomer::toString() const{
@@ -153,6 +157,7 @@ void Close::act(Studio &studio){
     Trainer* trainer = studio.getTrainer(trainerId);
     if(trainer== nullptr || !trainer->isOpen()){
         error("Workout session does not exist or is already open.");
+        cout << getErrorMsg() << endl; //Printing error
         return;
     }
     for(Customer* cus : trainer->getCustomers()){ // Wonder if that works because I delete from my iterable.
@@ -229,7 +234,7 @@ void PrintTrainerStatus::act(Studio &studio){
     cout << "Orders:" << endl;
     vector<OrderPair> orders = trainer->getOrders();
     for(OrderPair pair : orders){
-        cout << pair.second.getName() << " " << pair.second.getPrice() << "NIS " << pair.first;
+        cout << pair.second.getName() << " " << pair.second.getPrice() << "NIS " << pair.first << endl;
     }
     cout << "Current Trainer's Salary: " << trainer->getSalary() << "NIS " << endl;
     complete();
@@ -286,6 +291,7 @@ RestoreStudio::RestoreStudio():BaseAction(){}
 void RestoreStudio::act(Studio &studio){//Do we need to close our working studio first?
     if(backup== nullptr){
         error("No backup available");
+        cout << getErrorMsg() << endl; //Printing error
         return;
     }
     studio = *backup; //Need to make sure no memory leak created here.

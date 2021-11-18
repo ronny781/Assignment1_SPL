@@ -48,19 +48,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /home/lioralon/Downloads/clion-2021.2.3/bin/cmake/linux/bin/cmake
+CMAKE_COMMAND = /home/ronnypc/Desktop/clion/bin/cmake/linux/bin/cmake
 
 # The command to remove a file.
-RM = /home/lioralon/Downloads/clion-2021.2.3/bin/cmake/linux/bin/cmake -E rm -f
+RM = /home/ronnypc/Desktop/clion/bin/cmake/linux/bin/cmake -E rm -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/lioralon/CLionProjects/Assignment1_SPL2
+CMAKE_SOURCE_DIR = /home/ronnypc/CLionProjects/Assignment1_SPL4
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/lioralon/CLionProjects/Assignment1_SPL2/cmake-build-debug
+CMAKE_BINARY_DIR = /home/ronnypc/CLionProjects/Assignment1_SPL4/cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -68,7 +68,7 @@ CMAKE_BINARY_DIR = /home/lioralon/CLionProjects/Assignment1_SPL2/cmake-build-deb
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/home/lioralon/Downloads/clion-2021.2.3/bin/cmake/linux/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+	/home/ronnypc/Desktop/clion/bin/cmake/linux/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -78,7 +78,7 @@ edit_cache/fast: edit_cache
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/home/lioralon/Downloads/clion-2021.2.3/bin/cmake/linux/bin/cmake --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/home/ronnypc/Desktop/clion/bin/cmake/linux/bin/cmake --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -87,9 +87,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/lioralon/CLionProjects/Assignment1_SPL2/cmake-build-debug/CMakeFiles /home/lioralon/CLionProjects/Assignment1_SPL2/cmake-build-debug//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ronnypc/CLionProjects/Assignment1_SPL4/cmake-build-debug/CMakeFiles /home/ronnypc/CLionProjects/Assignment1_SPL4/cmake-build-debug//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/lioralon/CLionProjects/Assignment1_SPL2/cmake-build-debug/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ronnypc/CLionProjects/Assignment1_SPL4/cmake-build-debug/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -201,30 +201,6 @@ src/Studio.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Hello.dir/build.make CMakeFiles/Hello.dir/src/Studio.cpp.s
 .PHONY : src/Studio.cpp.s
 
-src/StudioOperations.o: src/StudioOperations.cpp.o
-.PHONY : src/StudioOperations.o
-
-# target to build an object file
-src/StudioOperations.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Hello.dir/build.make CMakeFiles/Hello.dir/src/StudioOperations.cpp.o
-.PHONY : src/StudioOperations.cpp.o
-
-src/StudioOperations.i: src/StudioOperations.cpp.i
-.PHONY : src/StudioOperations.i
-
-# target to preprocess a source file
-src/StudioOperations.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Hello.dir/build.make CMakeFiles/Hello.dir/src/StudioOperations.cpp.i
-.PHONY : src/StudioOperations.cpp.i
-
-src/StudioOperations.s: src/StudioOperations.cpp.s
-.PHONY : src/StudioOperations.s
-
-# target to generate assembly for a file
-src/StudioOperations.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Hello.dir/build.make CMakeFiles/Hello.dir/src/StudioOperations.cpp.s
-.PHONY : src/StudioOperations.cpp.s
-
 src/Trainer.o: src/Trainer.cpp.o
 .PHONY : src/Trainer.o
 
@@ -315,9 +291,6 @@ help:
 	@echo "... src/Studio.o"
 	@echo "... src/Studio.i"
 	@echo "... src/Studio.s"
-	@echo "... src/StudioOperations.o"
-	@echo "... src/StudioOperations.i"
-	@echo "... src/StudioOperations.s"
 	@echo "... src/Trainer.o"
 	@echo "... src/Trainer.i"
 	@echo "... src/Trainer.s"
