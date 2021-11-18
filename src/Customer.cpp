@@ -100,28 +100,34 @@ bool byPrice(const Workout& a, const Workout& b){
 FullBodyCustomer::FullBodyCustomer(std::string name, int id): Customer(name,id){}
 std::vector<int> FullBodyCustomer::order(const std::vector<Workout> &workout_options) {
     vector<int> fbd;
-    vector<Workout> sorted(workout_options);
-    sort(begin(sorted), end(sorted), byType);
-    int minCardio = std::numeric_limits<int>::max();
+    int minCardio = INT32_MAX;
     int maxMixed = 0;
-    int minAnaerobic = std::numeric_limits<int>::max();
-    for (auto it = end(sorted); it != begin(sorted); it--) {
-        if (it->getType() == CARDIO && it->getPrice() < minCardio) {
-            fbd.pop_back();
-            fbd.push_back(it->getId());
-            minCardio = it->getPrice();
+    int minAnaerobic = INT32_MAX;
+    int cardioId = -1;
+    int mixedId = -1;
+    int aerobicId = -1;
+
+    for (int i = 0 ; i < workout_options.size(); i++) {
+//        Workout wk1 = workout_options[i];
+        if (workout_options[i].getType() == CARDIO && workout_options[i].getPrice()  < minCardio) {
+            minCardio =  workout_options[i].getPrice();
+            cardioId = workout_options[i].getId();
         }
-        if (it->getType() == MIXED && it->getPrice() > maxMixed) {
-            fbd.pop_back();
-            fbd.push_back(it->getId());
-            maxMixed = it->getPrice();
+        else if (workout_options[i].getType()  == MIXED && workout_options[i].getPrice()  > maxMixed) {
+            maxMixed =  workout_options[i].getPrice();
+            mixedId = workout_options[i].getId();
         }
-        if (it->getType() == ANAEROBIC && it->getPrice() < minAnaerobic) {
-            fbd.pop_back();
-            fbd.push_back(it->getId());
-            minAnaerobic = it->getPrice();
+        else if (workout_options[i].getType() == ANAEROBIC && workout_options[i].getPrice() < minAnaerobic) {
+            minAnaerobic = workout_options[i].getPrice();
+            aerobicId = workout_options[i].getId();
         }
     }
+    if(cardioId != -1)
+        fbd.push_back(cardioId);
+    if(mixedId!=-1)
+        fbd.push_back(mixedId);
+    if(aerobicId != -1)
+        fbd.push_back(aerobicId);
     return fbd;
 }
 std::string FullBodyCustomer::toString() const {

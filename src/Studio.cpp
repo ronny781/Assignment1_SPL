@@ -213,6 +213,7 @@ void Studio::start(){
 
     getline(cin,s);
     while(true){
+        int cusCounter = 0;
         if(s == "closeall") {
             BaseAction* act = new CloseAll();
             act->act(*this);
@@ -233,7 +234,7 @@ void Studio::start(){
                 }
             }
 
-            int cusCounter = 0;
+
             for (int i = first; i < s.length(); i++) {
                 if (s[i] == ',') {
                     string name = s.substr(first, i - first);
@@ -248,9 +249,8 @@ void Studio::start(){
                         cusList.push_back(new CheapCustomer(name,cusCounter));
 //                            cout << name << " " << type << cusCounter << endl;
                     else if (type == "fbd"){
-                        Customer* cus  = new FullBodyCustomer(name,cusCounter);
-                        cusList.push_back(cus);
-                        cout << cus->toString();
+                        cusList.push_back(new FullBodyCustomer(name,cusCounter));
+//                        cout << cus->toString();
                 }
 //                            cout << name << " " << type << cusCounter << endl;
                     cusCounter++;
