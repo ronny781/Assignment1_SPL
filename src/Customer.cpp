@@ -2,6 +2,8 @@
 //
 #include "../include/Customer.h"
 #include <algorithm>
+#include <limits>
+
 
 using namespace std;
 //class Customer{
@@ -28,7 +30,7 @@ int Customer::getId() const{
 SweatyCustomer::SweatyCustomer(std::string name, int id): Customer(name,id){}
 std::vector<int> SweatyCustomer::order(const std::vector<Workout> &workout_options){
     vector<int> swt;
-    for(auto it=end(sorted_workout_options);it != begin(sorted_workout_options);it--){
+    for(auto it=begin(workout_options);it != end(workout_options);it++){
         if(it->getType() == 2){
             swt.push_back(it->getId());
         }
@@ -47,7 +49,21 @@ Customer* SweatyCustomer::clone() const{
 CheapCustomer::CheapCustomer(std::string name, int id): Customer(name,id){}
 std::vector<int> CheapCustomer::order(const std::vector<Workout> &workout_options){
     vector<int> chp;
-    chp.push_back(sorted_workout_options[0].getId());
+    int minPrice = 0;
+    for (auto it= begin(workout_options);it != end(workout_options); it++) {
+        if (it->getType() == 2) {
+            if(minPrice == 0) {
+                chp.push_back(it->getId());
+                minPrice = it->getPrice();
+            }
+            else {
+                if(it->getPrice() < minPrice) {
+                    minPrice = it->getPrice();
+                    chp[0] = it->getId();
+                }
+            }
+        }
+    }
     return chp;
 }
 std::string CheapCustomer::toString() const{
@@ -58,10 +74,13 @@ Customer* CheapCustomer::clone() const{
     return chp;
 }
 
+
 HeavyMuscleCustomer::HeavyMuscleCustomer(std::string name, int id): Customer(name,id){}
 std::vector<int> HeavyMuscleCustomer::order(const std::vector<Workout> &workout_options){
     vector<int> mcl;
-    for(auto it=end(sorted_workout_options);it != begin(sorted_workout_options);it--){
+    vector<Workout> sorted(workout_options);
+    sort(begin(sorted), end(sorted), byPrice);
+    for(auto it=end(sorted);it != begin(sorted);it--){
         if(it->getType() == 0)
             mcl.push_back(it->getId());
     }
@@ -74,34 +93,45 @@ Customer* HeavyMuscleCustomer::clone() const{
     HeavyMuscleCustomer* mcl = new HeavyMuscleCustomer(*this);
     return mcl;
 }
+bool byPrice(const Workout& a, const Workout& b){
+    return a.getPrice() < b.getPrice();
+}
 
 FullBodyCustomer::FullBodyCustomer(std::string name, int id): Customer(name,id){}
-std::vector<int> FullBodyCustomer::order(const std::vector<Workout> &workout_options){
+std::vector<int> FullBodyCustomer::order(const std::vector<Workout> &workout_options) {
     vector<int> fbd;
-    for(auto it=begin(sorted_workout_options);it != end(sorted_workout_options);it++) {
-        if(it->getType() == 2){
+    vector<Workout> sorted(workout_options);
+    sort(begin(sorted), end(sorted), byType);
+    int minCardio = std::numeric_limits<int>::max();
+    int maxMixed = 0;
+    int minAnaerobic = std::numeric_limits<int>::max();
+    for (auto it = end(sorted); it != begin(sorted); it--) {
+        if (it->getType() == CARDIO && it->getPrice() < minCardio) {
+            fbd.pop_back();
             fbd.push_back(it->getId());
-            break;
+            minCardio = it->getPrice();
         }
-    }
-    for(auto it=end(sorted_workout_options);it != begin(sorted_workout_options);it--){
-        if(it->getType() == 1) {
+        if (it->getType() == MIXED && it->getPrice() > maxMixed) {
+            fbd.pop_back();
             fbd.push_back(it->getId());
-            break;
+            maxMixed = it->getPrice();
         }
-    }
-    for(auto it=begin(sorted_workout_options);it != end(sorted_workout_options);it++) {
-        if(it->getType() == 0){
+        if (it->getType() == ANAEROBIC && it->getPrice() < minAnaerobic) {
+            fbd.pop_back();
             fbd.push_back(it->getId());
-            break;
+            minAnaerobic = it->getPrice();
         }
     }
     return fbd;
 }
-std::string FullBodyCustomer::toString() const{
+std::string FullBodyCustomer::toString() const {
     return this->getName() + ",fbd";
 }
-Customer* FullBodyCustomer::clone() const{
-    FullBodyCustomer* fbd = new FullBodyCustomer(*this);
+Customer *FullBodyCustomer::clone() const {
+    FullBodyCustomer *fbd = new FullBodyCustomer(*this);
     return fbd;
 }
+bool byType(const Workout &a, const Workout &b) {
+    return a.getType() < b.getType();
+}
+

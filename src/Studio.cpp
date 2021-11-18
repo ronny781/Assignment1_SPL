@@ -2,7 +2,7 @@
 #include <fstream>
 #include <vector>
 #include "../include/Studio.h"
-#include "../include/StudioOperations.h"
+//#include "../include/StudioOperations.h"
 
 
 using namespace std;
@@ -209,7 +209,7 @@ const Studio& Studio::operator=(Studio&& other){
 
 void Studio::start(){
     cout << "Studio is now open!" << endl;
-    Customer::sorted_workout_options = StudioOperations::sortWorkoutsbyPrice(workout_options); //De we need another sorted one?
+    open = true;
     string s;
 
     getline(cin,s);

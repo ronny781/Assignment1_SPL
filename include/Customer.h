@@ -49,6 +49,9 @@ public:
 private:
     Customer *clone() const;
 };
+bool byPrice(const Workout &a, const Workout &b);
+bool byType(const Workout &a, const Workout &b);
+
 
 
 class FullBodyCustomer : public Customer {

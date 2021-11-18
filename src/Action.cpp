@@ -9,9 +9,9 @@
 #include <string>
 using namespace std;
 
-BaseAction::BaseAction(){
-    errorMsg = nullptr;
-}
+BaseAction::BaseAction():errorMsg(""){}
+
+
 ActionStatus BaseAction::getStatus() const{
     return status;
 }
