@@ -48,8 +48,8 @@ void Studio::WorkOptionsInitalizer(string &line, int WorkoutIdCounter){
         }
     }
     vect.push_back(line.substr(first,line.size()));
-    std::cout << line.substr(first,line.size())<< std::endl;
-    std::cout << "vector is at " << vect.at(0) <<" "<< vect.at(1) << " " << vect.at(2) << " " <<std::endl;
+//    std::cout << line.substr(first,line.size())<< std::endl;
+//    std::cout << "vector is at " << vect.at(0) <<" "<< vect.at(1) << " " << vect.at(2) << " " <<std::endl;
     int workType ;
     if(vect.at(1)== "Anaerobic")
         workType = 0;

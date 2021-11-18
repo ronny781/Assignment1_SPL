@@ -50,4 +50,8 @@ std::string Workout::toString() const{
     std::string s = str.str();
     return s;
 
+}
+
+Workout &Workout::operator=(const Workout &) {
+    return *this;
 };

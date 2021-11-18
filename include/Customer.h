@@ -21,6 +21,7 @@ private:
 };
 
 
+
 class SweatyCustomer : public Customer {
 public:
     SweatyCustomer(std::string name, int id);

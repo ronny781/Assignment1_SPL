@@ -38,12 +38,12 @@
 #	rm -f bin/*
 #
 # All Targets
-all: bin/studio config
+all: clean bin/studio config
 
-bin/studio: bin/main.o bin/Customer.o bin/Workout.o bin/Trainer.o bin/Workout.o bin/Action.o bin/Studio.o bin/StudioOperations.o
+bin/studio: bin/main.o bin/Customer.o bin/Workout.o bin/Trainer.o bin/Workout.o bin/Action.o bin/Studio.o
 	@echo 'Building target: main'
 	@echo 'Invoking: C++ Linker'
-	g++ -o bin/studio bin/main.o bin/Customer.o bin/Workout.o bin/Trainer.o bin/Action.o bin/StudioOperations.o bin/Studio.o
+	g++ -o bin/studio bin/main.o bin/Customer.o bin/Workout.o bin/Trainer.o bin/Action.o bin/Studio.o
 	@echo 'Finished building target: main'
 	@echo ' '
 
@@ -62,8 +62,6 @@ bin/Workout.o: src/Workout.cpp
 bin/Action.o: src/Action.cpp
 	g++ -g -Wall -Weffc++ -std=c++11 -c -Iinclude -o bin/Action.o src/Action.cpp
 
-bin/StudioOperations.o: src/StudioOperations.cpp
-	g++ -g -Wall -Weffc++ -std=c++11 -c -Iinclude -o bin/StudioOperations.o src/StudioOperations.cpp
 bin/Studio.o: src/Studio.cpp
 	g++ -g -Wall -Weffc++ -std=c++11 -c -Iinclude -o bin/Studio.o src/Studio.cpp
 
