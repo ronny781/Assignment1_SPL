@@ -98,7 +98,7 @@ int Trainer::getCapacity() const{
     return capacity;
 }
 void Trainer::addCustomer(Customer* customer){
-    if(!isOpen() && hasAvailableSpace())
+    if(hasAvailableSpace())
         customersList.push_back(customer);
 }
 
