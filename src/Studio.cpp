@@ -25,14 +25,14 @@ using namespace std;
 //};
 
 void Studio::trainersInitalizer(string &line){
-    int first = 0;
-    for(int i=1;i<line.size();i++){
-        if(line[i]!=','){
-            string s = line.substr(first,i-first);
-            trainers.push_back(new Trainer(std::stoi(s)));
-            first = i + 1;
-            cout << line[i] << std::endl;
 
+    for(int i=0;i<line.size();i++){
+        if(line[i]!=','){
+            char c = line[i];
+            int cNum = c - '0';
+//            cout << cNum << endl;
+
+            trainers.push_back(new Trainer(cNum));
         }
     }
 }
@@ -43,7 +43,7 @@ void Studio::WorkOptionsInitalizer(string &line, int WorkoutIdCounter){
         if(line[i]==','){
             string s= line.substr(first,i-first);
             vect.push_back(s);
-            std::cout << s<< std::endl;
+//            std::cout << s<< std::endl;
             first = i + 2;
         }
     }
@@ -100,12 +100,11 @@ Studio::Studio(const std::string &configFilePath){
     bool flag2 = false;
     while (getline(f, myText)) {
         // Output the text from the file
-        if (myText == "# Trainers") {
+        if (myText == "# Traines") {
             flag1 = true;
             continue;
         } else if (flag1) {
             trainersInitalizer(myText);
-            cout << myText << endl;
             flag1 = false;
         } else if (myText == "# Work Options") {
             flag2 = true;
@@ -113,7 +112,6 @@ Studio::Studio(const std::string &configFilePath){
         }
         if (flag2) {
             WorkOptionsInitalizer(myText, WorkoutIdCounter++);
-            cout << myText << endl;
 
         }
     }
