@@ -214,6 +214,9 @@ void Studio::start(){
     getline(cin,s);
     while(true){
         if(s == "closeall") {
+            BaseAction* act = new CloseAll();
+            act->act(*this);
+            actionsLog.push_back(act);
             break;
 
 
@@ -266,13 +269,13 @@ void Studio::start(){
             order->act(*this);
             actionsLog.push_back(order);
         }
-        if(s.substr(0,2)=="st"){// status
+        else if(s.substr(0,2)=="st"){// status
             int trainerId = s[7] - '0';
             BaseAction* status = new PrintTrainerStatus(trainerId);
             status->act(*this);
             actionsLog.push_back(status);
         }
-        if(s.substr(0,2)=="mo"){// move
+        else if(s.substr(0,2)=="mo"){// move
             int customer = s[5];
             int OriginalTrainer = s[7] - '0';
             int newTrainer = s[9];
@@ -280,28 +283,28 @@ void Studio::start(){
             move->act(*this);
             actionsLog.push_back(move);
         }
-        if(s.substr(0,2)=="cl"){// close
+        else if(s.substr(0,2)=="cl"){// close
             int trainerId = s[6] - '0';
             BaseAction* close = new Close(trainerId);
             close->act(*this);
             actionsLog.push_back(close);
         }
-        if(s.substr(0,2)=="wo"){
+        else if(s.substr(0,2)=="wo"){
             BaseAction* printWorkoutOptions = new PrintWorkoutOptions;
             printWorkoutOptions->act(*this);
             actionsLog.push_back(printWorkoutOptions);
         }
-        if(s.substr(0,3)=="lo"){
+        else if(s.substr(0,3)=="lo"){
             BaseAction* log = new PrintActionsLog;
             log->act(*this);
             actionsLog.push_back(log);
         }
-        if(s.substr(0,3)=="ba"){
+        else if(s.substr(0,3)=="ba"){
             BaseAction* backup = new BackupStudio;
             backup->act(*this);
             actionsLog.push_back(backup);
         }
-        if(s.substr(0,3)=="re"){
+        else if(s.substr(0,3)=="re"){
             BaseAction* restore = new RestoreStudio;
             restore->act(*this);
             actionsLog.push_back(restore);

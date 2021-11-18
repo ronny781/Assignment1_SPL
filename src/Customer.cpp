@@ -79,9 +79,9 @@ HeavyMuscleCustomer::HeavyMuscleCustomer(std::string name, int id): Customer(nam
 std::vector<int> HeavyMuscleCustomer::order(const std::vector<Workout> &workout_options){
     vector<int> mcl;
     vector<Workout> sorted(workout_options);
-    sort(begin(sorted), end(sorted), byPrice);
-    for(auto it=end(sorted);it != begin(sorted);it--){
-        if(it->getType() == 0)
+    sort(sorted.begin(),sorted.end(), byPrice);
+    for(auto it=sorted.end();it != begin(sorted);it--){
+        if(it->getType() == ANAEROBIC)
             mcl.push_back(it->getId());
     }
     return mcl;
@@ -132,6 +132,14 @@ Customer *FullBodyCustomer::clone() const {
     return fbd;
 }
 bool byType(const Workout &a, const Workout &b) {
-    return a.getType() < b.getType();
+    WorkoutType type = a.getType();
+    switch (type) {
+        case ANAEROBIC:
+            return true;
+        case MIXED:
+            return b.getType()==CARDIO;
+        case CARDIO:
+            return false;
+    }
 }
 

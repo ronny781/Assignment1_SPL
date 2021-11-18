@@ -186,8 +186,11 @@ BaseAction* Close::clone() const{
 CloseAll::CloseAll(): BaseAction(){}
 void CloseAll::act(Studio &studio){
     for(int i=0;i<studio.getNumOfTrainers();i++){
-        Close act(i);
-        act.act(studio);
+        Trainer* trainer = studio.getTrainer(i);
+        if(trainer!= nullptr && trainer->isOpen()){
+            Close act(i);
+            act.act(studio);
+        }
     }
     cout << "Studio is now closed." << endl; //Need to make sure we need this output
     complete();
@@ -202,11 +205,11 @@ BaseAction* CloseAll::clone() const{
 PrintWorkoutOptions::PrintWorkoutOptions():BaseAction(){}
 void PrintWorkoutOptions::act(Studio &studio){
     vector<Workout> workout_option = studio.getWorkoutOptions();
-    std::stringstream toString;
+//    std::stringstream toString;
     for(Workout wk: workout_option){
-        toString << wk.toString() << endl;
+       cout << wk.toString() ;
     }
-    std::string s = toString.str();
+//    std::string s = toString.str();
     complete();
 }
 std::string PrintWorkoutOptions::toString() const{
