@@ -259,38 +259,44 @@ void Studio::start(){
                 }
             }
 
-            BaseAction* open = new OpenTrainer(trainerId,cusList);
+            BaseAction* open = new OpenTrainer(trainerId-1,cusList);
             open->act(*this);
             actionsLog.push_back(open);
         }
         if(s.substr(0,2)=="or"){// order
             int trainerId = s[6] - '0';
-            BaseAction* order = new Order(trainerId);
+            BaseAction* order = new Order(trainerId-1);
             order->act(*this);
             actionsLog.push_back(order);
         }
         else if(s.substr(0,2)=="st"){// status
             int trainerId = s[7] - '0';
-            BaseAction* status = new PrintTrainerStatus(trainerId);
+            BaseAction* status = new PrintTrainerStatus(trainerId-1);
             status->act(*this);
             actionsLog.push_back(status);
         }
         else if(s.substr(0,2)=="mo"){// move
-            int customer = s[5];
-            int OriginalTrainer = s[7] - '0';
-            int newTrainer = s[9];
+            int customer = s[5]- '0';
+            int OriginalTrainer = s[7] - '0' - 1;
+            int newTrainer = s[9]- '0' - 1;;
             BaseAction* move = new MoveCustomer(OriginalTrainer, newTrainer, customer);
             move->act(*this);
+            // need to close session if there no customers left
+            if(trainers[OriginalTrainer]->getCustomers().empty()){
+                BaseAction* close = new Close(OriginalTrainer);
+                close->act(*this);
+                actionsLog.push_back(close);
+            }
             actionsLog.push_back(move);
         }
         else if(s.substr(0,2)=="cl"){// close
             int trainerId = s[6] - '0';
-            BaseAction* close = new Close(trainerId);
+            BaseAction* close = new Close(trainerId-1);
             close->act(*this);
             actionsLog.push_back(close);
         }
         else if(s.substr(0,2)=="wo"){
-            BaseAction* printWorkoutOptions = new PrintWorkoutOptions;
+            BaseAction* printWorkoutOptions = new PrintWorkoutOptions();
             printWorkoutOptions->act(*this);
             actionsLog.push_back(printWorkoutOptions);
         }

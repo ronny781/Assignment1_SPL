@@ -111,14 +111,13 @@ void MoveCustomer::act(Studio &studio){
     if(srcTra!= nullptr && srcTra->isOpen() &&
        dstTra!= nullptr && dstTra->isOpen() &&
        srcTra->getCustomer(id)!= nullptr && dstTra->hasAvailableSpace()){
-//            SweatyCustomer p1 = *(srcTra->getCustomer(id));
-        dstTra->addCustomer(srcTra->getCustomer(id)->clone());
-        srcTra->removeCustomer(id); //Need to check if there is better solution!!!!
 
+        dstTra->addCustomer(srcTra->getCustomer(id)->clone());
+        srcTra->removeCustomer(id);
         vector<OrderPair> srcList = srcTra->getOrders();
         vector<OrderPair> dstList = dstTra->getOrders();
         vector<int> indicesForDelete; // Stores where we need to delete old elements
-        for(std::vector<int>::size_type i = 0; i != srcList.size(); i++) {
+        for(int i = 0; i != srcList.size(); i++) {
             if(srcList[i].first==id){
                 dstList.push_back(srcList[i]);
                 indicesForDelete.push_back(i);
@@ -126,6 +125,8 @@ void MoveCustomer::act(Studio &studio){
         }
         for(int indice : indicesForDelete)
             srcList.erase(srcList.begin()+indice);
+
+
         complete();
 
     }
@@ -224,9 +225,9 @@ PrintTrainerStatus::PrintTrainerStatus(int id) : trainerId(id),BaseAction(){} //
 void PrintTrainerStatus::act(Studio &studio){
     Trainer* trainer = studio.getTrainer(trainerId);
     if(trainer->isOpen())
-        cout << "Trainer" << trainerId << " status: " << "open" << endl;
+        cout << "Trainer" << trainerId+1 << " status: " << "open" << endl;
     else{
-        cout << "Trainer" << trainerId << " status: " << "closed" << endl;
+        cout << "Trainer" << trainerId+1 << " status: " << "closed" << endl;
         return;
     }
     cout << "Customers:" << endl;
