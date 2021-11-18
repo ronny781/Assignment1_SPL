@@ -276,10 +276,10 @@ void Studio::start(){
             actionsLog.push_back(status);
         }
         else if(s.substr(0,2)=="mo"){// move
-            int customer = s[5]- '0';
-            int OriginalTrainer = s[7] - '0' - 1;
-            int newTrainer = s[9]- '0' - 1;;
-            BaseAction* move = new MoveCustomer(OriginalTrainer, newTrainer, customer);
+            int customer = s[9]- '0';
+            int OriginalTrainer = s[5] - '0' - 1;
+            int dstTrainer = s[7] - '0' - 1;;
+            BaseAction* move = new MoveCustomer(OriginalTrainer, dstTrainer, customer);
             move->act(*this);
             // need to close session if there no customers left
             if(trainers[OriginalTrainer]->getCustomers().empty()){
