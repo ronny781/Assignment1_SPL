@@ -210,10 +210,11 @@ void Studio::start(){
     cout << "Studio is now open!" << endl;
     open = true;
     string s;
-
+    int cusCounter = 0;
     getline(cin,s);
     while(true){
-        int cusCounter = 0;
+
+
         if(s == "closeall") {
             BaseAction* act = new CloseAll();
             act->act(*this);
@@ -233,8 +234,6 @@ void Studio::start(){
                     break;
                 }
             }
-
-
             for (int i = first; i < s.length(); i++) {
                 if (s[i] == ',') {
                     string name = s.substr(first, i - first);
