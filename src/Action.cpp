@@ -56,6 +56,11 @@ std::string OpenTrainer::toString() const{
     for(Customer* cus : customers){ //Wonder if that works!
         toString << " " << cus->toString();
     }
+    if(getStatus()== COMPLETED)
+        toString << " Completed" ;
+    else
+        toString << " Error: " << getErrorMsg();
+
     std::string s = toString.str();
     return s;
 }

@@ -299,17 +299,17 @@ void Studio::start(){
             printWorkoutOptions->act(*this);
             actionsLog.push_back(printWorkoutOptions);
         }
-        else if(s.substr(0,3)=="lo"){
+        else if(s.substr(0,3)=="log"){
             BaseAction* log = new PrintActionsLog;
             log->act(*this);
 //            actionsLog.push_back(log);
         }
-        else if(s.substr(0,3)=="ba"){
+        else if(s.substr(0,3)=="bac"){
             BaseAction* backup = new BackupStudio;
             backup->act(*this);
             actionsLog.push_back(backup);
         }
-        else if(s.substr(0,3)=="re"){
+        else if(s.substr(0,3)=="res"){
             BaseAction* restore = new RestoreStudio;
             restore->act(*this);
             actionsLog.push_back(restore);
