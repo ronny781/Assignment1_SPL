@@ -70,10 +70,10 @@ Studio::Studio():open(false){}
 
 
 Studio::Studio(const std::string &configFilePath){
-Trainer* trainer = new Trainer(3);
-trainer->addCustomer(new CheapCustomer("ronny",2));
-Trainer* trainer1 =new Trainer(*trainer);
-cout << trainer1->isOpen();
+//Trainer* trainer = new Trainer(3);
+//trainer->addCustomer(new CheapCustomer("ronny",2));
+//Trainer* trainer1 =new Trainer(*trainer);
+//cout << trainer1->isOpen();
 //        std::ifstream file(configFilePath);
 //        char line[256];
 //        int counter = 0;
