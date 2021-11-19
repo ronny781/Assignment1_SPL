@@ -82,12 +82,12 @@ const Trainer& Trainer::operator=(Trainer&& other){
             cust = nullptr;
         }
     }
-    customersList.clear();///meyutar
+    customersList.clear();
     capacity = other.capacity;
     open = other.open;
     orderList = other.orderList;
     customersList = other.customersList;
-    other.customersList.clear();
+    other.customersList.clear();///meyutar
     return *this;
 }
 
@@ -111,15 +111,15 @@ void Trainer::removeCustomer(int id){//Wonder if it works.
         }
     }
 }
-//for(std::size_t i = 0; i < v.size(); ++i) //Maybe this approach work
-void Trainer::moveCustomer(int id){//delete without heap freeing
-    for(int i=0;i<customersList.size();i++){
-        if(customersList[i]->getId()==id){
-            customersList.erase(customersList.begin() + i);
-            return;
-        }
-    }
-}
+////for(std::size_t i = 0; i < v.size(); ++i) //Maybe this approach work
+//void Trainer::moveCustomer(int id){//delete without heap freeing
+//    for(int i=0;i<customersList.size();i++){
+//        if(customersList[i]->getId()==id){
+//            customersList.erase(customersList.begin() + i);
+//            return;
+//        }
+//    }
+//}
 
 Customer* Trainer::getCustomer(int id){
     for(Customer *cus : customersList){

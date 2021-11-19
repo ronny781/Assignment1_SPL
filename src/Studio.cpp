@@ -70,7 +70,10 @@ Studio::Studio():open(false){}
 
 
 Studio::Studio(const std::string &configFilePath){
-
+Trainer* trainer = new Trainer(3);
+trainer->addCustomer(new CheapCustomer("ronny",2));
+Trainer* trainer1 =new Trainer(*trainer);
+cout << trainer1->isOpen();
 //        std::ifstream file(configFilePath);
 //        char line[256];
 //        int counter = 0;
@@ -139,36 +142,38 @@ Studio::~Studio(){
 }
 //Copy constructor
 Studio::Studio(const Studio &other){
+    open = other.open;
     workout_options = other.workout_options;
+    actionsLog.clear(); // Added myself
+    trainers.clear(); // Added myself
     for(BaseAction* act:actionsLog){
         actionsLog.push_back(act->clone());
     }
-    for(Trainer* act:trainers){
-        trainers.push_back(act);
+    for(Trainer* trainer:trainers){
+        trainers.push_back(new Trainer(*trainer));
     }
 }
 //Copy Assignment Operator
 const Studio& Studio::operator=(const Studio &other) {
     if(this!=&other){
-        for (Trainer *trainer: trainers) {
-            if (trainer) {
+        for (Trainer *trainer: trainers)
+            if (trainer){
                 delete trainer;
                 trainer = nullptr;
             }
-        }
         trainers.clear();
-        for (BaseAction *action: actionsLog) {
-            if (action) {
+        for (BaseAction *action: actionsLog)
+            if (action){
                 delete action;
                 action = nullptr;
             }
-        }
         actionsLog.clear();
+        open = other.open;
         workout_options = other.workout_options;
-        for (Trainer *trainer: other.trainers) {
-            trainers.push_back(trainer);
+        for (Trainer* trainer: other.trainers) {
+            trainers.push_back(new Trainer(*trainer));
         }
-        for (BaseAction *action: other.actionsLog) {
+        for (BaseAction* action: other.actionsLog) {
             actionsLog.push_back(action->clone());
         }
     }
@@ -176,6 +181,7 @@ const Studio& Studio::operator=(const Studio &other) {
 }
 //Move Constructor
 Studio::Studio(Studio &&other){
+    open = other.open;
     workout_options = other.workout_options;
     trainers = other.trainers;
     actionsLog = other.actionsLog;
@@ -197,6 +203,7 @@ const Studio& Studio::operator=(Studio&& other){
             act = nullptr;
         }
     }
+    open = other.open;
     actionsLog.clear();
     workout_options=other.workout_options;
     trainers = other.trainers;

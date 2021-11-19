@@ -8,12 +8,12 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/ronnypc/CLionProjects/Assignment1_SPL4/src/Action.cpp" "/home/ronnypc/CLionProjects/Assignment1_SPL4/cmake-build-debug/CMakeFiles/Hello.dir/src/Action.cpp.o"
-  "/home/ronnypc/CLionProjects/Assignment1_SPL4/src/Customer.cpp" "/home/ronnypc/CLionProjects/Assignment1_SPL4/cmake-build-debug/CMakeFiles/Hello.dir/src/Customer.cpp.o"
-  "/home/ronnypc/CLionProjects/Assignment1_SPL4/src/Studio.cpp" "/home/ronnypc/CLionProjects/Assignment1_SPL4/cmake-build-debug/CMakeFiles/Hello.dir/src/Studio.cpp.o"
-  "/home/ronnypc/CLionProjects/Assignment1_SPL4/src/Trainer.cpp" "/home/ronnypc/CLionProjects/Assignment1_SPL4/cmake-build-debug/CMakeFiles/Hello.dir/src/Trainer.cpp.o"
-  "/home/ronnypc/CLionProjects/Assignment1_SPL4/src/Workout.cpp" "/home/ronnypc/CLionProjects/Assignment1_SPL4/cmake-build-debug/CMakeFiles/Hello.dir/src/Workout.cpp.o"
-  "/home/ronnypc/CLionProjects/Assignment1_SPL4/src/main.cpp" "/home/ronnypc/CLionProjects/Assignment1_SPL4/cmake-build-debug/CMakeFiles/Hello.dir/src/main.cpp.o"
+  "/home/ronnypc/CLionProjects/Assignment1_SPL6/src/Action.cpp" "/home/ronnypc/CLionProjects/Assignment1_SPL6/cmake-build-debug/CMakeFiles/Hello.dir/src/Action.cpp.o"
+  "/home/ronnypc/CLionProjects/Assignment1_SPL6/src/Customer.cpp" "/home/ronnypc/CLionProjects/Assignment1_SPL6/cmake-build-debug/CMakeFiles/Hello.dir/src/Customer.cpp.o"
+  "/home/ronnypc/CLionProjects/Assignment1_SPL6/src/Studio.cpp" "/home/ronnypc/CLionProjects/Assignment1_SPL6/cmake-build-debug/CMakeFiles/Hello.dir/src/Studio.cpp.o"
+  "/home/ronnypc/CLionProjects/Assignment1_SPL6/src/Trainer.cpp" "/home/ronnypc/CLionProjects/Assignment1_SPL6/cmake-build-debug/CMakeFiles/Hello.dir/src/Trainer.cpp.o"
+  "/home/ronnypc/CLionProjects/Assignment1_SPL6/src/Workout.cpp" "/home/ronnypc/CLionProjects/Assignment1_SPL6/cmake-build-debug/CMakeFiles/Hello.dir/src/Workout.cpp.o"
+  "/home/ronnypc/CLionProjects/Assignment1_SPL6/src/main.cpp" "/home/ronnypc/CLionProjects/Assignment1_SPL6/cmake-build-debug/CMakeFiles/Hello.dir/src/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

@@ -51,17 +51,17 @@ void OpenTrainer::act(Studio &studio){
     complete();
 }
 std::string OpenTrainer::toString() const{
-    std::stringstream toString;
-    toString << "open " << trainerId;
+    std::stringstream printString;
+    printString << "open " << trainerId;
     for(Customer* cus : customers){ //Wonder if that works!
-        toString << " " << cus->toString();
+        printString << " " << cus->toString();
     }
     if(getStatus()== COMPLETED)
-        toString << " Completed" ;
+        printString << " Completed" ;
     else
-        toString << " Error: " << getErrorMsg();
+        printString << " Error: " << getErrorMsg();
 
-    std::string s = toString.str();
+    std::string s = printString.str();
     return s;
 }
 BaseAction* OpenTrainer::clone() const{
@@ -184,6 +184,7 @@ std::string Close::toString() const{
     std::string s = toString.str();
     return s;
 }
+
 BaseAction* Close::clone() const{
     Close* close= new Close(*this);
     return close;
@@ -208,6 +209,7 @@ BaseAction* CloseAll::clone() const{
     CloseAll* closeall= new CloseAll(*this);
     return closeall;
 }
+
 PrintWorkoutOptions::PrintWorkoutOptions():BaseAction(){}
 void PrintWorkoutOptions::act(Studio &studio){
     vector<Workout> workout_option = studio.getWorkoutOptions();
