@@ -146,10 +146,10 @@ Studio::Studio(const Studio &other){
     workout_options = other.workout_options;
     actionsLog.clear(); // Added myself
     trainers.clear(); // Added myself
-    for(BaseAction* act:actionsLog){
+    for(BaseAction* act: other.actionsLog){
         actionsLog.push_back(act->clone());
     }
-    for(Trainer* trainer:trainers){
+    for(Trainer* trainer: other.trainers){
         trainers.push_back(new Trainer(*trainer));
     }
 }
