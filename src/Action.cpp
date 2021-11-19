@@ -45,6 +45,8 @@ void OpenTrainer::act(Studio &studio){
     }
 
     for(Customer *cus : customers){
+        if(!trainer->hasAvailableSpace())
+            break;
         trainer->addCustomer(cus);
     }
     trainer->openTrainer();
