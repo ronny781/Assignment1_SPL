@@ -46,7 +46,7 @@ void OpenTrainer::act(Studio &studio){
 
     for(Customer *cus : customers){
         if(!trainer->hasAvailableSpace())
-            break;
+            delete cus;
         trainer->addCustomer(cus);
     }
     trainer->openTrainer();
@@ -121,8 +121,8 @@ void MoveCustomer::act(Studio &studio){
 
         dstTra->addCustomer(srcTra->getCustomer(id)->clone());
         srcTra->removeCustomer(id);
-        vector<OrderPair> srcList = srcTra->getOrders();
-        vector<OrderPair> dstList = dstTra->getOrders();
+        vector<OrderPair>& srcList = srcTra->getOrders();
+        vector<OrderPair>& dstList = dstTra->getOrders();
         vector<int> indicesForDelete; // Stores where we need to delete old elements
         for(int i = 0; i != srcList.size(); i++) {
             if(srcList[i].first==id){
