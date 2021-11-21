@@ -7,7 +7,6 @@
 
 class Customer{
 public:
-    static std::vector<Workout> &sorted_workout_options;
     Customer(std::string c_name, int c_id);
     virtual std::vector<int> order(const std::vector<Workout> &workout_options)=0;
     virtual std::string toString() const = 0;
