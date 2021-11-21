@@ -15,6 +15,7 @@ public:
     const Trainer& operator=(const Trainer &other);//Assignment operator
     Trainer(Trainer &&other);//Move constructor
     const Trainer& operator=(Trainer&& other);//Move assignment operator
+    void clear();
     int getCapacity() const;
     void addCustomer(Customer* customer);
     void removeCustomer(int id);

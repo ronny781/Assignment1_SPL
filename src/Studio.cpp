@@ -312,7 +312,7 @@ void Studio::start(){
 //            actionsLog.push_back(log);
         }
         else if(s.substr(0,3)=="bac"){
-            BaseAction* backup = new BackupStudio;
+            BaseAction* backup = new BackupStudio; //Maybe we should add backup first to the list!
             backup->act(*this);
             actionsLog.push_back(backup);
         }
