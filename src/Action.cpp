@@ -47,7 +47,7 @@ void OpenTrainer::act(Studio &studio){
 
     for(Customer *cus : customers){
         if(!trainer->hasAvailableSpace())
-            delete cus;
+            delete cus; //leaving us null cells in vector - not good
         trainer->addCustomer(cus);
     }
     trainer->openTrainer();
