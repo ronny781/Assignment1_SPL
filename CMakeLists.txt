@@ -3,4 +3,4 @@ project(Hello)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(Hello src/main.cpp src/Workout.cpp include/Workout.h src/Studio.cpp include/Studio.h include/Trainer.h src/Trainer.cpp src/Customer.cpp include/Customer.h src/Action.cpp include/Action.h)
+add_executable(Hello  src/main.cpp src/Workout.cpp include/Workout.h src/Studio.cpp include/Studio.h include/Trainer.h src/Trainer.cpp src/Customer.cpp include/Customer.h src/Action.cpp include/Action.h)

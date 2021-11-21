@@ -40,7 +40,7 @@ Trainer::~Trainer() {
 Trainer::Trainer(const Trainer &other) {
     capacity = other.capacity;
     open = other.open;
-//    orderList = other.orderList;
+    orderList = other.orderList;
     for(Customer* cust:other.customersList){
         customersList.push_back(cust->clone());
     }
@@ -58,7 +58,7 @@ const Trainer& Trainer::operator=(const Trainer &other){
         customersList.clear();
         capacity = other.capacity;
         open = other.open;
-//    orderList = other.orderList;
+        orderList = other.orderList;
         for (Customer *cust: other.customersList) {
             customersList.push_back(cust->clone());
         }
@@ -70,9 +70,9 @@ const Trainer& Trainer::operator=(const Trainer &other){
 Trainer::Trainer(Trainer &&other){
     capacity = other.capacity;
     open = other.open;
-//    orderList = other.orderList;
+    orderList = other.orderList;
     customersList = other.customersList;
-    other.customersList.clear();
+    other.customersList.clear();//meyutar
 }
 //Move Assignment Operator
 const Trainer& Trainer::operator=(Trainer&& other){
@@ -85,9 +85,9 @@ const Trainer& Trainer::operator=(Trainer&& other){
     customersList.clear();
     capacity = other.capacity;
     open = other.open;
-//    orderList = other.orderList;
+    orderList = other.orderList;
     customersList = other.customersList;
-    other.customersList.clear();
+    other.customersList.clear();///meyutar
     return *this;
 }
 
@@ -98,7 +98,7 @@ int Trainer::getCapacity() const{
     return capacity;
 }
 void Trainer::addCustomer(Customer* customer){
-    if(!isOpen() && hasAvailableSpace())
+    if(hasAvailableSpace())
         customersList.push_back(customer);
 }
 
@@ -111,15 +111,15 @@ void Trainer::removeCustomer(int id){//Wonder if it works.
         }
     }
 }
-//for(std::size_t i = 0; i < v.size(); ++i) //Maybe this approach work
-void Trainer::moveCustomer(int id){//delete without heap freeing
-    for(int i=0;i<customersList.size();i++){
-        if(customersList[i]->getId()==id){
-            customersList.erase(customersList.begin() + i);
-            return;
-        }
-    }
-}
+////for(std::size_t i = 0; i < v.size(); ++i) //Maybe this approach work
+//void Trainer::moveCustomer(int id){//delete without heap freeing
+//    for(int i=0;i<customersList.size();i++){
+//        if(customersList[i]->getId()==id){
+//            customersList.erase(customersList.begin() + i);
+//            return;
+//        }
+//    }
+//}
 
 Customer* Trainer::getCustomer(int id){
     for(Customer *cus : customersList){

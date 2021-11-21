@@ -32,10 +32,12 @@ std::string BaseAction::getErrorMsg() const{
 
 OpenTrainer::OpenTrainer(int id, std::vector<Customer *> &customersList):trainerId(id), customers(customersList), BaseAction() { //need to add rule of 5
     //this opens session
+
 }
 void OpenTrainer::act(Studio &studio){
     Trainer* trainer = studio.getTrainer(trainerId);
-    if(trainer== nullptr || !trainer->isOpen() || trainer->getCapacity() < customers.size()){
+
+    if(trainer== nullptr || trainer->isOpen() || !trainer->hasAvailableSpace()){
         // Action can't be completed
         error("Workout session does not exist or is already open.");
         cout << getErrorMsg() << endl; //Printing error
@@ -43,18 +45,25 @@ void OpenTrainer::act(Studio &studio){
     }
 
     for(Customer *cus : customers){
+        if(!trainer->hasAvailableSpace())
+            delete cus;
         trainer->addCustomer(cus);
     }
     trainer->openTrainer();
     complete();
 }
 std::string OpenTrainer::toString() const{
-    std::stringstream toString;
-    toString << "open " << trainerId;
+    std::stringstream printString;
+    printString << "open " << trainerId;
     for(Customer* cus : customers){ //Wonder if that works!
-        toString << " " << cus->toString();
+        printString << " " << cus->toString();
     }
-    std::string s = toString.str();
+    if(getStatus()== COMPLETED)
+        printString << " Completed" ;
+    else
+        printString << " Error: " << getErrorMsg();
+
+    std::string s = printString.str();
     return s;
 }
 BaseAction* OpenTrainer::clone() const{
@@ -71,6 +80,7 @@ void Order::act(Studio &studio){
     Trainer* trainer = studio.getTrainer(trainerId);
     if(trainer== nullptr || !trainer->isOpen()){
         error("Workout session does not exist or is already open.");
+        cout << getErrorMsg() << endl; //Printing error
         return;
     }
     vector<Customer*> customerList = trainer->getCustomers();
@@ -108,26 +118,28 @@ void MoveCustomer::act(Studio &studio){
     if(srcTra!= nullptr && srcTra->isOpen() &&
        dstTra!= nullptr && dstTra->isOpen() &&
        srcTra->getCustomer(id)!= nullptr && dstTra->hasAvailableSpace()){
-//            SweatyCustomer p1 = *(srcTra->getCustomer(id));
-        dstTra->addCustomer(srcTra->getCustomer(id));
-        srcTra->moveCustomer(id); //Need to check if there is better solution!!!!
 
-        vector<OrderPair> srcList = srcTra->getOrders();
-        vector<OrderPair> dstList = dstTra->getOrders();
+        dstTra->addCustomer(srcTra->getCustomer(id)->clone());
+        srcTra->removeCustomer(id);
+        vector<OrderPair>& srcList = srcTra->getOrders();
+        vector<OrderPair>& dstList = dstTra->getOrders();
         vector<int> indicesForDelete; // Stores where we need to delete old elements
-        for(std::vector<int>::size_type i = 0; i != srcList.size(); i++) {
+        for(int i = 0; i != srcList.size(); i++) {
             if(srcList[i].first==id){
                 dstList.push_back(srcList[i]);
                 indicesForDelete.push_back(i);
             }
         }
-//        for(int indice : indicesForDelete)
-//            srcList.erase(srcList.begin()+indice);
+        for(int indice : indicesForDelete)
+            srcList.erase(srcList.begin()+indice);
+
+
         complete();
 
     }
     else{
         error("Cannot move customer");
+        cout << getErrorMsg() << endl; //Printing error
     }
 }
 std::string MoveCustomer::toString() const{
@@ -153,6 +165,7 @@ void Close::act(Studio &studio){
     Trainer* trainer = studio.getTrainer(trainerId);
     if(trainer== nullptr || !trainer->isOpen()){
         error("Workout session does not exist or is already open.");
+        cout << getErrorMsg() << endl; //Printing error
         return;
     }
     for(Customer* cus : trainer->getCustomers()){ // Wonder if that works because I delete from my iterable.
@@ -173,6 +186,7 @@ std::string Close::toString() const{
     std::string s = toString.str();
     return s;
 }
+
 BaseAction* Close::clone() const{
     Close* close= new Close(*this);
     return close;
@@ -181,8 +195,11 @@ BaseAction* Close::clone() const{
 CloseAll::CloseAll(): BaseAction(){}
 void CloseAll::act(Studio &studio){
     for(int i=0;i<studio.getNumOfTrainers();i++){
-        Close act(i);
-        act.act(studio);
+        Trainer* trainer = studio.getTrainer(i);
+        if(trainer!= nullptr && trainer->isOpen()){
+            Close act(i);
+            act.act(studio);
+        }
     }
     cout << "Studio is now closed." << endl; //Need to make sure we need this output
     complete();
@@ -194,14 +211,15 @@ BaseAction* CloseAll::clone() const{
     CloseAll* closeall= new CloseAll(*this);
     return closeall;
 }
+
 PrintWorkoutOptions::PrintWorkoutOptions():BaseAction(){}
 void PrintWorkoutOptions::act(Studio &studio){
     vector<Workout> workout_option = studio.getWorkoutOptions();
-    std::stringstream toString;
+//    std::stringstream toString;
     for(Workout wk: workout_option){
-        toString << wk.toString() << endl;
+       cout << wk.toString() ;
     }
-    std::string s = toString.str();
+//    std::string s = toString.str();
     complete();
 }
 std::string PrintWorkoutOptions::toString() const{
@@ -216,9 +234,9 @@ PrintTrainerStatus::PrintTrainerStatus(int id) : trainerId(id),BaseAction(){} //
 void PrintTrainerStatus::act(Studio &studio){
     Trainer* trainer = studio.getTrainer(trainerId);
     if(trainer->isOpen())
-        cout << "Trainer" << trainerId << " status: " << "open" << endl;
+        cout << "Trainer " << trainerId << " status: " << "open" << endl;
     else{
-        cout << "Trainer" << trainerId << " status: " << "closed" << endl;
+        cout << "Trainer " << trainerId << " status: " << "closed" << endl;
         return;
     }
     cout << "Customers:" << endl;
@@ -229,7 +247,7 @@ void PrintTrainerStatus::act(Studio &studio){
     cout << "Orders:" << endl;
     vector<OrderPair> orders = trainer->getOrders();
     for(OrderPair pair : orders){
-        cout << pair.second.getName() << " " << pair.second.getPrice() << "NIS " << pair.first;
+        cout << pair.second.getName() << " " << pair.second.getPrice() << "NIS " << pair.first << endl;
     }
     cout << "Current Trainer's Salary: " << trainer->getSalary() << "NIS " << endl;
     complete();
@@ -286,6 +304,7 @@ RestoreStudio::RestoreStudio():BaseAction(){}
 void RestoreStudio::act(Studio &studio){//Do we need to close our working studio first?
     if(backup== nullptr){
         error("No backup available");
+        cout << getErrorMsg() << endl; //Printing error
         return;
     }
     studio = *backup; //Need to make sure no memory leak created here.

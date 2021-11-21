@@ -25,7 +25,7 @@ using namespace std;
 //};
 
 void Studio::trainersInitalizer(string &line){
-
+ //   trainers.push_back(new Trainer(-1));//Using this will assign index 1 to trainer 1.
     for(int i=0;i<line.size();i++){
         if(line[i]!=','){
             char c = line[i];
@@ -33,6 +33,7 @@ void Studio::trainersInitalizer(string &line){
 //            cout << cNum << endl;
 
             trainers.push_back(new Trainer(cNum));
+
         }
     }
 }
@@ -43,7 +44,7 @@ void Studio::WorkOptionsInitalizer(string &line, int WorkoutIdCounter){
         if(line[i]==','){
             string s= line.substr(first,i-first);
             vect.push_back(s);
-//            std::cout << s<< std::endl;
+            std::cout << s<< std::endl;
             first = i + 2;
         }
     }
@@ -60,7 +61,7 @@ void Studio::WorkOptionsInitalizer(string &line, int WorkoutIdCounter){
 
 //    Workout* w_k1 = new Workout(WorkoutIdCounter,vect.at(0),std::stoi(vect.at(2)),WorkoutType(workType));
     workout_options.push_back(Workout(WorkoutIdCounter,vect.at(0),std::stoi(vect.at(2)),WorkoutType(workType)));
-//     cout << w_k1->getId() << " " << w_k1->getName() << " " << w_k1->getPrice() << " " << w_k1->getType() << endl;
+
     // we might need to check if we need to sort the list, if yes we should do it here.
 //
 }
@@ -69,7 +70,10 @@ Studio::Studio():open(false){}
 
 
 Studio::Studio(const std::string &configFilePath){
-
+//Trainer* trainer = new Trainer(3);
+//trainer->addCustomer(new CheapCustomer("ronny",2));
+//Trainer* trainer1 =new Trainer(*trainer);
+//cout << trainer1->isOpen();
 //        std::ifstream file(configFilePath);
 //        char line[256];
 //        int counter = 0;
@@ -138,36 +142,38 @@ Studio::~Studio(){
 }
 //Copy constructor
 Studio::Studio(const Studio &other){
+    open = other.open;
     workout_options = other.workout_options;
-    for(BaseAction* act:actionsLog){
+    actionsLog.clear(); // Added myself
+    trainers.clear(); // Added myself
+    for(BaseAction* act: other.actionsLog){
         actionsLog.push_back(act->clone());
     }
-    for(Trainer* act:trainers){
-        trainers.push_back(act);
+    for(Trainer* trainer: other.trainers){
+        trainers.push_back(new Trainer(*trainer));
     }
 }
 //Copy Assignment Operator
 const Studio& Studio::operator=(const Studio &other) {
     if(this!=&other){
-        for (Trainer *trainer: trainers) {
-            if (trainer) {
+        for (Trainer *trainer: trainers)
+            if (trainer){
                 delete trainer;
                 trainer = nullptr;
             }
-        }
         trainers.clear();
-        for (BaseAction *action: actionsLog) {
-            if (action) {
+        for (BaseAction *action: actionsLog)
+            if (action){
                 delete action;
                 action = nullptr;
             }
-        }
         actionsLog.clear();
+        open = other.open;
         workout_options = other.workout_options;
-        for (Trainer *trainer: other.trainers) {
-            trainers.push_back(trainer);
+        for (Trainer* trainer: other.trainers) {
+            trainers.push_back(new Trainer(*trainer));
         }
-        for (BaseAction *action: other.actionsLog) {
+        for (BaseAction* action: other.actionsLog) {
             actionsLog.push_back(action->clone());
         }
     }
@@ -175,6 +181,7 @@ const Studio& Studio::operator=(const Studio &other) {
 }
 //Move Constructor
 Studio::Studio(Studio &&other){
+    open = other.open;
     workout_options = other.workout_options;
     trainers = other.trainers;
     actionsLog = other.actionsLog;
@@ -196,6 +203,7 @@ const Studio& Studio::operator=(Studio&& other){
             act = nullptr;
         }
     }
+    open = other.open;
     actionsLog.clear();
     workout_options=other.workout_options;
     trainers = other.trainers;
@@ -209,10 +217,15 @@ void Studio::start(){
     cout << "Studio is now open!" << endl;
     open = true;
     string s;
-
+    int cusCounter = 0;
     getline(cin,s);
     while(true){
+
+
         if(s == "closeall") {
+            BaseAction* act = new CloseAll();
+            act->act(*this);
+            actionsLog.push_back(act);
             break;
 
 
@@ -228,8 +241,6 @@ void Studio::start(){
                     break;
                 }
             }
-
-            int cusCounter = 0;
             for (int i = first; i < s.length(); i++) {
                 if (s[i] == ',') {
                     string name = s.substr(first, i - first);
@@ -243,60 +254,69 @@ void Studio::start(){
                     else if (type == "chp")
                         cusList.push_back(new CheapCustomer(name,cusCounter));
 //                            cout << name << " " << type << cusCounter << endl;
-                    else if (type == "fbd")
+                    else if (type == "fbd"){
                         cusList.push_back(new FullBodyCustomer(name,cusCounter));
+//                        cout << cus->toString();
+                }
 //                            cout << name << " " << type << cusCounter << endl;
                     cusCounter++;
                     i += 3;
                     first = i + 2;
                 }
             }
+
             BaseAction* open = new OpenTrainer(trainerId,cusList);
             open->act(*this);
             actionsLog.push_back(open);
         }
         if(s.substr(0,2)=="or"){// order
-            int trainerId = s[6];
+            int trainerId = s[6] - '0';
             BaseAction* order = new Order(trainerId);
             order->act(*this);
             actionsLog.push_back(order);
         }
-        if(s.substr(0,2)=="st"){// status
-            int trainerId = s[7];
+        else if(s.substr(0,2)=="st"){// status
+            int trainerId = s[7] - '0';
             BaseAction* status = new PrintTrainerStatus(trainerId);
             status->act(*this);
             actionsLog.push_back(status);
         }
-        if(s.substr(0,2)=="mo"){// move
-            int customer = s[5];
-            int OriginalTrainer = s[7];
-            int newTrainer = s[9];
-            BaseAction* move = new MoveCustomer(OriginalTrainer, newTrainer, customer);
+        else if(s.substr(0,2)=="mo"){// move
+            int customer = s[9]- '0';
+            int OriginalTrainer = s[5] - '0';
+            int dstTrainer = s[7] - '0' ;
+            BaseAction* move = new MoveCustomer(OriginalTrainer, dstTrainer, customer);
             move->act(*this);
+            // need to close session if there no customers left
+            if(trainers[OriginalTrainer]->getCustomers().empty()){
+                BaseAction* close = new Close(OriginalTrainer);
+                close->act(*this);
+                actionsLog.push_back(close);
+            }
             actionsLog.push_back(move);
         }
-        if(s.substr(0,2)=="cl"){// close
-            int trainerId = s[6];
+        else if(s.substr(0,2)=="cl"){// close
+            int trainerId = s[6] - '0';
             BaseAction* close = new Close(trainerId);
             close->act(*this);
             actionsLog.push_back(close);
         }
-        if(s.substr(0,2)=="wo"){
-            BaseAction* printWorkoutOptions = new PrintWorkoutOptions;
+        else if(s.substr(0,2)=="wo"){
+            BaseAction* printWorkoutOptions = new PrintWorkoutOptions();
             printWorkoutOptions->act(*this);
             actionsLog.push_back(printWorkoutOptions);
         }
-        if(s.substr(0,3)=="lo"){
+        else if(s.substr(0,3)=="log"){
             BaseAction* log = new PrintActionsLog;
             log->act(*this);
-            actionsLog.push_back(log);
+//            actionsLog.push_back(log);
         }
-        if(s.substr(0,3)=="ba"){
+        else if(s.substr(0,3)=="bac"){
             BaseAction* backup = new BackupStudio;
             backup->act(*this);
             actionsLog.push_back(backup);
         }
-        if(s.substr(0,3)=="re"){
+        else if(s.substr(0,3)=="res"){
             BaseAction* restore = new RestoreStudio;
             restore->act(*this);
             actionsLog.push_back(restore);
@@ -315,7 +335,7 @@ int Studio::getNumOfTrainers() const{
 }
 
 Trainer* Studio::getTrainer(int tid){
-    return tid >= trainers.size() ? nullptr : trainers[tid];
+    return tid > getNumOfTrainers() ? nullptr : trainers[tid];
 }
 const std::vector<BaseAction*>& Studio::getActionsLog() const{
     return  actionsLog;
