@@ -201,30 +201,6 @@ src/Studio.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Hello.dir/build.make CMakeFiles/Hello.dir/src/Studio.cpp.s
 .PHONY : src/Studio.cpp.s
 
-src/StudioOperations.o: src/StudioOperations.cpp.o
-.PHONY : src/StudioOperations.o
-
-# target to build an object file
-src/StudioOperations.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Hello.dir/build.make CMakeFiles/Hello.dir/src/StudioOperations.cpp.o
-.PHONY : src/StudioOperations.cpp.o
-
-src/StudioOperations.i: src/StudioOperations.cpp.i
-.PHONY : src/StudioOperations.i
-
-# target to preprocess a source file
-src/StudioOperations.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Hello.dir/build.make CMakeFiles/Hello.dir/src/StudioOperations.cpp.i
-.PHONY : src/StudioOperations.cpp.i
-
-src/StudioOperations.s: src/StudioOperations.cpp.s
-.PHONY : src/StudioOperations.s
-
-# target to generate assembly for a file
-src/StudioOperations.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Hello.dir/build.make CMakeFiles/Hello.dir/src/StudioOperations.cpp.s
-.PHONY : src/StudioOperations.cpp.s
-
 src/Trainer.o: src/Trainer.cpp.o
 .PHONY : src/Trainer.o
 
@@ -315,9 +291,6 @@ help:
 	@echo "... src/Studio.o"
 	@echo "... src/Studio.i"
 	@echo "... src/Studio.s"
-	@echo "... src/StudioOperations.o"
-	@echo "... src/StudioOperations.i"
-	@echo "... src/StudioOperations.s"
 	@echo "... src/Trainer.o"
 	@echo "... src/Trainer.i"
 	@echo "... src/Trainer.s"
