@@ -69,7 +69,7 @@ void Studio::WorkOptionsInitalizer(string &line, int WorkoutIdCounter){
 Studio::Studio():open(false){}
 
 
-Studio::Studio(const std::string &configFilePath){
+Studio::Studio(const std::string &configFilePath):open(false){
 //Trainer* trainer = new Trainer(3);
 //trainer->addCustomer(new CheapCustomer("ronny",2));
 //Trainer* trainer1 =new Trainer(*trainer);
@@ -125,20 +125,7 @@ Studio::Studio(const std::string &configFilePath){
 
 //Destructor
 Studio::~Studio(){
-    for(Trainer* trainer:trainers){
-        if(trainer) {
-            delete trainer;
-            trainer = nullptr;
-        }
-    }
-    trainers.clear();
-    for(BaseAction* act:actionsLog){
-        if(act) {
-            delete act;
-            act = nullptr;
-        }
-    }
-    actionsLog.clear();
+    clear();
 }
 //Copy constructor
 Studio::Studio(const Studio &other){
@@ -156,18 +143,7 @@ Studio::Studio(const Studio &other){
 //Copy Assignment Operator
 const Studio& Studio::operator=(const Studio &other) {
     if(this!=&other){
-        for (Trainer *trainer: trainers)
-            if (trainer){
-                delete trainer;
-                trainer = nullptr;
-            }
-        trainers.clear();
-        for (BaseAction *action: actionsLog)
-            if (action){
-                delete action;
-                action = nullptr;
-            }
-        actionsLog.clear();
+        clear();
         open = other.open;
         workout_options = other.workout_options;
         for (Trainer* trainer: other.trainers) {
@@ -185,11 +161,21 @@ Studio::Studio(Studio &&other){
     workout_options = other.workout_options;
     trainers = other.trainers;
     actionsLog = other.actionsLog;
-    other.trainers.clear();
-    other.actionsLog.clear();
+//    other.trainers.clear(); // meytuar
+//    other.actionsLog.clear();
 }
 //Move Assignment Operator
 const Studio& Studio::operator=(Studio&& other){
+    clear();
+    open = other.open;
+    workout_options=other.workout_options;
+    trainers = other.trainers;
+    actionsLog = other.actionsLog;
+//    other.trainers.clear(); //meyutar
+//    other.actionsLog.clear();
+    return *this;
+}
+void Studio::clear() {
     for(Trainer* trainer:trainers){
         if(trainer) {
             delete trainer;
@@ -203,14 +189,7 @@ const Studio& Studio::operator=(Studio&& other){
             act = nullptr;
         }
     }
-    open = other.open;
     actionsLog.clear();
-    workout_options=other.workout_options;
-    trainers = other.trainers;
-    actionsLog = other.actionsLog;
-    other.trainers.clear();
-    other.actionsLog.clear();
-    return *this;
 }
 
 void Studio::start(){
@@ -312,7 +291,7 @@ void Studio::start(){
 //            actionsLog.push_back(log);
         }
         else if(s.substr(0,3)=="bac"){
-            BaseAction* backup = new BackupStudio;
+            BaseAction* backup = new BackupStudio; //Maybe we should add backup first to the list!
             backup->act(*this);
             actionsLog.push_back(backup);
         }
@@ -344,6 +323,8 @@ const std::vector<BaseAction*>& Studio::getActionsLog() const{
 std::vector<Workout>& Studio::getWorkoutOptions(){
     return workout_options;
 }
+
+
 //std::vector<Workout>& Studio::getWorkoutOptionsSorted(){
 //    return sorted_workout_options;
 //}

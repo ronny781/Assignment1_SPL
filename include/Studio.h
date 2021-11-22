@@ -12,13 +12,14 @@
 class Studio{
 
 public:
+    Studio();
+    Studio(const std::string &configFilePath);
     virtual ~Studio();//Destructor
     Studio(const Studio &other);//Copy Constructor
     const Studio& operator=(const Studio &other);//Copy Assignment Operator
     Studio(Studio &&other);//Move Constructor
     const Studio& operator=(Studio&& other);//Move Assignment Operator
-    Studio();
-    Studio(const std::string &configFilePath);
+    void clear();
     void start();
     int getNumOfTrainers() const;
     Trainer* getTrainer(int tid);

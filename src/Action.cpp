@@ -33,6 +33,7 @@ std::string BaseAction::getErrorMsg() const{
 OpenTrainer::OpenTrainer(int id, std::vector<Customer *> &customersList):trainerId(id), customers(customersList), BaseAction() { //need to add rule of 5
     //this opens session
 
+
 }
 void OpenTrainer::act(Studio &studio){
     Trainer* trainer = studio.getTrainer(trainerId);
@@ -46,7 +47,7 @@ void OpenTrainer::act(Studio &studio){
 
     for(Customer *cus : customers){
         if(!trainer->hasAvailableSpace())
-            delete cus;
+            delete cus; //leaving us null cells in vector - not good
         trainer->addCustomer(cus);
     }
     trainer->openTrainer();

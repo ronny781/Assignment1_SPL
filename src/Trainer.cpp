@@ -27,14 +27,13 @@
 //    std::vector<OrderPair> orderList; //A list of pairs for each order for the trainer - (customer_id, Workout)
 //};
 // I think we need to add salary field!
+
+Trainer::Trainer(int t_capacity): capacity(t_capacity), open(false) {
+
+}
 //Destructor:
 Trainer::~Trainer() {
-    for(Customer* cust:customersList) {
-        if (cust) {
-            delete cust;
-            cust = nullptr;
-        }
-    }
+    clear();
 }
 //Copy Constructor:
 Trainer::Trainer(const Trainer &other) {
@@ -49,13 +48,7 @@ Trainer::Trainer(const Trainer &other) {
 //Copy Assignment Operator
 const Trainer& Trainer::operator=(const Trainer &other){
     if(this!=&other) {
-        for (Customer *cust: customersList) {
-            if (cust) {
-                delete cust;
-                cust = nullptr;
-            }
-        }
-        customersList.clear();
+        clear();
         capacity = other.capacity;
         open = other.open;
         orderList = other.orderList;
@@ -76,13 +69,7 @@ Trainer::Trainer(Trainer &&other){
 }
 //Move Assignment Operator
 const Trainer& Trainer::operator=(Trainer&& other){
-    for(Customer* cust:customersList) {
-        if (cust) {
-            delete cust;
-            cust = nullptr;
-        }
-    }
-    customersList.clear();
+    clear();
     capacity = other.capacity;
     open = other.open;
     orderList = other.orderList;
@@ -90,10 +77,17 @@ const Trainer& Trainer::operator=(Trainer&& other){
     other.customersList.clear();///meyutar
     return *this;
 }
-
-Trainer::Trainer(int t_capacity): capacity(t_capacity), open(false) {
-    //need
+void Trainer::clear() {
+    for (Customer *cust: customersList) {
+        if (cust) {
+            delete cust;
+            cust = nullptr;
+        }
+    }
+    customersList.clear();
 }
+
+
 int Trainer::getCapacity() const{
     return capacity;
 }
@@ -111,15 +105,7 @@ void Trainer::removeCustomer(int id){//Wonder if it works.
         }
     }
 }
-////for(std::size_t i = 0; i < v.size(); ++i) //Maybe this approach work
-//void Trainer::moveCustomer(int id){//delete without heap freeing
-//    for(int i=0;i<customersList.size();i++){
-//        if(customersList[i]->getId()==id){
-//            customersList.erase(customersList.begin() + i);
-//            return;
-//        }
-//    }
-//}
+
 
 Customer* Trainer::getCustomer(int id){
     for(Customer *cus : customersList){
@@ -159,4 +145,6 @@ int Trainer::getSalary(){
 bool Trainer::isOpen(){
     return open;
 }
+
+
 
