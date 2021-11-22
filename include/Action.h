@@ -37,8 +37,11 @@ public:
     OpenTrainer(int id, std::vector<Customer *> &customersList);
     void act(Studio &studio);
     std::string toString() const;
+    int getNextIdtoBeInserted() const;
 private:
     const int trainerId;
+    std::string output;
+    int nextIdtoBeInserted;
     std::vector<Customer *> customers;
     BaseAction *clone() const;
 };
