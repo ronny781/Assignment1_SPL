@@ -253,8 +253,10 @@ void Studio::start(){
                 cusCounter -= cusList.size();
             }
             for(Customer* cus : cusList){ //Delete all the customers we couldn't insert
-                if(cus->getId()>=nextCustId)
+                if(cus->getId()>=nextCustId){
                     delete cus;
+                    cus = nullptr;
+                }
             }
             actionsLog.push_back(open);
         }

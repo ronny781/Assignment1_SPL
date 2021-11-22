@@ -50,7 +50,7 @@ void OpenTrainer::act(Studio &studio){
     for(Customer *cus : customers){
         if(trainer->hasAvailableSpace()){
             nextIdtoBeInserted = cus->getId() + 1;
-            trainer->addCustomer(cus->clone());
+            trainer->addCustomer(cus);
             printString << " " << cus->toString();
         }
         else{
@@ -67,7 +67,7 @@ std::string OpenTrainer::toString() const{
     if(getStatus()== COMPLETED)
         printString << output + " Completed" ;
     else
-        printString << " Error: " << getErrorMsg();
+        printString << output + "Error: " << getErrorMsg();
 
     std::string s = printString.str();
     return s;
