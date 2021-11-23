@@ -127,6 +127,10 @@ std::vector<Customer*>& Trainer::getCustomers(){
 std::vector<OrderPair>& Trainer::getOrders(){
     return orderList;
 }
+void Trainer::updateOrderList(std::vector<OrderPair> &list){
+    orderList.clear();
+    orderList = list;
+}
 void Trainer::order(const int customer_id, const std::vector<int> workout_ids, const std::vector<Workout>& workout_options){
     for(int id : workout_ids){ //only works with workout list being unsorted!
         orderList.push_back(OrderPair (customer_id,workout_options[id]));

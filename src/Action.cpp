@@ -7,6 +7,8 @@
 #include "../include/Studio.h" // I added myself, is that good?
 #include <sstream>
 #include <string>
+
+
 using namespace std;
 
 BaseAction::BaseAction():errorMsg(""){}
@@ -137,21 +139,20 @@ void MoveCustomer::act(Studio &studio){
         srcTra->removeCustomer(id);
         vector<OrderPair>& srcList = srcTra->getOrders();
         vector<OrderPair>& dstList = dstTra->getOrders();
-        vector<int> indicesForDelete; // Stores where we need to delete old elements
+        vector<OrderPair> newOrderLIst; // Stores where we need to delete old elements
         int sum = 0;
         for(int i = 0; i != srcList.size(); i++) {
             OrderPair pair = srcList[i];
             if(pair.first==id){
                 sum += pair.second.getPrice();
                 dstList.push_back(pair);
-                indicesForDelete.push_back(i);
             }
+            else
+                newOrderLIst.push_back(pair);
         }
-        for(int indice : indicesForDelete)
-            srcList.erase(srcList.begin()+indice);
+        srcTra->updateOrderList(newOrderLIst);
         dstTra->updateSalary(sum);
         srcTra->updateSalary(-sum);
-
         complete();
 
     }
