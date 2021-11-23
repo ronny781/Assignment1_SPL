@@ -78,6 +78,7 @@ Customer* CheapCustomer::clone() const{
 HeavyMuscleCustomer::HeavyMuscleCustomer(std::string name, int id): Customer(name,id){}
 std::vector<int> HeavyMuscleCustomer::order(const std::vector<Workout> &workout_options){
     vector<int> mcl;
+    int size = workout_options.size();
     vector<Workout> sorted(workout_options);
     sort(sorted.begin(),sorted.end(), byPrice);
     for(auto it=sorted.end();it != begin(sorted);it--){
@@ -94,7 +95,9 @@ Customer* HeavyMuscleCustomer::clone() const{
     return mcl;
 }
 bool byPrice(const Workout& a, const Workout& b){
-    return a.getPrice() < b.getPrice();
+    int first = a.getPrice();
+    int second = b.getPrice();
+    return first<second;
 }
 
 FullBodyCustomer::FullBodyCustomer(std::string name, int id): Customer(name,id){}
@@ -137,15 +140,6 @@ Customer *FullBodyCustomer::clone() const {
     FullBodyCustomer *fbd = new FullBodyCustomer(*this);
     return fbd;
 }
-bool byType(const Workout &a, const Workout &b) {
-    WorkoutType type = a.getType();
-    switch (type) {
-        case ANAEROBIC:
-            return true;
-        case MIXED:
-            return b.getType()==CARDIO;
-        case CARDIO:
-            return false;
-    }
-}
+
+
 
