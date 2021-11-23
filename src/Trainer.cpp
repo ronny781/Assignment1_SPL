@@ -28,7 +28,7 @@
 //};
 // I think we need to add salary field!
 
-Trainer::Trainer(int t_capacity): capacity(t_capacity), open(false) {
+Trainer::Trainer(int t_capacity): capacity(t_capacity), open(false),salary(0) {
 
 }
 //Destructor:
@@ -37,6 +37,7 @@ Trainer::~Trainer() {
 }
 //Copy Constructor:
 Trainer::Trainer(const Trainer &other) {
+    salary = other.salary;
     capacity = other.capacity;
     open = other.open;
     orderList = other.orderList;
@@ -49,6 +50,7 @@ Trainer::Trainer(const Trainer &other) {
 const Trainer& Trainer::operator=(const Trainer &other){
     if(this!=&other) {
         clear();
+        salary = other.salary;
         capacity = other.capacity;
         open = other.open;
         orderList = other.orderList;
@@ -61,6 +63,7 @@ const Trainer& Trainer::operator=(const Trainer &other){
 }
 //Move Constructor
 Trainer::Trainer(Trainer &&other){
+    salary = other.salary;
     capacity = other.capacity;
     open = other.open;
     orderList = other.orderList;
@@ -70,6 +73,7 @@ Trainer::Trainer(Trainer &&other){
 //Move Assignment Operator
 const Trainer& Trainer::operator=(Trainer&& other){
     clear();
+    salary = other.salary;
     capacity = other.capacity;
     open = other.open;
     orderList = other.orderList;
@@ -105,7 +109,9 @@ void Trainer::removeCustomer(int id){//Wonder if it works.
         }
     }
 }
-
+void Trainer::updateSalary(int addToSalary) {
+    salary += addToSalary;
+}
 
 Customer* Trainer::getCustomer(int id){
     for(Customer *cus : customersList){
@@ -136,11 +142,7 @@ void Trainer::closeTrainer(){
     open = false; //is that all?
 }
 int Trainer::getSalary(){
-    int sum = 0;
-    for(OrderPair pair : orderList){
-        sum += pair.second.getPrice();
-    }
-    return sum;
+    return salary;
 }
 bool Trainer::isOpen(){
     return open;

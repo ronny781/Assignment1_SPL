@@ -30,10 +30,9 @@ std::string BaseAction::getErrorMsg() const{
 //ActionStatus status;
 
 
-OpenTrainer::OpenTrainer(int id, std::vector<Customer *> &customersList):trainerId(id), customers(customersList), BaseAction() { //need to add rule of 5
+OpenTrainer::OpenTrainer(int id, std::vector<Customer *> &customersList):trainerId(id), customers(customersList),output(""),nextIdtoBeInserted(-1), BaseAction() { //need to add rule of 5
     //this opens session
-    output = "";
-    nextIdtoBeInserted = -1;
+
 }
 void OpenTrainer::act(Studio &studio){
     Trainer* trainer = studio.getTrainer(trainerId);
@@ -100,9 +99,12 @@ void Order::act(Studio &studio){
         vector<Workout> workoutOptions = studio.getWorkoutOptions();
         vector<int> workoutPicked = cus->order(workoutOptions);
         trainer->order(cus->getId(),workoutPicked,workoutOptions);
+        int sum = 0;
         for(int i=0;i<workoutPicked.size();i++){
             cout << cus->getName() << " is Doing " << workoutOptions[workoutPicked[i]].getName() << endl;
+            sum += workoutOptions[workoutPicked[i]].getPrice();
         }
+        trainer->updateSalary(sum);
     }
     complete();
 }
@@ -136,15 +138,19 @@ void MoveCustomer::act(Studio &studio){
         vector<OrderPair>& srcList = srcTra->getOrders();
         vector<OrderPair>& dstList = dstTra->getOrders();
         vector<int> indicesForDelete; // Stores where we need to delete old elements
+        int sum = 0;
         for(int i = 0; i != srcList.size(); i++) {
-            if(srcList[i].first==id){
-                dstList.push_back(srcList[i]);
+            OrderPair pair = srcList[i];
+            if(pair.first==id){
+                sum += pair.second.getPrice();
+                dstList.push_back(pair);
                 indicesForDelete.push_back(i);
             }
         }
         for(int indice : indicesForDelete)
             srcList.erase(srcList.begin()+indice);
-
+        dstTra->updateSalary(sum);
+        srcTra->updateSalary(-sum);
 
         complete();
 
@@ -181,10 +187,10 @@ void Close::act(Studio &studio){
         return;
     }
     for(Customer* cus : trainer->getCustomers()){ // Wonder if that works because I delete from my iterable.
-        delete cus;
-        cus = nullptr;
+        trainer->removeCustomer(cus->getId());//Update this
     }
     trainer->getCustomers().clear();
+    trainer->getOrders().clear(); //Wonder if that works
     trainer->closeTrainer();
     complete();
     cout << "Trainer " << trainerId << " closed. Salary " << trainer->getSalary() << "NIS" << endl;
@@ -245,6 +251,8 @@ BaseAction* PrintWorkoutOptions::clone() const{
 PrintTrainerStatus::PrintTrainerStatus(int id) : trainerId(id),BaseAction(){} // What about checking if trainer exist??
 void PrintTrainerStatus::act(Studio &studio){
     Trainer* trainer = studio.getTrainer(trainerId);
+    if(trainer == nullptr)
+        return;
     if(trainer->isOpen())
         cout << "Trainer " << trainerId << " status: " << "open" << endl;
     else{
