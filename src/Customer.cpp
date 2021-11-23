@@ -137,15 +137,5 @@ Customer *FullBodyCustomer::clone() const {
     FullBodyCustomer *fbd = new FullBodyCustomer(*this);
     return fbd;
 }
-bool byType(const Workout &a, const Workout &b) {
-    WorkoutType type = a.getType();
-    switch (type) {
-        case ANAEROBIC:
-            return true;
-        case MIXED:
-            return b.getType()==CARDIO;
-        case CARDIO:
-            return false;
-    }
-}
+
 
