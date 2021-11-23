@@ -23,9 +23,28 @@ using namespace std;
 //    std::vector<Workout> workout_options;
 //    std::vector<BaseAction*> actionsLog;
 //};
-
+int Studio::getNextSkip(string str, int start) {
+    for (int i = start; i < str.length(); ++i) {
+        if (str[i] == ' ') {
+            return i-start;
+        }
+    }
+    return -1;
+}
 void Studio::trainersInitalizer(string &line){
- //   trainers.push_back(new Trainer(-1));//Using this will assign index 1 to trainer 1.
+    //   trainers.push_back(new Trainer(-1));//Using this will assign index 1 to trainer 1.
+//    int lineLength = 0;
+//    int skip;
+//    int next=0;
+//    while (lineLength < line.length()) {
+//        skip = getNextSkip(line, next);
+//        lineLength = next+skip;
+//        if (skip == 1)
+//            trainers.push_back(new Trainer(line[next] - '0'));
+//        else
+//            trainers.push_back(new Trainer(stoi(line.substr(next, skip))));
+//        next = next + skip;
+//    }
     for(int i=0;i<line.size();i++){
         if(line[i]!=','){
             char c = line[i];
@@ -213,14 +232,12 @@ void Studio::start(){
 
             vector<Customer*> cusList ;
             int trainerId = 0, first = 0;
-            for(int i=5;i<s.length();i++){ // find  where first name starts.
-                if(s[i]==' '){
-                    trainerId = stoi(s.substr(5,i-5));
-                    first = i+1;
-                    break;
-                }
-            }
-            for (int i = first; i < s.length(); i++) {
+            int skip =  getNextSkip(s, 5);
+            if (skip == 1)
+                trainerId = s[5] - '0';
+            else
+                trainerId = stoi(s.substr(5,skip));
+            for (int i = 6+skip; i < s.length(); i++) {
                 if (s[i] == ',') {
                     string name = s.substr(first, i - first);
                     string type = s.substr(i + 1, 3);
@@ -236,7 +253,7 @@ void Studio::start(){
                     else if (type == "fbd"){
                         cusList.push_back(new FullBodyCustomer(name,cusCounter));
 //                        cout << cus->toString();
-                }
+                    }
 //                            cout << name << " " << type << cusCounter << endl;
                     cusCounter++;
                     i += 3;
@@ -248,7 +265,7 @@ void Studio::start(){
             open->act(*this);
             int nextCustId = static_cast<OpenTrainer*>(open)->getNextIdtoBeInserted();
             if(nextCustId!=-1) // there was  at least one customer insertion
-              cusCounter = nextCustId;
+                cusCounter = nextCustId;
             else{ // There was none coustumer insertions
                 cusCounter -= cusList.size();
             }
@@ -262,59 +279,50 @@ void Studio::start(){
         }
         if(s.substr(0,2)=="or") {// order
             int trainerId;
-            for (int i = 6; i < s.length(); i++) { // find  where first name starts.
-                if (s[i] == ' ') {
-                    trainerId = stoi(s.substr(6, i - 6));
-                    break;
-                }
-                //int trainerId = s[6] - '0';
-                BaseAction *order = new Order(trainerId);
-                order->act(*this);
-                actionsLog.push_back(order);
-            }
+            int skip =  getNextSkip(s, 6);
+            if (skip == 1)
+                trainerId = s[6] - '0';
+            else
+                trainerId = stoi(s.substr(6,skip));
+            BaseAction *order = new Order(trainerId);
+            order->act(*this);
+            actionsLog.push_back(order);
+
         }
         else if(s.substr(0,2)=="st") {// status
             int trainerId;
-            for (int i = 7; i < s.length(); i++) { // find  where first name starts.
-                if (s[i] == ' ') {
-                    trainerId = stoi(s.substr(7, i - 7));
-                    break;
-                }
-                //int trainerId = s[7] - '0';
-                BaseAction *status = new PrintTrainerStatus(trainerId);
-                status->act(*this);
-                actionsLog.push_back(status);
-            }
+            int skip =  getNextSkip(s, 7);
+            if (skip == 1)
+                trainerId = s[7] - '0';
+            else
+                trainerId = stoi(s.substr(7,skip));
+            BaseAction *status = new PrintTrainerStatus(trainerId);
+            status->act(*this);
+            actionsLog.push_back(status);
+
         }
         else if(s.substr(0,2)=="mo"){// move
             int customer;
             int OriginalTrainer;
             int dstTrainer;
             int next =5;
-            for (int i = next; i < s.length(); i++) {
-                if (s[i] == ' ') {
-                    OriginalTrainer = stoi(s.substr(next, i-next));
-                    next = i+1;
-                    break;
-                }
-            }
-            for (int i = next; i < s.length(); i++) {
-                if (s[i] == ' ') {
-                    dstTrainer = stoi(s.substr(next, i-next));
-                    next = i+1;
-                    break;
-                }
-            }
-            for (int i = next; i < s.length(); i++) {
-                if (s[i] == ' ') {
-                    customer = stoi(s.substr(next, i-next));
-                    next = i+1;
-                    break;
-                }
-            }
-//            int customer = s[9]- '0';
-//            int OriginalTrainer = s[5] - '0';
-//            int dstTrainer = s[7] - '0' ;
+            int skip =  getNextSkip(s, next);
+            if (skip == 1)
+                OriginalTrainer = s[next] - '0';
+            else
+                OriginalTrainer = stoi(s.substr(next,skip));
+            next = next+skip+1;
+            skip = getNextSkip(s, next);
+            if (skip == 1)
+                dstTrainer = s[next] - '0';
+            else
+                dstTrainer = stoi(s.substr(next,skip));
+            next = next+skip+1;
+            skip = getNextSkip(s, next);
+            if (skip == 1)
+                customer = s[next] - '0';
+            else
+                customer = stoi(s.substr(next,skip));
             BaseAction* move = new MoveCustomer(OriginalTrainer, dstTrainer, customer);
             move->act(*this);
             // need to close session if there no customers left
@@ -327,13 +335,11 @@ void Studio::start(){
         }
         else if(s.substr(0,2)=="cl"){// close
             int trainerId;
-            for (int i = 6; i < s.length(); i++) {
-                if (s[i] == ' ') {
-                    trainerId = stoi(s.substr(6, i-6));
-                    break;
-                }
-            }
-            //int trainerId = s[6] - '0';
+            int skip =  getNextSkip(s, 6);
+            if (skip == 1)
+                trainerId = s[6] - '0';
+            else
+                trainerId = stoi(s.substr(6,skip));
             BaseAction* close = new Close(trainerId);
             close->act(*this);
             actionsLog.push_back(close);

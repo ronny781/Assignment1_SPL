@@ -27,6 +27,7 @@ public:
     std::vector<Workout>& getWorkoutOptions();
     void trainersInitalizer(std::string & line); // added this myself
     void WorkOptionsInitalizer(std::string &line, int WorkoutIdCounter); // added this myself
+    int getNextSkip(std::string str, int start);
 
 private:
     bool open;
