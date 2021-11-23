@@ -32,11 +32,16 @@ std::string BaseAction::getErrorMsg() const{
 
 OpenTrainer::OpenTrainer(int id, std::vector<Customer *> &customersList):trainerId(id), customers(customersList), BaseAction() { //need to add rule of 5
     //this opens session
-
-
+    output = "";
+    nextIdtoBeInserted = -1;
 }
 void OpenTrainer::act(Studio &studio){
     Trainer* trainer = studio.getTrainer(trainerId);
+    std::stringstream printString;
+    printString << "open " << trainerId;
+    for(Customer *cus : customers)
+        printString << " " << cus->toString();
+    output = printString.str();
 
     if(trainer== nullptr || trainer->isOpen() || !trainer->hasAvailableSpace()){
         // Action can't be completed
@@ -44,33 +49,39 @@ void OpenTrainer::act(Studio &studio){
         cout << getErrorMsg() << endl; //Printing error
         return;
     }
-
+    //If we reached here so far there will be at least one customer to be inserted
     for(Customer *cus : customers){
-        if(!trainer->hasAvailableSpace())
-            delete cus; //leaving us null cells in vector - not good
-        trainer->addCustomer(cus);
+        if(trainer->hasAvailableSpace()){
+            nextIdtoBeInserted = cus->getId() + 1;
+            trainer->addCustomer(cus);
+        }
+        else{
+            break;
+        }
     }
+
+  //  customers.clear(); //May be irrelevant
     trainer->openTrainer();
     complete();
 }
 std::string OpenTrainer::toString() const{
     std::stringstream printString;
-    printString << "open " << trainerId;
-    for(Customer* cus : customers){ //Wonder if that works!
-        printString << " " << cus->toString();
-    }
     if(getStatus()== COMPLETED)
-        printString << " Completed" ;
+        printString << output + " Completed" ;
     else
-        printString << " Error: " << getErrorMsg();
+        printString << output << " Error: " << getErrorMsg();
 
     std::string s = printString.str();
     return s;
+}
+int OpenTrainer::getNextIdtoBeInserted() const{
+    return nextIdtoBeInserted;
 }
 BaseAction* OpenTrainer::clone() const{
     OpenTrainer* op = new OpenTrainer(*this);
     return op;
 }
+
 //private:
 //    const int trainerId;
 //    std::vector<Customer *> customers;
@@ -146,7 +157,7 @@ void MoveCustomer::act(Studio &studio){
 std::string MoveCustomer::toString() const{
     std::stringstream toString;
     if(getStatus() == COMPLETED)
-        toString << "move " << srcTrainer << " " << dstTrainer << " " << id << "Completed";
+        toString << "move " << srcTrainer << " " << dstTrainer << " " << id << " Completed";
     else
         toString << "move " << srcTrainer << " " << dstTrainer << " Error: " << getErrorMsg();
     std::string s = toString.str();

@@ -78,12 +78,14 @@ Customer* CheapCustomer::clone() const{
 HeavyMuscleCustomer::HeavyMuscleCustomer(std::string name, int id): Customer(name,id){}
 std::vector<int> HeavyMuscleCustomer::order(const std::vector<Workout> &workout_options){
     vector<int> mcl;
-    int size = workout_options.size();
-    vector<Workout> sorted(workout_options);
-    sort(sorted.begin(),sorted.end(), byPrice);
-    for(auto it=sorted.end();it != begin(sorted);it--){
-        if(it->getType() == ANAEROBIC)
-            mcl.push_back(it->getId());
+    vector<Workout> mclFilter;
+    for (int i = 0 ; i < workout_options.size(); i++){
+        if(workout_options[i].getType() == ANAEROBIC){
+            mclFilter.push_back(workout_options[i]);
+        }
+    }
+    while(mclFilter.size() > 0 ) {
+        mcl.push_back(getMostExpensive(mclFilter));
     }
     return mcl;
 }
@@ -94,10 +96,14 @@ Customer* HeavyMuscleCustomer::clone() const{
     HeavyMuscleCustomer* mcl = new HeavyMuscleCustomer(*this);
     return mcl;
 }
-bool byPrice(const Workout& a, const Workout& b){
-    int first = a.getPrice();
-    int second = b.getPrice();
-    return first<second;
+int getMostExpensive(vector<Workout>& filtered){
+    Workout* maxPrice;
+    maxPrice = &filtered[0];
+    for (int i = 0; i < filtered.size() ; ++i) {
+        if (filtered[i].getPrice() < maxPrice->getPrice())
+            maxPrice = &filtered[i];
+    }
+    return maxPrice->getId();
 }
 
 FullBodyCustomer::FullBodyCustomer(std::string name, int id): Customer(name,id){}

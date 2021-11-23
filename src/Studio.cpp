@@ -209,7 +209,7 @@ void Studio::start(){
 
 
         }
-        if(s.substr(0,2)=="op") {//open
+        else if(s.substr(0,2)=="op") {//open
 
             vector<Customer*> cusList ;
             int trainerId = 0, first = 0;
@@ -246,6 +246,18 @@ void Studio::start(){
 
             BaseAction* open = new OpenTrainer(trainerId,cusList);
             open->act(*this);
+            int nextCustId = static_cast<OpenTrainer*>(open)->getNextIdtoBeInserted();
+            if(nextCustId!=-1) // there was  at least one customer insertion
+              cusCounter = nextCustId;
+            else{ // There was none coustumer insertions
+                cusCounter -= cusList.size();
+            }
+            for(Customer* cus : cusList){ //Delete all the customers we couldn't insert
+                if(cus->getId()>=nextCustId){
+                    delete cus;
+                    cus = nullptr;
+                }
+            }
             actionsLog.push_back(open);
         }
         if(s.substr(0,2)=="or"){// order

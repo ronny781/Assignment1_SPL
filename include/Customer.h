@@ -49,8 +49,7 @@ public:
 private:
     Customer *clone() const;
 };
-bool byPrice(const Workout &a, const Workout &b);
-bool byType(const Workout &a, const Workout &b);
+int getMostExpensive(std::vector<Workout>& filtered);
 
 
 
