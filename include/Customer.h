@@ -49,7 +49,7 @@ public:
 private:
     Customer *clone() const;
 };
-int getMostExpensive(std::vector<Workout>& filtered);
+
 
 
 

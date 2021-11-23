@@ -3,7 +3,7 @@
 #include "../include/Customer.h"
 #include <algorithm>
 #include <limits>
-
+#include <list>
 
 using namespace std;
 //class Customer{
@@ -78,14 +78,26 @@ Customer* CheapCustomer::clone() const{
 HeavyMuscleCustomer::HeavyMuscleCustomer(std::string name, int id): Customer(name,id){}
 std::vector<int> HeavyMuscleCustomer::order(const std::vector<Workout> &workout_options){
     vector<int> mcl;
-    vector<Workout> mclFilter;
-    for (int i = 0 ; i < workout_options.size(); i++){
-        if(workout_options[i].getType() == ANAEROBIC){
-            mclFilter.push_back(workout_options[i]);
+    vector<Workout> mclOnly;
+    for (int i = 0; i < workout_options.size(); ++i) {
+        if (workout_options[i].getType() == ANAEROBIC) {
+            mclOnly.push_back(workout_options[i]);
         }
+
     }
-    while(mclFilter.size() > 0 ) {
-        mcl.push_back(getMostExpensive(mclFilter));
+    int max = -1;
+    int position;
+    int size = mclOnly.size();
+    while(mcl.size() != size) {
+        for (int i = 0; i < mclOnly.size(); ++i) {
+            if (mclOnly[i].getPrice() > max) {
+                max = mclOnly[i].getPrice();
+                position = i;
+            }
+        }
+        mcl.push_back(mclOnly[position].getId());
+        mclOnly.erase(mclOnly.begin()+position);
+        max = -1;
     }
     return mcl;
 }
@@ -95,15 +107,6 @@ std::string HeavyMuscleCustomer::toString() const{
 Customer* HeavyMuscleCustomer::clone() const{
     HeavyMuscleCustomer* mcl = new HeavyMuscleCustomer(*this);
     return mcl;
-}
-int getMostExpensive(vector<Workout>& filtered){
-    Workout* maxPrice;
-    maxPrice = &filtered[0];
-    for (int i = 0; i < filtered.size() ; ++i) {
-        if (filtered[i].getPrice() < maxPrice->getPrice())
-            maxPrice = &filtered[i];
-    }
-    return maxPrice->getId();
 }
 
 FullBodyCustomer::FullBodyCustomer(std::string name, int id): Customer(name,id){}
