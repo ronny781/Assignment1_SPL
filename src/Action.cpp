@@ -35,13 +35,14 @@ OpenTrainer::OpenTrainer(int id, std::vector<Customer *> &customersList):trainer
     output = "";
     nextIdtoBeInserted = -1;
 }
+
 void OpenTrainer::act(Studio &studio){
     Trainer* trainer = studio.getTrainer(trainerId);
-    std::stringstream printString;
-    printString << "open " << trainerId;
-    for(Customer *cus : customers)
-        printString << " " << cus->toString();
-    output = printString.str();
+//    std::stringstream printString;
+//    printString << "open " << trainerId;
+//    for(Customer *cus : customers)
+//        printString << " " << cus->toString();
+//    output = printString.str();
 
     if(trainer== nullptr || trainer->isOpen() || !trainer->hasAvailableSpace()){
         // Action can't be completed
@@ -59,8 +60,7 @@ void OpenTrainer::act(Studio &studio){
             break;
         }
     }
-
-  //  customers.clear(); //May be irrelevant
+    //customers.clear(); //May be irrelevant
     trainer->openTrainer();
     complete();
 }

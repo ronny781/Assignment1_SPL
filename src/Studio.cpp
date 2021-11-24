@@ -24,37 +24,41 @@ using namespace std;
 //    std::vector<BaseAction*> actionsLog;
 //};
 int Studio::getNextSkip(string str, int start) {
+    if(start == str.size())
+        return 1;
     for (int i = start; i < str.length(); ++i) {
+        if(i == str.length() -1)
+            return i-start+1;
         if (str[i] == ' ') {
             return i-start;
         }
+        if(str[i] == ',')
+            return i-start;
     }
     return -1;
 }
 void Studio::trainersInitalizer(string &line){
     //   trainers.push_back(new Trainer(-1));//Using this will assign index 1 to trainer 1.
-//    int lineLength = 0;
-//    int skip;
-//    int next=0;
-//    while (lineLength < line.length()) {
-//        skip = getNextSkip(line, next);
-//        lineLength = next+skip;
-//        if (skip == 1)
-//            trainers.push_back(new Trainer(line[next] - '0'));
-//        else
-//            trainers.push_back(new Trainer(stoi(line.substr(next, skip))));
-//        next = next + skip;
-//    }
-    for(int i=0;i<line.size();i++){
-        if(line[i]!=','){
-            char c = line[i];
-            int cNum = c - '0';
-//            cout << cNum << endl;
-
-            trainers.push_back(new Trainer(cNum));
-
-        }
+    int skip;
+    int next=0;
+    while (next < line.size()) {
+        skip = getNextSkip(line, next);
+        if (skip == 1)
+            trainers.push_back(new Trainer(line[next] - '0'));
+        else
+            trainers.push_back(new Trainer(stoi(line.substr(next, skip))));
+        next = next + skip+1;
     }
+//    for(int i=0;i<line.size();i++){
+//        if(line[i]!=','){
+//            char c = line[i];
+//            int cNum = c - '0';
+//            cout << cNum << endl;
+//
+//            trainers.push_back(new Trainer(cNum));
+//
+//        }
+//    }
 }
 void Studio::WorkOptionsInitalizer(string &line, int WorkoutIdCounter){
     std::vector<string> vect; //this code wont work without spaces!!
@@ -119,23 +123,33 @@ Studio::Studio(const std::string &configFilePath):open(false){
     // Read from the text file
     ifstream f(configFilePath);
     // Use a while loop together with the getline() function to read the file line by line
-    bool flag1 = false;
-    bool flag2 = false;
+    bool firstHash = false;
+    bool secondHash = false;
+    bool thirdHash = false;
     while (getline(f, myText)) {
         // Output the text from the file
-        if (myText == "# Traines") { //???
-            flag1 = true;
-            continue;
-        } else if (flag1) {
-            trainersInitalizer(myText);
-            flag1 = false;
-        } else if (myText == "# Work Options") {
-            flag2 = true;
-            continue;
+        if (myText[0] == '#') { //???
+            if(!firstHash && !secondHash) {
+                firstHash = true;
+                continue;
+            }
+            else if (!secondHash){
+                secondHash = true;
+                firstHash = false;
+                continue;
+            }
+            else if (!thirdHash){
+                thirdHash = true;
+                continue;
+            }
         }
-        if (flag2) {
+        else if (firstHash)
+            continue;
+        else if (secondHash && !thirdHash){
+            trainersInitalizer(myText);
+        }
+        else if (thirdHash) {
             WorkOptionsInitalizer(myText, WorkoutIdCounter++);
-
         }
     }
     // Close the file
@@ -229,17 +243,16 @@ void Studio::start(){
 
         }
         else if(s.substr(0,2)=="op") {//open
-
-            vector<Customer*> cusList ;
-            int trainerId = 0, first = 0;
-            int skip =  getNextSkip(s, 5);
+            vector<Customer*> cusList;
+            int trainerId = 0, next = 5, skip =  getNextSkip(s, next);
             if (skip == 1)
-                trainerId = s[5] - '0';
+                trainerId = s[next] - '0';
             else
                 trainerId = stoi(s.substr(5,skip));
-            for (int i = 6+skip; i < s.length(); i++) {
+            next = next+skip+1;
+            for (int i = next; i < s.length(); i++) {
                 if (s[i] == ',') {
-                    string name = s.substr(first, i - first);
+                    string name = s.substr(next, i - next);
                     string type = s.substr(i + 1, 3);
                     if (type == "swt")
                         cusList.push_back(new SweatyCustomer(name,cusCounter));
@@ -257,7 +270,7 @@ void Studio::start(){
 //                            cout << name << " " << type << cusCounter << endl;
                     cusCounter++;
                     i += 3;
-                    first = i + 2;
+                    next = i + 2;
                 }
             }
 
@@ -352,6 +365,7 @@ void Studio::start(){
         else if(s.substr(0,3)=="log"){
             BaseAction* log = new PrintActionsLog;
             log->act(*this);
+            delete log;
 //            actionsLog.push_back(log);
         }
         else if(s.substr(0,3)=="bac"){
@@ -365,11 +379,7 @@ void Studio::start(){
             actionsLog.push_back(restore);
         }
         getline(cin,s);
-
     }
-
-
-
 }
 
 
