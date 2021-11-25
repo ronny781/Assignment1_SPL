@@ -25,6 +25,7 @@ void BaseAction::error(std::string errorMsg){
 std::string BaseAction::getErrorMsg() const{
     return errorMsg;
 }
+BaseAction::~BaseAction(){};
 //private:
 //std::string errorMsg;
 //ActionStatus status;
@@ -35,7 +36,11 @@ OpenTrainer::OpenTrainer(int id, std::vector<Customer *> &customersList):trainer
     output = "";
     nextIdtoBeInserted = -1;
 }
-
+//OpenTrainer::~OpenTrainer(){
+//    for(Customer* cus : customers)
+//        if (cus)
+//            delete cus;
+//}
 void OpenTrainer::act(Studio &studio){
     Trainer* trainer = studio.getTrainer(trainerId);
 //    std::stringstream printString;
@@ -167,10 +172,6 @@ BaseAction* MoveCustomer::clone() const{
     MoveCustomer* move= new MoveCustomer(*this);
     return move;
 }
-//private:
-//    const int srcTrainer;
-//    const int dstTrainer;
-//    const int id;
 
 Close::Close(int id):trainerId(id) ,BaseAction() {}
 void Close::act(Studio &studio){

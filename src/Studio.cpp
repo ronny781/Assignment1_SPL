@@ -380,6 +380,7 @@ void Studio::start(){
         }
         getline(cin,s);
     }
+
 }
 
 

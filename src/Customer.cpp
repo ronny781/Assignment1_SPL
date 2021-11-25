@@ -78,26 +78,16 @@ Customer* CheapCustomer::clone() const{
 HeavyMuscleCustomer::HeavyMuscleCustomer(std::string name, int id): Customer(name,id){}
 std::vector<int> HeavyMuscleCustomer::order(const std::vector<Workout> &workout_options){
     vector<int> mcl;
-    vector<Workout> mclOnly;
+    vector<Workout*> mclOnly;
     for (int i = 0; i < workout_options.size(); ++i) {
-        if (workout_options[i].getType() == ANAEROBIC) {
-            mclOnly.push_back(workout_options[i]);
-        }
-
+        if (workout_options[i].getType() == ANAEROBIC)
+            mclOnly.push_back(new Workout(workout_options[i]));
     }
-    int max = -1;
-    int position;
-    int size = mclOnly.size();
-    while(mcl.size() != size) {
-        for (int i = 0; i < mclOnly.size(); ++i) {
-            if (mclOnly[i].getPrice() > max) {
-                max = mclOnly[i].getPrice();
-                position = i;
-            }
-        }
-        mcl.push_back(mclOnly[position].getId());
-        mclOnly.erase(mclOnly.begin()+position);
-        max = -1;
+    sort(mclOnly.begin(), mclOnly.end(), byPrice);
+    for (int i = 0; i < mclOnly.size(); ++i) {
+        mcl.push_back(mclOnly[i]->getId());
+        if (mclOnly[i])
+            delete mclOnly[i];
     }
     return mcl;
 }
@@ -107,6 +97,9 @@ std::string HeavyMuscleCustomer::toString() const{
 Customer* HeavyMuscleCustomer::clone() const{
     HeavyMuscleCustomer* mcl = new HeavyMuscleCustomer(*this);
     return mcl;
+}
+bool byPrice(const Workout *a ,const Workout *b){
+    return (b->getPrice() <= a->getPrice());
 }
 
 FullBodyCustomer::FullBodyCustomer(std::string name, int id): Customer(name,id){}
@@ -120,7 +113,6 @@ std::vector<int> FullBodyCustomer::order(const std::vector<Workout> &workout_opt
     int aerobicId = -1;
 
     for (int i = 0 ; i < workout_options.size(); i++) {
-//        Workout wk1 = workout_options[i];
         if (workout_options[i].getType() == CARDIO && workout_options[i].getPrice()  < minCardio) {
             minCardio =  workout_options[i].getPrice();
             cardioId = workout_options[i].getId();

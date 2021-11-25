@@ -21,6 +21,7 @@ public:
     ActionStatus getStatus() const;
     virtual void act(Studio& studio)=0;
     virtual std::string toString() const=0;
+    virtual ~BaseAction()=0;
     virtual BaseAction* clone() const=0;
 protected:
     void complete();

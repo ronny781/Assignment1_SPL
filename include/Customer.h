@@ -61,6 +61,6 @@ public:
 private:
     Customer *clone() const;
 };
-
+bool byPrice(const Workout *a ,const Workout *b);
 
 #endif

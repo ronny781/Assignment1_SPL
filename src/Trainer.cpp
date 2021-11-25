@@ -78,11 +78,15 @@ const Trainer& Trainer::operator=(Trainer&& other){
     return *this;
 }
 void Trainer::clear() {
-    for (Customer *cust: customersList) {
-        if (cust) {
-            delete cust;
-            cust = nullptr;
-        }
+//    for (Customer *cust: customersList) {
+//        if (cust) {
+//            delete cust;
+//            cust = nullptr;
+//        }
+//    }
+    for (auto it = customersList.begin();it != customersList.end();it++) {
+        if (*it)
+            delete *it;
     }
     customersList.clear();
 }
