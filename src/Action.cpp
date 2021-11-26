@@ -177,10 +177,6 @@ void Close::act(Studio &studio){
         cout << getErrorMsg() << endl; //Printing error
         return;
     }
-    for(Customer* cus : trainer->getCustomers()){ // Wonder if that works because I delete from my iterable.
-        delete cus;
-    }
-    trainer->getCustomers().clear();
     trainer->closeTrainer();
     complete();
     cout << "Trainer " << trainerId << " closed. Salary " << trainer->getSalary() << "NIS" << endl;

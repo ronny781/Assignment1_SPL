@@ -113,6 +113,10 @@ void Trainer::openTrainer(){
     open = true; //is that all?
 }
 void Trainer::closeTrainer(){
+    for(Customer* cus : getCustomers()){ // Wonder if that works because I delete from my iterable.
+        delete cus;
+    }
+    getCustomers().clear();
     open = false; //is that all?
 }
 int Trainer::getSalary(){

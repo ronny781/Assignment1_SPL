@@ -268,9 +268,10 @@ void Studio::start(){
             move->act(*this);
             // need to close session if there no customers left
             if(trainers[OriginalTrainer]->getCustomers().empty()){
-                BaseAction* close = new Close(OriginalTrainer);
-                close->act(*this);
-                actionsLog.push_back(close);
+                trainers[OriginalTrainer]->closeTrainer();
+//                BaseAction* close = new Close(OriginalTrainer);
+//                close->act(*this);
+//                actionsLog.push_back(close);
             }
             actionsLog.push_back(move);
         }
