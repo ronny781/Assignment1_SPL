@@ -19,10 +19,11 @@ public:
     int getCapacity() const;
     void addCustomer(Customer* customer);
     void removeCustomer(int id);
-    void moveCustomer(int id);//Added myself
+    void updateSalary(int addToSalary);//Added myself
     Customer* getCustomer(int id);
     std::vector<Customer*>& getCustomers();
     std::vector<OrderPair>& getOrders();
+    void updateOrderList(std::vector<OrderPair> &list);
     void order(const int customer_id, const std::vector<int> workout_ids, const std::vector<Workout>& workout_options);
     void openTrainer();
     void closeTrainer();
@@ -30,6 +31,7 @@ public:
     bool isOpen();
     bool hasAvailableSpace();
 private:
+    int salary;
     int capacity;
     bool open;
     std::vector<Customer*> customersList;

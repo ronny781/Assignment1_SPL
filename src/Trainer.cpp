@@ -6,30 +6,7 @@
 #include "../include/Trainer.h"
 
 
-//class Trainer{
-//public:
-//    Trainer(int t_capacity);
-//    int getCapacity() const;
-//    void addCustomer(Customer* customer);
-//    void removeCustomer(int id);
-//    Customer* getCustomer(int id);
-//    std::vector<Customer*>& getCustomers();
-//    std::vector<OrderPair>& getOrders();
-//    void order(const int customer_id, const std::vector<int> workout_ids, const std::vector<Workout>& workout_options);
-//    void openTrainer();
-//    void closeTrainer();
-//    int getSalary();
-//    bool isOpen();
-//private:
-//    int capacity;
-//    bool open;
-//    std::vector<Customer*> customersList;
-//    std::vector<OrderPair> orderList; //A list of pairs for each order for the trainer - (customer_id, Workout)
-//};
-// I think we need to add salary field!
-
-Trainer::Trainer(int t_capacity): capacity(t_capacity), open(false) {
-
+Trainer::Trainer(int t_capacity): capacity(t_capacity), open(false),salary(0) {
 }
 //Destructor:
 Trainer::~Trainer() {
@@ -74,24 +51,18 @@ const Trainer& Trainer::operator=(Trainer&& other){
     open = other.open;
     orderList = other.orderList;
     customersList = other.customersList;
-    other.customersList.clear();///meyutar
+    other.customersList.clear();//meyutar
     return *this;
 }
 void Trainer::clear() {
-//    for (Customer *cust: customersList) {
-//        if (cust) {
-//            delete cust;
-//            cust = nullptr;
-//        }
-//    }
-    for (auto it = customersList.begin();it != customersList.end();it++) {
-        if (*it)
-            delete *it;
+    for (Customer *cust: customersList) {
+        if (cust) {
+            delete cust;
+            cust = nullptr;
+        }
     }
     customersList.clear();
 }
-
-
 int Trainer::getCapacity() const{
     return capacity;
 }
@@ -109,8 +80,9 @@ void Trainer::removeCustomer(int id){//Wonder if it works.
         }
     }
 }
-
-
+void Trainer::updateSalary(int addToSalary) {
+    salary += addToSalary;
+}
 Customer* Trainer::getCustomer(int id){
     for(Customer *cus : customersList){
         if(cus->getId()==id){
@@ -124,6 +96,10 @@ std::vector<Customer*>& Trainer::getCustomers(){
 }
 std::vector<OrderPair>& Trainer::getOrders(){
     return orderList;
+}
+void Trainer::updateOrderList(std::vector<OrderPair> &list){
+    orderList.clear();
+    orderList = list;
 }
 void Trainer::order(const int customer_id, const std::vector<int> workout_ids, const std::vector<Workout>& workout_options){
     for(int id : workout_ids){ //only works with workout list being unsorted!
@@ -140,11 +116,7 @@ void Trainer::closeTrainer(){
     open = false; //is that all?
 }
 int Trainer::getSalary(){
-    int sum = 0;
-    for(OrderPair pair : orderList){
-        sum += pair.second.getPrice();
-    }
-    return sum;
+    return salary;
 }
 bool Trainer::isOpen(){
     return open;

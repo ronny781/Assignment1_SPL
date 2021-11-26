@@ -36,11 +36,6 @@ OpenTrainer::OpenTrainer(int id, std::vector<Customer *> &customersList):trainer
     output = "";
     nextIdtoBeInserted = -1;
 }
-//OpenTrainer::~OpenTrainer(){
-//    for(Customer* cus : customers)
-//        if (cus)
-//            delete cus;
-//}
 void OpenTrainer::act(Studio &studio){
     Trainer* trainer = studio.getTrainer(trainerId);
 //    std::stringstream printString;
@@ -105,9 +100,12 @@ void Order::act(Studio &studio){
         vector<Workout> workoutOptions = studio.getWorkoutOptions();
         vector<int> workoutPicked = cus->order(workoutOptions);
         trainer->order(cus->getId(),workoutPicked,workoutOptions);
+        int sum = 0;
         for(int i=0;i<workoutPicked.size();i++){
             cout << cus->getName() << " is Doing " << workoutOptions[workoutPicked[i]].getName() << endl;
+            sum += workoutOptions[workoutPicked[i]].getPrice();
         }
+        trainer->updateSalary(sum);
     }
     complete();
 }
@@ -124,10 +122,6 @@ BaseAction* Order::clone() const{
     Order* ord = new Order(*this);
     return ord;
 }
-//private:
-//    const int trainerId;
-
-
 MoveCustomer::MoveCustomer(int src, int dst, int customerId): srcTrainer(src),dstTrainer(dst),id(customerId) ,BaseAction() {}
 void MoveCustomer::act(Studio &studio){
     Trainer* srcTra = studio.getTrainer(srcTrainer);
@@ -140,19 +134,21 @@ void MoveCustomer::act(Studio &studio){
         srcTra->removeCustomer(id);
         vector<OrderPair>& srcList = srcTra->getOrders();
         vector<OrderPair>& dstList = dstTra->getOrders();
-        vector<int> indicesForDelete; // Stores where we need to delete old elements
+        vector<OrderPair> newOrderLIst; // Stores where we need to delete old elements
+        int sum = 0;
         for(int i = 0; i != srcList.size(); i++) {
-            if(srcList[i].first==id){
-                dstList.push_back(srcList[i]);
-                indicesForDelete.push_back(i);
+            OrderPair pair = srcList[i];
+            if(pair.first==id){
+                sum += pair.second.getPrice();
+                dstList.push_back(pair);
             }
+            else
+                newOrderLIst.push_back(pair);
         }
-        for(int indice : indicesForDelete)
-            srcList.erase(srcList.begin()+indice);
-
-
+        srcTra->updateOrderList(newOrderLIst);
+        dstTra->updateSalary(sum);
+        srcTra->updateSalary(-sum);
         complete();
-
     }
     else{
         error("Cannot move customer");
@@ -183,7 +179,6 @@ void Close::act(Studio &studio){
     }
     for(Customer* cus : trainer->getCustomers()){ // Wonder if that works because I delete from my iterable.
         delete cus;
-        cus = nullptr;
     }
     trainer->getCustomers().clear();
     trainer->closeTrainer();
@@ -228,24 +223,24 @@ BaseAction* CloseAll::clone() const{
 PrintWorkoutOptions::PrintWorkoutOptions():BaseAction(){}
 void PrintWorkoutOptions::act(Studio &studio){
     vector<Workout> workout_option = studio.getWorkoutOptions();
-//    std::stringstream toString;
     for(Workout wk: workout_option){
        cout << wk.toString() ;
     }
-//    std::string s = toString.str();
     complete();
 }
 std::string PrintWorkoutOptions::toString() const{
     return "workout_options Completed";
 }
 BaseAction* PrintWorkoutOptions::clone() const{
-    PrintWorkoutOptions* printoptions= new PrintWorkoutOptions(*this);
-    return printoptions;
+    PrintWorkoutOptions* printOptions= new PrintWorkoutOptions(*this);
+    return printOptions;
 }
 
 PrintTrainerStatus::PrintTrainerStatus(int id) : trainerId(id),BaseAction(){} // What about checking if trainer exist??
 void PrintTrainerStatus::act(Studio &studio){
     Trainer* trainer = studio.getTrainer(trainerId);
+    if(trainer == nullptr)
+        return;
     if(trainer->isOpen())
         cout << "Trainer " << trainerId << " status: " << "open" << endl;
     else{
@@ -292,8 +287,8 @@ std::string PrintActionsLog::toString() const{
     return "log Completed";
 }
 BaseAction* PrintActionsLog::clone() const{
-    PrintActionsLog* printactions= new PrintActionsLog(*this);
-    return printactions;
+    PrintActionsLog* printActions= new PrintActionsLog(*this);
+    return printActions;
 }
 
 

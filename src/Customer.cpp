@@ -6,19 +6,7 @@
 #include <list>
 
 using namespace std;
-//class Customer{
-//public:
-//    Customer(std::string c_name, int c_id);
-//    virtual std::vector<int> order(const std::vector<Workout> &workout_options)=0;
-//    virtual std::string toString() const = 0;
-//    std::string getName() const;
-//    int getId() const;
-//private:
-//    const std::string name;
-//    const int id;
-//};
-//
-//
+
 Customer::Customer(std::string c_name, int c_id): name(c_name), id(c_id){}
 std::string Customer::getName() const{
     return name;

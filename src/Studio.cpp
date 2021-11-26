@@ -7,22 +7,6 @@
 
 using namespace std;
 
-//class Studio{
-//public:
-//    Studio();
-//    Studio(const std::string &configFilePath);
-//    void start();
-//    int getNumOfTrainers() const;
-//    Trainer* getTrainer(int tid);
-//    const std::vector<BaseAction*>& getActionsLog() const; // Return a reference to the history of actions
-//    std::vector<Workout>& getWorkoutOptions();
-//
-//private:
-//    bool open;
-//    std::vector<Trainer*> trainers;
-//    std::vector<Workout> workout_options;
-//    std::vector<BaseAction*> actionsLog;
-//};
 int Studio::getNextSkip(string str, int start) {
     if(start == str.size())
         return 1;
@@ -49,16 +33,6 @@ void Studio::trainersInitalizer(string &line){
             trainers.push_back(new Trainer(stoi(line.substr(next, skip))));
         next = next + skip+1;
     }
-//    for(int i=0;i<line.size();i++){
-//        if(line[i]!=','){
-//            char c = line[i];
-//            int cNum = c - '0';
-//            cout << cNum << endl;
-//
-//            trainers.push_back(new Trainer(cNum));
-//
-//        }
-//    }
 }
 void Studio::WorkOptionsInitalizer(string &line, int WorkoutIdCounter){
     std::vector<string> vect; //this code wont work without spaces!!
@@ -72,8 +46,6 @@ void Studio::WorkOptionsInitalizer(string &line, int WorkoutIdCounter){
         }
     }
     vect.push_back(line.substr(first,line.size()));
-//    std::cout << line.substr(first,line.size())<< std::endl;
-//    std::cout << "vector is at " << vect.at(0) <<" "<< vect.at(1) << " " << vect.at(2) << " " <<std::endl;
     int workType ;
     if(vect.at(1)== "Anaerobic")
         workType = 0;
@@ -81,43 +53,13 @@ void Studio::WorkOptionsInitalizer(string &line, int WorkoutIdCounter){
         workType = 1;
     else if(vect.at(1)== "Cardio")
         workType = 2;
-
-//    Workout* w_k1 = new Workout(WorkoutIdCounter,vect.at(0),std::stoi(vect.at(2)),WorkoutType(workType));
     workout_options.push_back(Workout(WorkoutIdCounter,vect.at(0),std::stoi(vect.at(2)),WorkoutType(workType)));
-
-    // we might need to check if we need to sort the list, if yes we should do it here.
-//
 }
 
 Studio::Studio():open(false){}
 
 
 Studio::Studio(const std::string &configFilePath):open(false){
-//Trainer* trainer = new Trainer(3);
-//trainer->addCustomer(new CheapCustomer("ronny",2));
-//Trainer* trainer1 =new Trainer(*trainer);
-//cout << trainer1->isOpen();
-//        std::ifstream file(configFilePath);
-//        char line[256];
-//        int counter = 0;
-//        while(file) {
-//            file.getline(line, 256);
-//            if(line[0] == '#' || line[0] == '\0')
-//                continue;
-//            if(counter == 0){
-//                int numofTrainers = stoi(line);
-//                counter++;
-//                continue;
-//            }
-//            if(counter == 1) {
-//                for(int i=0;i<getNumOfTrainers();i++){
-//                    trainers.push_back(new Trainer(line[i]));
-//                    i++;
-//                }
-//                counter++;
-//            }
-//        }
-//
     string myText;
     int WorkoutIdCounter = 0;
     // Read from the text file
@@ -194,8 +136,6 @@ Studio::Studio(Studio &&other){
     workout_options = other.workout_options;
     trainers = other.trainers;
     actionsLog = other.actionsLog;
-//    other.trainers.clear(); // meytuar
-//    other.actionsLog.clear();
 }
 //Move Assignment Operator
 const Studio& Studio::operator=(Studio&& other){
@@ -204,8 +144,6 @@ const Studio& Studio::operator=(Studio&& other){
     workout_options=other.workout_options;
     trainers = other.trainers;
     actionsLog = other.actionsLog;
-//    other.trainers.clear(); //meyutar
-//    other.actionsLog.clear();
     return *this;
 }
 void Studio::clear() {
@@ -232,15 +170,11 @@ void Studio::start(){
     int cusCounter = 0;
     getline(cin,s);
     while(true){
-
-
         if(s == "closeall") {
             BaseAction* act = new CloseAll();
             act->act(*this);
             actionsLog.push_back(act);
             break;
-
-
         }
         else if(s.substr(0,2)=="op") {//open
             vector<Customer*> cusList;
@@ -256,24 +190,18 @@ void Studio::start(){
                     string type = s.substr(i + 1, 3);
                     if (type == "swt")
                         cusList.push_back(new SweatyCustomer(name,cusCounter));
-//                            cout << name << " " << type << cusCounter << endl;
                     else if (type == "mcl")
                         cusList.push_back(new HeavyMuscleCustomer(name,cusCounter));
-//                            cout << name << " " << type << cusCounter << endl;
                     else if (type == "chp")
                         cusList.push_back(new CheapCustomer(name,cusCounter));
-//                            cout << name << " " << type << cusCounter << endl;
                     else if (type == "fbd"){
                         cusList.push_back(new FullBodyCustomer(name,cusCounter));
-//                        cout << cus->toString();
                     }
-//                            cout << name << " " << type << cusCounter << endl;
                     cusCounter++;
                     i += 3;
                     next = i + 2;
                 }
             }
-
             BaseAction* open = new OpenTrainer(trainerId,cusList);
             open->act(*this);
             int nextCustId = static_cast<OpenTrainer*>(open)->getNextIdtoBeInserted();
