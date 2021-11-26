@@ -44,15 +44,13 @@ Workout.h
 string
 -
 
-/home/ronnypc/CLionProjects/Assignment1_SPL8/src/Action.cpp
-../include/Action.h
-/home/ronnypc/CLionProjects/Assignment1_SPL8/include/Action.h
-../include/Trainer.h
-/home/ronnypc/CLionProjects/Assignment1_SPL8/include/Trainer.h
+/home/ronnypc/CLionProjects/Assignment1_SPL8/src/Studio.cpp
+iostream
+-
+fstream
+-
+vector
+-
 ../include/Studio.h
 /home/ronnypc/CLionProjects/Assignment1_SPL8/include/Studio.h
-sstream
--
-string
--
 

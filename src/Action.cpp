@@ -40,14 +40,17 @@ void OpenTrainer::act(Studio &studio){
     Trainer* trainer = studio.getTrainer(trainerId);
     std::stringstream printString;
     printString << "open " << trainerId;
-    for(Customer *cus : customers)
-        printString << " " << cus->toString();
-    output = printString.str();
+//    for(Customer *cus : customers)
+//        printString << " " << cus->toString();
+//    output = printString.str();
 
     if(trainer== nullptr || trainer->isOpen() || !trainer->hasAvailableSpace()){
         // Action can't be completed
         error("Trainer does not exist or is not open");
         cout << getErrorMsg() << endl; //Printing error
+        for(Customer *cus : customers)
+            printString << " " << cus->toString();
+        output = printString.str();
         return;
     }
     //If we reached here so far there will be at least one customer to be inserted
@@ -55,11 +58,13 @@ void OpenTrainer::act(Studio &studio){
         if(trainer->hasAvailableSpace()){
             nextIdtoBeInserted = cus->getId() + 1;
             trainer->addCustomer(cus);
+            printString << " " << cus->toString();
         }
         else{
             break;
         }
     }
+    output = printString.str();
     //customers.clear(); //May be irrelevant
     trainer->openTrainer();
     complete();
