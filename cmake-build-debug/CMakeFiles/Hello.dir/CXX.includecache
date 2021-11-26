@@ -6,29 +6,15 @@
 
 #IncludeRegexTransform: 
 
-/home/ronnypc/CLionProjects/Assignment1_SPL8/include/Customer.h
-vector
--
-string
--
-Workout.h
-/home/ronnypc/CLionProjects/Assignment1_SPL8/include/Workout.h
-
-/home/ronnypc/CLionProjects/Assignment1_SPL8/include/Trainer.h
-vector
--
-Customer.h
-/home/ronnypc/CLionProjects/Assignment1_SPL8/include/Customer.h
-Workout.h
-/home/ronnypc/CLionProjects/Assignment1_SPL8/include/Workout.h
-
 /home/ronnypc/CLionProjects/Assignment1_SPL8/include/Workout.h
 string
 -
 
-/home/ronnypc/CLionProjects/Assignment1_SPL8/src/Trainer.cpp
-vector
+/home/ronnypc/CLionProjects/Assignment1_SPL8/src/Workout.cpp
+iostream
 -
-../include/Trainer.h
-/home/ronnypc/CLionProjects/Assignment1_SPL8/include/Trainer.h
+../include/Workout.h
+/home/ronnypc/CLionProjects/Assignment1_SPL8/include/Workout.h
+sstream
+-
 

@@ -7,6 +7,7 @@
 
 using namespace std;
 
+Customer::~Customer(){};
 Customer::Customer(std::string c_name, int c_id): name(c_name), id(c_id){}
 std::string Customer::getName() const{
     return name;
@@ -67,12 +68,12 @@ HeavyMuscleCustomer::HeavyMuscleCustomer(std::string name, int id): Customer(nam
 std::vector<int> HeavyMuscleCustomer::order(const std::vector<Workout> &workout_options){
     vector<int> mcl;
     vector<Workout*> mclOnly;
-    for (int i = 0; i < workout_options.size(); ++i) {
+    for (unsigned i = 0; i < workout_options.size(); ++i) {
         if (workout_options[i].getType() == ANAEROBIC)
             mclOnly.push_back(new Workout(workout_options[i]));
     }
     sort(mclOnly.begin(), mclOnly.end(), byPrice);
-    for (int i = 0; i < mclOnly.size(); ++i) {
+    for (unsigned i = 0; i < mclOnly.size(); ++i) {
         mcl.push_back(mclOnly[i]->getId());
         if (mclOnly[i])
             delete mclOnly[i];
@@ -100,7 +101,7 @@ std::vector<int> FullBodyCustomer::order(const std::vector<Workout> &workout_opt
     int mixedId = -1;
     int aerobicId = -1;
 
-    for (int i = 0 ; i < workout_options.size(); i++) {
+    for (unsigned i = 0 ; i < workout_options.size(); i++) {
         if (workout_options[i].getType() == CARDIO && workout_options[i].getPrice()  < minCardio) {
             minCardio =  workout_options[i].getPrice();
             cardioId = workout_options[i].getId();

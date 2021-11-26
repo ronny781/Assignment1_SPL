@@ -8,9 +8,9 @@
 using namespace std;
 
 int Studio::getNextSkip(string str, int start) {
-    if(start == str.size())
+    if((std::string::size_type)start == str.size())
         return 1;
-    for (int i = start; i < str.length(); ++i) {
+    for (std::string::size_type i = start; i < str.length(); ++i) {
         if(i == str.length() -1)
             return i-start+1;
         if (str[i] == ' ') {
@@ -24,7 +24,7 @@ int Studio::getNextSkip(string str, int start) {
 void Studio::trainersInitalizer(string &line){
     //   trainers.push_back(new Trainer(-1));//Using this will assign index 1 to trainer 1.
     int skip;
-    int next=0;
+    std::string::size_type next=0;
     while (next < line.size()) {
         skip = getNextSkip(line, next);
         if (skip == 1)
@@ -37,7 +37,7 @@ void Studio::trainersInitalizer(string &line){
 void Studio::WorkOptionsInitalizer(string &line, int WorkoutIdCounter){
     std::vector<string> vect; //this code wont work without spaces!!
     int first = 0;
-    for(int i=1;i<line.size();i++){
+    for(std::string::size_type i=1;i<line.size();i++){
         if(line[i]==','){
             string s= line.substr(first,i-first);
             vect.push_back(s);
@@ -55,10 +55,10 @@ void Studio::WorkOptionsInitalizer(string &line, int WorkoutIdCounter){
     workout_options.push_back(Workout(WorkoutIdCounter,vect.at(0),std::stoi(vect.at(2)),WorkoutType(workType)));
 }
 
-Studio::Studio():open(false){}
+Studio::Studio():open(false),trainers(),workout_options(),actionsLog(){}
 
 
-Studio::Studio(const std::string &configFilePath):open(false){
+Studio::Studio(const std::string &configFilePath):open(false),trainers(),workout_options(),actionsLog(){
     string myText;
     int WorkoutIdCounter = 0;
     // Read from the text file
@@ -102,11 +102,11 @@ Studio::~Studio(){
     clear();
 }
 //Copy constructor
-Studio::Studio(const Studio &other){
-    open = other.open;
-    workout_options = other.workout_options;
-    actionsLog.clear(); // Added myself
-    trainers.clear(); // Added myself
+Studio::Studio(const Studio &other):open(other.open),trainers(),workout_options(other.workout_options),actionsLog(){
+//    open = other.open;
+//    workout_options = other.workout_options;
+//    actionsLog.clear(); // Added myself
+//    trainers.clear(); // Added myself
     for(BaseAction* act: other.actionsLog){
         actionsLog.push_back(act->clone());
     }
@@ -130,11 +130,11 @@ const Studio& Studio::operator=(const Studio &other) {
     return *this;
 }
 //Move Constructor
-Studio::Studio(Studio &&other){
-    open = other.open;
-    workout_options = other.workout_options;
-    trainers = other.trainers;
-    actionsLog = other.actionsLog;
+Studio::Studio(Studio &&other):open(other.open),trainers(other.trainers),workout_options(other.workout_options),actionsLog(other.actionsLog){
+//    open = other.open;
+//    workout_options = other.workout_options;
+//    trainers = other.trainers;
+//    actionsLog = other.actionsLog;
 }
 //Move Assignment Operator
 const Studio& Studio::operator=(Studio&& other){
@@ -183,7 +183,7 @@ void Studio::start(){
             else
                 trainerId = stoi(s.substr(5, skip));
             next = next + skip + 1;
-            for (int i = next; i < s.length(); i++) {
+            for (std::string::size_type i = next; i < s.length(); i++) {
                 if (s[i] == ',') {
                     string name = s.substr(next, i - next);
                     string type = s.substr(i + 1, 3);

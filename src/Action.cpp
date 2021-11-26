@@ -9,7 +9,7 @@
 #include <string>
 using namespace std;
 
-BaseAction::BaseAction():errorMsg(""){}
+BaseAction::BaseAction():errorMsg(),status(){}
 
 
 ActionStatus BaseAction::getStatus() const{
@@ -31,10 +31,9 @@ BaseAction::~BaseAction(){};
 //ActionStatus status;
 
 
-OpenTrainer::OpenTrainer(int id, std::vector<Customer *> &customersList):trainerId(id), customers(customersList), BaseAction() { //need to add rule of 5
+OpenTrainer::OpenTrainer(int id, std::vector<Customer *> &customersList): BaseAction(),trainerId(id),output(), nextIdtoBeInserted(-1),customers(customersList)  { //need to add rule of 5
     //this opens session
-    output = "";
-    nextIdtoBeInserted = -1;
+
 }
 void OpenTrainer::act(Studio &studio){
     Trainer* trainer = studio.getTrainer(trainerId);
@@ -92,7 +91,7 @@ BaseAction* OpenTrainer::clone() const{
 //    std::vector<Customer *> customers;
 
 
-Order::Order(int id):trainerId(id) ,BaseAction() {}
+Order::Order(int id):BaseAction(),trainerId(id) {}
 void Order::act(Studio &studio){
     Trainer* trainer = studio.getTrainer(trainerId);
     if(trainer== nullptr || !trainer->isOpen()){
@@ -106,7 +105,7 @@ void Order::act(Studio &studio){
         vector<int> workoutPicked = cus->order(workoutOptions);
         trainer->order(cus->getId(),workoutPicked,workoutOptions);
         int sum = 0;
-        for(int i=0;i<workoutPicked.size();i++){
+        for(unsigned i=0;i<workoutPicked.size();i++){
             cout << cus->getName() << " is Doing " << workoutOptions[workoutPicked[i]].getName() << endl;
             sum += workoutOptions[workoutPicked[i]].getPrice();
         }
@@ -127,7 +126,7 @@ BaseAction* Order::clone() const{
     Order* ord = new Order(*this);
     return ord;
 }
-MoveCustomer::MoveCustomer(int src, int dst, int customerId): srcTrainer(src),dstTrainer(dst),id(customerId) ,BaseAction() {}
+MoveCustomer::MoveCustomer(int src, int dst, int customerId): BaseAction(),srcTrainer(src),dstTrainer(dst),id(customerId){}
 void MoveCustomer::act(Studio &studio){
     Trainer* srcTra = studio.getTrainer(srcTrainer);
     Trainer* dstTra = studio.getTrainer(dstTrainer);
@@ -141,7 +140,7 @@ void MoveCustomer::act(Studio &studio){
         vector<OrderPair>& dstList = dstTra->getOrders();
         vector<OrderPair> newOrderLIst; // Stores where we need to delete old elements
         int sum = 0;
-        for(int i = 0; i != srcList.size(); i++) {
+        for(unsigned i = 0; i != srcList.size(); i++) {
             OrderPair pair = srcList[i];
             if(pair.first==id){
                 sum += pair.second.getPrice();
@@ -174,7 +173,7 @@ BaseAction* MoveCustomer::clone() const{
     return move;
 }
 
-Close::Close(int id):trainerId(id) ,BaseAction() {}
+Close::Close(int id):BaseAction(),trainerId(id){}
 void Close::act(Studio &studio){
     Trainer* trainer = studio.getTrainer(trainerId);
     if(trainer== nullptr || !trainer->isOpen()){
@@ -237,7 +236,7 @@ BaseAction* PrintWorkoutOptions::clone() const{
     return printOptions;
 }
 
-PrintTrainerStatus::PrintTrainerStatus(int id) : trainerId(id),BaseAction(){} // What about checking if trainer exist??
+PrintTrainerStatus::PrintTrainerStatus(int id) : BaseAction(),trainerId(id){} // What about checking if trainer exist??
 void PrintTrainerStatus::act(Studio &studio){
     Trainer* trainer = studio.getTrainer(trainerId);
     if(trainer == nullptr)

@@ -55,7 +55,6 @@ public:
     std::string toString() const;
 private:
     const int trainerId;
-
     BaseAction *clone() const;
 };
 

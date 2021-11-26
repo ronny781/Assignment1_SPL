@@ -35,5 +35,5 @@ std::string Workout::toString() const{
 }
 
 Workout &Workout::operator=(const Workout& wk) {
-
+    return *this;
 };

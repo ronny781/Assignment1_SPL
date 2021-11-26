@@ -6,18 +6,18 @@
 #include "../include/Trainer.h"
 
 
-Trainer::Trainer(int t_capacity): capacity(t_capacity), open(false),salary(0) {
+Trainer::Trainer(int t_capacity): salary(0),capacity(t_capacity), open(false),customersList(),orderList() {
 }
 //Destructor:
 Trainer::~Trainer() {
     clear();
 }
 //Copy Constructor:
-Trainer::Trainer(const Trainer &other) {
-    salary = other.salary;
-    capacity = other.capacity;
-    open = other.open;
-    orderList = other.orderList;
+Trainer::Trainer(const Trainer &other):salary(other.salary), capacity(other.capacity), open(other.open) ,customersList() ,orderList(other.orderList) {
+//    salary = other.salary;
+//    capacity = other.capacity;
+//    open = other.open;
+//    orderList = other.orderList;
     for(Customer* cust:other.customersList){
         customersList.push_back(cust->clone());
     }
@@ -39,13 +39,13 @@ const Trainer& Trainer::operator=(const Trainer &other){
 
 }
 //Move Constructor
-Trainer::Trainer(Trainer &&other){
-    salary = other.salary;
-    capacity = other.capacity;
-    open = other.open;
-    orderList = other.orderList;
-    customersList = other.customersList;
-    other.customersList.clear();//meyutar
+Trainer::Trainer(Trainer &&other):salary(other.salary), capacity(other.capacity), open(other.open),customersList(other.customersList), orderList(other.orderList){
+//    salary = other.salary;
+//    capacity = other.capacity;
+//    open = other.open;
+//    orderList = other.orderList;
+//    customersList = other.customersList;
+
 }
 //Move Assignment Operator
 const Trainer& Trainer::operator=(Trainer&& other){
@@ -76,7 +76,7 @@ void Trainer::addCustomer(Customer* customer){
 }
 
 void Trainer::removeCustomer(int id){//Wonder if it works.
-    for(int i=0;i<customersList.size();i++){
+    for(unsigned i=0;i<customersList.size();i++){
         if(customersList[i]->getId()==id){
             delete customersList[i]; // Is that right?
             customersList.erase(customersList.begin() + i);
