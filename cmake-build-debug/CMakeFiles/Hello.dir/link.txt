@@ -1,0 +1,1 @@
+/usr/bin/c++ -g CMakeFiles/Hello.dir/src/main.cpp.o CMakeFiles/Hello.dir/src/Workout.cpp.o CMakeFiles/Hello.dir/src/Studio.cpp.o CMakeFiles/Hello.dir/src/Trainer.cpp.o CMakeFiles/Hello.dir/src/Customer.cpp.o CMakeFiles/Hello.dir/src/Action.cpp.o -o Hello 
