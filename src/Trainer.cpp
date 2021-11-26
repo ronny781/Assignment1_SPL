@@ -14,6 +14,7 @@ Trainer::~Trainer() {
 }
 //Copy Constructor:
 Trainer::Trainer(const Trainer &other) {
+    salary = other.salary;
     capacity = other.capacity;
     open = other.open;
     orderList = other.orderList;
@@ -26,6 +27,7 @@ Trainer::Trainer(const Trainer &other) {
 const Trainer& Trainer::operator=(const Trainer &other){
     if(this!=&other) {
         clear();
+        salary = other.salary;
         capacity = other.capacity;
         open = other.open;
         orderList = other.orderList;
@@ -38,6 +40,7 @@ const Trainer& Trainer::operator=(const Trainer &other){
 }
 //Move Constructor
 Trainer::Trainer(Trainer &&other){
+    salary = other.salary;
     capacity = other.capacity;
     open = other.open;
     orderList = other.orderList;
@@ -47,6 +50,7 @@ Trainer::Trainer(Trainer &&other){
 //Move Assignment Operator
 const Trainer& Trainer::operator=(Trainer&& other){
     clear();
+    salary = other.salary;
     capacity = other.capacity;
     open = other.open;
     orderList = other.orderList;

@@ -313,7 +313,7 @@ BaseAction* BackupStudio::clone() const{
 
 RestoreStudio::RestoreStudio():BaseAction(){}
 void RestoreStudio::act(Studio &studio){//Do we need to close our working studio first?
-    if(backup== nullptr){
+    if(backup == nullptr){
         error("No backup available");
         cout << getErrorMsg() << endl; //Printing error
         return;
