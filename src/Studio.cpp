@@ -41,7 +41,6 @@ void Studio::WorkOptionsInitalizer(string &line, int WorkoutIdCounter){
         if(line[i]==','){
             string s= line.substr(first,i-first);
             vect.push_back(s);
-            std::cout << s<< std::endl;
             first = i + 2;
         }
     }
