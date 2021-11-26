@@ -38,15 +38,15 @@ OpenTrainer::OpenTrainer(int id, std::vector<Customer *> &customersList):trainer
 }
 void OpenTrainer::act(Studio &studio){
     Trainer* trainer = studio.getTrainer(trainerId);
-//    std::stringstream printString;
-//    printString << "open " << trainerId;
-//    for(Customer *cus : customers)
-//        printString << " " << cus->toString();
-//    output = printString.str();
+    std::stringstream printString;
+    printString << "open " << trainerId;
+    for(Customer *cus : customers)
+        printString << " " << cus->toString();
+    output = printString.str();
 
     if(trainer== nullptr || trainer->isOpen() || !trainer->hasAvailableSpace()){
         // Action can't be completed
-        error("Workout session does not exist or is already open.");
+        error("Trainer does not exist or is not open");
         cout << getErrorMsg() << endl; //Printing error
         return;
     }
