@@ -6,6 +6,14 @@
 
 #IncludeRegexTransform: 
 
+/home/ronnypc/CLionProjects/Assignment1_SPL8/include/Action.h
+string
+-
+iostream
+-
+Customer.h
+/home/ronnypc/CLionProjects/Assignment1_SPL8/include/Customer.h
+
 /home/ronnypc/CLionProjects/Assignment1_SPL8/include/Customer.h
 vector
 -
@@ -13,6 +21,16 @@ string
 -
 Workout.h
 /home/ronnypc/CLionProjects/Assignment1_SPL8/include/Workout.h
+
+/home/ronnypc/CLionProjects/Assignment1_SPL8/include/Studio.h
+vector
+-
+string
+-
+Trainer.h
+/home/ronnypc/CLionProjects/Assignment1_SPL8/include/Trainer.h
+Action.h
+/home/ronnypc/CLionProjects/Assignment1_SPL8/include/Action.h
 
 /home/ronnypc/CLionProjects/Assignment1_SPL8/include/Trainer.h
 vector
@@ -26,9 +44,15 @@ Workout.h
 string
 -
 
-/home/ronnypc/CLionProjects/Assignment1_SPL8/src/Trainer.cpp
-vector
--
+/home/ronnypc/CLionProjects/Assignment1_SPL8/src/Action.cpp
+../include/Action.h
+/home/ronnypc/CLionProjects/Assignment1_SPL8/include/Action.h
 ../include/Trainer.h
 /home/ronnypc/CLionProjects/Assignment1_SPL8/include/Trainer.h
+../include/Studio.h
+/home/ronnypc/CLionProjects/Assignment1_SPL8/include/Studio.h
+sstream
+-
+string
+-
 

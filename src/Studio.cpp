@@ -177,46 +177,48 @@ void Studio::start(){
             break;
         }
         else if(s.substr(0,2)=="op") {//open
-            vector<Customer*> cusList;
-            int trainerId = 0, next = 5, skip =  getNextSkip(s, next);
+            vector<Customer *> cusList;
+            int trainerId = 0, next = 5, skip = getNextSkip(s, next);
             if (skip == 1)
                 trainerId = s[next] - '0';
             else
-                trainerId = stoi(s.substr(5,skip));
-            next = next+skip+1;
+                trainerId = stoi(s.substr(5, skip));
+            next = next + skip + 1;
             for (int i = next; i < s.length(); i++) {
                 if (s[i] == ',') {
                     string name = s.substr(next, i - next);
                     string type = s.substr(i + 1, 3);
                     if (type == "swt")
-                        cusList.push_back(new SweatyCustomer(name,cusCounter));
+                        cusList.push_back(new SweatyCustomer(name, cusCounter));
                     else if (type == "mcl")
-                        cusList.push_back(new HeavyMuscleCustomer(name,cusCounter));
+                        cusList.push_back(new HeavyMuscleCustomer(name, cusCounter));
                     else if (type == "chp")
-                        cusList.push_back(new CheapCustomer(name,cusCounter));
-                    else if (type == "fbd"){
-                        cusList.push_back(new FullBodyCustomer(name,cusCounter));
+                        cusList.push_back(new CheapCustomer(name, cusCounter));
+                    else if (type == "fbd") {
+                        cusList.push_back(new FullBodyCustomer(name, cusCounter));
                     }
                     cusCounter++;
                     i += 3;
                     next = i + 2;
                 }
             }
-            BaseAction* open = new OpenTrainer(trainerId,cusList);
-            open->act(*this);
-            int nextCustId = static_cast<OpenTrainer*>(open)->getNextIdtoBeInserted();
-            if(nextCustId!=-1) // there was  at least one customer insertion
-                cusCounter = nextCustId;
-            else{ // There was none coustumer insertions
-                cusCounter -= cusList.size();
-            }
-            for(Customer* cus : cusList){ //Delete all the customers we couldn't insert
-                if(cus->getId()>=nextCustId){
-                    delete cus;
-                    cus = nullptr;
+            if (cusList.size() != 0) {
+                BaseAction *open = new OpenTrainer(trainerId, cusList);
+                open->act(*this);
+                int nextCustId = static_cast<OpenTrainer *>(open)->getNextIdtoBeInserted();
+                if (nextCustId != -1) // there was  at least one customer insertion
+                    cusCounter = nextCustId;
+                else { // There was none coustumer insertions
+                    cusCounter -= cusList.size();
                 }
+                for (Customer *cus: cusList) { //Delete all the customers we couldn't insert
+                    if (cus->getId() >= nextCustId) {
+                        delete cus;
+                        cus = nullptr;
+                    }
+                }
+                actionsLog.push_back(open);
             }
-            actionsLog.push_back(open);
         }
         if(s.substr(0,2)=="or") {// order
             int trainerId;
@@ -294,8 +296,7 @@ void Studio::start(){
         else if(s.substr(0,3)=="log"){
             BaseAction* log = new PrintActionsLog;
             log->act(*this);
-            delete log;
-//            actionsLog.push_back(log);
+            actionsLog.push_back(log);
         }
         else if(s.substr(0,3)=="bac"){
             BaseAction* backup = new BackupStudio; //Maybe we should add backup first to the list!

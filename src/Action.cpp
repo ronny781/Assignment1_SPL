@@ -220,7 +220,7 @@ PrintWorkoutOptions::PrintWorkoutOptions():BaseAction(){}
 void PrintWorkoutOptions::act(Studio &studio){
     vector<Workout> workout_option = studio.getWorkoutOptions();
     for(Workout wk: workout_option){
-       cout << wk.toString() ;
+        cout << wk.toString() ;
     }
     complete();
 }
@@ -243,17 +243,19 @@ void PrintTrainerStatus::act(Studio &studio){
         cout << "Trainer " << trainerId << " status: " << "closed" << endl;
         return;
     }
-    cout << "Customers:" << endl;
-    vector<Customer*> customersList = trainer->getCustomers();
-    for(Customer* cus : customersList){
-        cout << cus->getId() << " " << cus->getName() << endl;
+    if(trainer->getOrders().size()!=0){
+        cout << "Customers:" << endl;
+        vector<Customer*> customersList = trainer->getCustomers();
+        for(Customer* cus : customersList){
+            cout << cus->getId() << " " << cus->getName() << endl;
+        }
+        cout << "Orders:" << endl;
+        vector<OrderPair> orders = trainer->getOrders();
+        for(OrderPair pair : orders){
+            cout << pair.second.getName() << " " << pair.second.getPrice() << "NIS " << pair.first << endl;
+        }
+        cout << "Current Trainer's Salary: " << trainer->getSalary() << "NIS " << endl;
     }
-    cout << "Orders:" << endl;
-    vector<OrderPair> orders = trainer->getOrders();
-    for(OrderPair pair : orders){
-        cout << pair.second.getName() << " " << pair.second.getPrice() << "NIS " << pair.first << endl;
-    }
-    cout << "Current Trainer's Salary: " << trainer->getSalary() << "NIS " << endl;
     complete();
 }
 std::string PrintTrainerStatus::toString() const{
