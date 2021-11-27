@@ -209,7 +209,6 @@ void CloseAll::act(Studio &studio){
             act.act(studio);
         }
     }
-    cout << "Studio is now closed." << endl; //Need to make sure we need this output
     complete();
 }
 std::string CloseAll::toString() const{
