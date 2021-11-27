@@ -164,7 +164,7 @@ std::string MoveCustomer::toString() const{
     if(getStatus() == COMPLETED)
         toString << "move " << srcTrainer << " " << dstTrainer << " " << id << " Completed";
     else
-        toString << "move " << srcTrainer << " " << dstTrainer << " Error: " << getErrorMsg();
+        toString << "move " << srcTrainer << " " << dstTrainer << " " << id << " Error: " << getErrorMsg();
     std::string s = toString.str();
     return s;
 }
