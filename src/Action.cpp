@@ -3,8 +3,8 @@
 //};
 
 #include "../include/Action.h"
-#include "../include/Trainer.h" // I added myself, is that good?
-#include "../include/Studio.h" // I added myself, is that good?
+#include "../include/Trainer.h"
+#include "../include/Studio.h"
 #include <sstream>
 #include <string>
 using namespace std;
@@ -26,22 +26,16 @@ std::string BaseAction::getErrorMsg() const{
     return errorMsg;
 }
 BaseAction::~BaseAction(){};
-//private:
-//std::string errorMsg;
-//ActionStatus status;
 
 
-OpenTrainer::OpenTrainer(int id, std::vector<Customer *> &customersList): BaseAction(),trainerId(id),output(), nextIdtoBeInserted(-1),customers(customersList)  { //need to add rule of 5
-    //this opens session
+OpenTrainer::OpenTrainer(int id, std::vector<Customer *> &customersList): BaseAction(),trainerId(id),output(), nextIdtoBeInserted(-1),customers(customersList)  { 
 
 }
 void OpenTrainer::act(Studio &studio){
     Trainer* trainer = studio.getTrainer(trainerId);
     std::stringstream printString;
     printString << "open " << trainerId;
-//    for(Customer *cus : customers)
-//        printString << " " << cus->toString();
-//    output = printString.str();
+
 
     if(trainer== nullptr || trainer->isOpen() || !trainer->hasAvailableSpace()){
         // Action can't be completed
@@ -64,7 +58,6 @@ void OpenTrainer::act(Studio &studio){
         }
     }
     output = printString.str();
-    //customers.clear(); //May be irrelevant
     trainer->openTrainer();
     complete();
 }
@@ -85,10 +78,6 @@ BaseAction* OpenTrainer::clone() const{
     OpenTrainer* op = new OpenTrainer(*this);
     return op;
 }
-
-//private:
-//    const int trainerId;
-//    std::vector<Customer *> customers;
 
 
 Order::Order(int id):BaseAction(),trainerId(id) {}
@@ -235,7 +224,7 @@ BaseAction* PrintWorkoutOptions::clone() const{
     return printOptions;
 }
 
-PrintTrainerStatus::PrintTrainerStatus(int id) : BaseAction(),trainerId(id){} // What about checking if trainer exist??
+PrintTrainerStatus::PrintTrainerStatus(int id) : BaseAction(),trainerId(id){} 
 void PrintTrainerStatus::act(Studio &studio){
     Trainer* trainer = studio.getTrainer(trainerId);
     if(trainer == nullptr)
@@ -271,9 +260,6 @@ BaseAction* PrintTrainerStatus::clone() const{
     PrintTrainerStatus* printstatus= new PrintTrainerStatus(*this);
     return printstatus;
 }
-//private:
-//    const int trainerId;
-
 
 
 PrintActionsLog::PrintActionsLog():BaseAction(){}
@@ -298,7 +284,7 @@ void BackupStudio::act(Studio &studio){
     if(backup!=nullptr) {
         delete backup;
     }
-    backup = new Studio(studio); //Maybe we just need to use copy assignment operator differently?
+    backup = new Studio(studio); 
     complete();
 }
 std::string BackupStudio::toString() const{
@@ -310,13 +296,13 @@ BaseAction* BackupStudio::clone() const{
 }
 
 RestoreStudio::RestoreStudio():BaseAction(){}
-void RestoreStudio::act(Studio &studio){//Do we need to close our working studio first?
+void RestoreStudio::act(Studio &studio){
     if(backup == nullptr){
         error("No backup available");
         cout << getErrorMsg() << endl; //Printing error
         return;
     }
-    studio = *backup; //Need to make sure no memory leak created here.
+    studio = *backup; 
     complete();
 }
 std::string RestoreStudio::toString() const{
