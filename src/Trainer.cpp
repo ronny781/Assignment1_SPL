@@ -14,10 +14,6 @@ Trainer::~Trainer() {
 }
 //Copy Constructor:
 Trainer::Trainer(const Trainer &other):salary(other.salary), capacity(other.capacity), open(other.open) ,customersList() ,orderList(other.orderList) {
-//    salary = other.salary;
-//    capacity = other.capacity;
-//    open = other.open;
-//    orderList = other.orderList;
     for(Customer* cust:other.customersList){
         customersList.push_back(cust->clone());
     }
@@ -40,11 +36,6 @@ const Trainer& Trainer::operator=(const Trainer &other){
 }
 //Move Constructor
 Trainer::Trainer(Trainer &&other):salary(other.salary), capacity(other.capacity), open(other.open),customersList(other.customersList), orderList(other.orderList){
-//    salary = other.salary;
-//    capacity = other.capacity;
-//    open = other.open;
-//    orderList = other.orderList;
-//    customersList = other.customersList;
 
 }
 //Move Assignment Operator
@@ -93,7 +84,7 @@ Customer* Trainer::getCustomer(int id){
             return cus;
         }
     }
-    return nullptr; //if not found return null?
+    return nullptr; 
 }
 std::vector<Customer*>& Trainer::getCustomers(){
     return customersList;
@@ -110,18 +101,18 @@ void Trainer::order(const int customer_id, const std::vector<int> workout_ids, c
         orderList.push_back(OrderPair (customer_id,workout_options[id]));
     }
 }
-bool Trainer::hasAvailableSpace(){ //Added myself
+bool Trainer::hasAvailableSpace(){
     return getCapacity()-customersList.size()>0;
 }
 void Trainer::openTrainer(){
-    open = true; //is that all?
+    open = true; 
 }
 void Trainer::closeTrainer(){
-    for(Customer* cus : getCustomers()){ // Wonder if that works because I delete from my iterable.
+    for(Customer* cus : getCustomers()){ 
         delete cus;
     }
     getCustomers().clear();
-    open = false; //is that all?
+    open = false; 
 }
 int Trainer::getSalary(){
     return salary;
