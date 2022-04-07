@@ -22,7 +22,6 @@ int Studio::getNextSkip(string str, int start) {
     return -1;
 }
 void Studio::trainersInitalizer(string &line){
-    //   trainers.push_back(new Trainer(-1));//Using this will assign index 1 to trainer 1.
     int skip;
     std::string::size_type next=0;
     while (next < line.size()) {
@@ -35,7 +34,7 @@ void Studio::trainersInitalizer(string &line){
     }
 }
 void Studio::WorkOptionsInitalizer(string &line, int WorkoutIdCounter){
-    std::vector<string> vect; //this code wont work without spaces!!
+    std::vector<string> vect; 
     int first = 0;
     for(std::string::size_type i=1;i<line.size();i++){
         if(line[i]==','){
@@ -69,7 +68,7 @@ Studio::Studio(const std::string &configFilePath):open(false),trainers(),workout
     bool thirdHash = false;
     while (getline(f, myText)) {
         // Output the text from the file
-        if (myText[0] == '#') { //???
+        if (myText[0] == '#') { 
             if(!firstHash && !secondHash) {
                 firstHash = true;
                 continue;
@@ -103,10 +102,7 @@ Studio::~Studio(){
 }
 //Copy constructor
 Studio::Studio(const Studio &other):open(other.open),trainers(),workout_options(other.workout_options),actionsLog(){
-//    open = other.open;
-//    workout_options = other.workout_options;
-//    actionsLog.clear(); // Added myself
-//    trainers.clear(); // Added myself
+
     for(BaseAction* act: other.actionsLog){
         actionsLog.push_back(act->clone());
     }
@@ -116,6 +112,7 @@ Studio::Studio(const Studio &other):open(other.open),trainers(),workout_options(
 }
 //Copy Assignment Operator
 const Studio& Studio::operator=(const Studio &other) {
+    
     if(this!=&other){
         clear();
         open = other.open;
@@ -131,10 +128,7 @@ const Studio& Studio::operator=(const Studio &other) {
 }
 //Move Constructor
 Studio::Studio(Studio &&other):open(other.open),trainers(other.trainers),workout_options(other.workout_options),actionsLog(other.actionsLog){
-//    open = other.open;
-//    workout_options = other.workout_options;
-//    trainers = other.trainers;
-//    actionsLog = other.actionsLog;
+
 }
 //Move Assignment Operator
 const Studio& Studio::operator=(Studio&& other){
@@ -267,7 +261,6 @@ void Studio::start(){
                 customer = stoi(s.substr(next,skip));
             BaseAction* move = new MoveCustomer(OriginalTrainer, dstTrainer, customer);
             move->act(*this);
-            // need to close session if there no customers left
 
             if(trainers[OriginalTrainer]->getCustomers().empty()){
                 trainers[OriginalTrainer]->closeTrainer();
@@ -296,7 +289,7 @@ void Studio::start(){
             actionsLog.push_back(log);
         }
         else if(s.substr(0,3)=="bac"){
-            BaseAction* backup = new BackupStudio; //Maybe we should add backup first to the list!
+            BaseAction* backup = new BackupStudio; 
             backup->act(*this);
             actionsLog.push_back(backup);
         }
@@ -325,8 +318,3 @@ const std::vector<BaseAction*>& Studio::getActionsLog() const{
 std::vector<Workout>& Studio::getWorkoutOptions(){
     return workout_options;
 }
-
-
-//std::vector<Workout>& Studio::getWorkoutOptionsSorted(){
-//    return sorted_workout_options;
-//}
